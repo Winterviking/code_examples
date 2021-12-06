@@ -1,0 +1,186 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;;                ARM C CROSS COMPILER Version 1.03.130923 Demo              ;;
+;;                     Copyright (C) 2009 Phyton, Inc.                       ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;; ASSEMBLY SOURCE FILE FOR: leds.c                                          ;;
+;; TARGET: Cortex-M0/M1                                                      ;;
+;; OPTIMIZATION LEVEL: 0                                                     ;;
+;; FULL COMMAND LINE:                                                        ;;
+;;  -CM1 -t -s -l -d -p -g -Op -E10 -W50 -Z0 -Q43 -IC:\Program Files (x86)\P ;;
+;;  hyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Inc;C:\Users\ivanov-ga\Desktop ;;
+;;  \uartled\INCLUDE                                                         ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	.PMODULE LEDS
+
+.RSEG	UDATA__LEDS,data
+.ALIGN 2
+
+CurrentLights	.DS	4
+.PUBLIC	CurrentLights
+.TYPE	CurrentLights(.UINT)
+.WORD	CurrentLights
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	FUN_CODE__LEDS,code
+
+.PUBLIC	InitPortLED, InitPortLED??T
+.THUMB
+.FUNC	InitPortLED??T	.VOID (.VOID)
+InitPortLED	.EQU	InitPortLED??T+1
+.FUNCTYPE	.VOID InitPortLED(.VOID)
+;FILE: leds.c
+;000011    void InitPortLED(void) {
+;000012        MDR_PORTD->FUNC &= ~((0x3FF << (LED0_OFS << 1)));   // port
+	LDR             R0,?lr0000	; 400C0008h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0001	; 0FF003FFFh
+	ANDS            R0,R1
+	LDR             R1,?lr0000	; 400C0008h
+	STR             R0,[R1,#0]
+;000013        MDR_PORTD->ANALOG |= LEDS_MASK;                     // digital
+	LDR             R0,?lr0002	; 400C000Ch
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0003	; 0F80h
+	ORRS            R0,R1
+	LDR             R1,?lr0002	; 400C000Ch
+	STR             R0,[R1,#0]
+;000014        MDR_PORTD->PWR |= (0x155 << (LED0_OFS << 1));       // slow
+	LDR             R0,?lr0004	; 400C0018h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0005	; 554000h
+	ORRS            R0,R1
+	LDR             R1,?lr0004	; 400C0018h
+	STR             R0,[R1,#0]
+;000015        MDR_PORTD->RXTX &= ~LEDS_MASK;
+	LDR             R0,?lr0006	; 400C0000h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0007	; 0FFFFF07Fh
+	ANDS            R0,R1
+	LDR             R1,?lr0006	; 400C0000h
+	STR             R0,[R1,#0]
+;000016        MDR_PORTD->OE |= LEDS_MASK;
+	LDR             R0,?lr0008	; 400C0004h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0003	; 0F80h
+	ORRS            R0,R1
+	LDR             R1,?lr0008	; 400C0004h
+	STR             R0,[R1,#0]
+;000017    }
+	BX              R14
+
+.ALIGN	2
+?lr0000	.DCD	400C0008h	; used 2 time(s)
+?lr0001	.DCD	0FF003FFFh	; used 1 time(s)
+?lr0002	.DCD	400C000Ch	; used 2 time(s)
+?lr0003	.DCD	0F80h	; used 2 time(s)
+?lr0004	.DCD	400C0018h	; used 2 time(s)
+?lr0005	.DCD	554000h	; used 1 time(s)
+?lr0006	.DCD	400C0000h	; used 2 time(s)
+?lr0007	.DCD	0FFFFF07Fh	; used 1 time(s)
+?lr0008	.DCD	400C0004h	; used 2 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	ShiftLights, ShiftLights??T
+.FUNC	ShiftLights??T	.VOID (.VOID)
+ShiftLights	.EQU	ShiftLights??T+1
+.FUNCTYPE	.VOID ShiftLights(.VOID)
+;000019    void ShiftLights(void) {
+
+ovf?ShiftLights	.EQU	R0
+
+;000021        MDR_PORTD->RXTX = (MDR_PORTD->RXTX & ~LEDS_MASK) | (CurrentLights & LEDS_MASK);
+	LDR             R0,?lr0009	; CurrentLights
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0010	; 0F80h
+	ANDS            R0,R1
+	LDR             R1,?lr0011	; 400C0000h
+	LDR             R1,[R1,#0]
+	LDR             R2,?lr0012	; 0FFFFF07Fh
+	ANDS            R1,R2
+	ORRS            R0,R1
+	LDR             R1,?lr0011	; 400C0000h
+	STR             R0,[R1,#0]
+;000022        ovf = (CurrentLights & (1UL << 31)) != 0;
+	LDR             ovf?ShiftLights,?lr0009	; CurrentLights
+	LDR             ovf?ShiftLights,[ovf?ShiftLights,#0]
+	LDR             R1,?lr0013	; 80000000h
+	ANDS            ovf?ShiftLights,R1
+	BEQ             ??_1_NOT
+	MOVS            ovf?ShiftLights,#1
+	B               ??_1_SKIP
+??_1_NOT:
+	MOVS            ovf?ShiftLights,#0
+??_1_SKIP:
+;000023        CurrentLights <<= 1;
+	LDR             R1,?lr0009	; CurrentLights
+	LDR             R1,[R1,#0]
+	LSLS            R1,R1,#1
+	LDR             R2,?lr0009	; CurrentLights
+	STR             R1,[R2,#0]
+;000024        CurrentLights |= ovf;
+	LDR             R1,?lr0009	; CurrentLights
+	LDR             R1,[R1,#0]
+	ORRS            ovf?ShiftLights,R1
+	LDR             R1,?lr0009	; CurrentLights
+	STR             ovf?ShiftLights,[R1,#0]
+;000025    }
+	BX              R14
+
+?lr0009	.DCD	CurrentLights	; used 6 time(s)
+?lr0010	.DCD	0F80h	; used 1 time(s)
+?lr0011	.DCD	400C0000h	; used 2 time(s)
+?lr0012	.DCD	0FFFFF07Fh	; used 1 time(s)
+?lr0013	.DCD	80000000h	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	Lights, Lights??T
+.FUNC	Lights??T	.VOID (.UINT)
+Lights	.EQU	Lights??T+1
+.FUNCTYPE	.VOID Lights(.UINT)
+;000028    void Lights(u32 mask) {
+
+mask?Lights	.EQU	R0
+
+;000029        MDR_PORTD->RXTX = (MDR_PORTD->RXTX & ~LEDS_MASK) | (mask & LEDS_MASK);
+	LDR             R1,?lr0014	; 0F80h
+	ANDS            mask?Lights,R1
+	LDR             R1,?lr0015	; 400C0000h
+	LDR             R1,[R1,#0]
+	LDR             R2,?lr0016	; 0FFFFF07Fh
+	ANDS            R1,R2
+	ORRS            mask?Lights,R1
+	LDR             R1,?lr0015	; 400C0000h
+	STR             mask?Lights,[R1,#0]
+;000030    }
+	BX              R14
+
+?lr0014	.DCD	0F80h	; used 1 time(s)
+?lr0015	.DCD	400C0000h	; used 2 time(s)
+?lr0016	.DCD	0FFFFF07Fh	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	??DATA_SEGMENT_ADDRESSES,code
+	.DCD	.SFB UDATA__LEDS, .SFE UDATA__LEDS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.EXTRN(code) ?start
+.TYPE ?start(.NOCHECK)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.END

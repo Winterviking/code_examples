@@ -1,0 +1,21 @@
+CM-ARM Log File    Oct 29, 2015  21:20:40
+
+      CM-ARM version:   1.08.76
+CodeMaster-ARM version:   2.40.00
+      cm-arm.exe date:  Sep 13, 2013  12:32:10
+Screen:                 1920x1061
+System Language Id:     1049
+User Language Id:       1049
+System Default CP:      1251
+OS:  Windows XP [ver. 5.1, build = 2600, SP: 'Service Pack 3']
+RAM Total/Free:         3,071/2,430 MB
+Number of processors:   1
+User:                   Administrator
+IsUserAnAdmin:          Yes
+INTERNET_CONNECTION_:   
+Startup dir:            "C:\Documents and Settings\Administrator\Desktop\uartled"
+Command line:           ""C:\Program Files\Phyton CodeMaster-ARM\2_40_00\cm-arm.exe"  "C:\Documents and Settings\Administrator\Desktop\uartled\uartled.IDE""
+     argv[1]:  "C:\Documents and Settings\Administrator\Desktop\uartled\uartled.IDE"
+
+
+ExitCode: 0

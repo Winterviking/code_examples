@@ -1,0 +1,117 @@
+*******************************************************************************
+*                                                                             *
+*                 ARM C CROSS COMPILER Version 1.03.130923 Demo               *
+*                      Copyright (C) 2009 Phyton, Inc.                        *
+*                                                                             *
+*******************************************************************************
+
+Warning[C83] uart.c(19,0): Parameter 'ptr' is never used in function 'putc'
+Warning[C83] uart.c(24,0): Parameter 'data' is never used in function 'procUART'
+                     putc??T:
+;FILE: uart.c
+;000005    void putc(void* ptr, char Data )
+;000009            UART1_ACTIVITY__ON;
+00000000    4A0A                       	LDR             R2,?lr0000	; 180h
+00000002    480B                       	LDR             R0,?lr0001	; 400C0020h
+00000004    6002                       	STR             R2,[R0,#0]
+;000013            while ( ((DEBUG_UART->FR & UART_FR_TXFF) >> UART_FR_TXFF_Pos ) || ((DEBUG_UART->FR & UART_FR_BUSY) >> UART_FR_BUSY_Pos) );  // TODO:::: Macro for uart flags
+                     ??_1_DO:
+00000006    480B                       	LDR             R0,?lr0002	; 40030018h
+00000008    6800                       	LDR             R0,[R0,#0]
+0000000A    2220                       	MOVS            R2,#32
+0000000C    4010                       	ANDS            R0,R2
+0000000E    0940                       	LSRS            R0,R0,#5
+00000010    D1F9                       	BNE             ??_1_DO
+00000012    4808                       	LDR             R0,?lr0002	; 40030018h
+00000014    6800                       	LDR             R0,[R0,#0]
+00000016    2208                       	MOVS            R2,#8
+00000018    4010                       	ANDS            R0,R2
+0000001A    08C0                       	LSRS            R0,R0,#3
+0000001C    D1F3                       	BNE             ??_1_DO
+;000016            DEBUG_UART->DR = Data;
+0000001E    B248                       	SXTB            R0,Data?putc
+00000020    4A05                       	LDR             R2,?lr0003	; 40030000h
+00000022    6010                       	STR             R0,[R2,#0]
+;000018            UART1_ACTIVITY_OFF;
+00000024    4A01                       	LDR             R2,?lr0000	; 180h
+00000026    4805                       	LDR             R0,?lr0004	; 400C0024h
+00000028    6002                       	STR             R2,[R0,#0]
+;000019    }
+0000002A    4770                       	BX              R14
+
+0000002C    00000180	?lr0000	.DCD	180h	; used 2 time(s)
+00000030    400C0020	?lr0001	.DCD	400C0020h	; used 1 time(s)
+00000034    40030018	?lr0002	.DCD	40030018h	; used 2 time(s)
+00000038    40030000	?lr0003	.DCD	40030000h	; used 1 time(s)
+0000003C    400C0024	?lr0004	.DCD	400C0024h	; used 1 time(s)
+
+.ENDF
+                 procUART??T:
+;000022    void procUART(void* data){
+;000024    }
+00000040    4770                       	BX              R14
+.ENDF
+                 initUART??T:
+;000029    void initUART(MDR_UART_TypeDef* UARTx)
+00000042    B530                       	PUSH            {R4,R5,R14} 
+00000044    4604                       	MOV             R4,R0
+;000031            u32 BAUD_RATE = 9600;
+00000046    4D11                       	LDR             BAUD_RATE?initUART,?lr0005	; 2580h
+;000032            u32 cpuclock = HCLK;
+00000048    4911                       	LDR             R1,?lr0006	; HCLK
+0000004A    6808                       	LDR             cpuclock?initUART,[R1,#0]
+;000037            if (UARTx == MDR_UART1) {
+0000004C    4911                       	LDR             R1,?lr0007	; 40030000h
+0000004E    428C                       	CMP             UARTx?initUART,R1
+00000050    D107                       	BNE             ??_3_ELSE
+;000038                    cpuclock /= (1 << ((MDR_RST_CLK->UART_CLOCK & UART1_BRG_Mask) >> RST_CLK_UART_CLOCK_UART1_BRG_Pos));
+00000052    4911                       	LDR             R1,?lr0008	; 40020028h
+00000054    680A                       	LDR             R2,[R1,#0]
+00000056    2107                       	MOVS            R1,#7
+00000058    400A                       	ANDS            R2,R1
+0000005A    2101                       	MOVS            R1,#1
+0000005C    4091                       	LSLS            R1,R2
+0000005E    FFCFF7FF                   	BLF             ??DIV32U
+;000039            }
+                   ??_3_ELSE:
+;000042            divider = cpuclock / (BAUD_RATE >> 2);
+00000062    08A9                       	LSRS            R1,BAUD_RATE?initUART,#2
+00000064    FFCCF7FF                   	BLF             ??DIV32U
+;000043            integerdivider = divider >> 6;
+00000068    0981                       	LSRS            integerdivider?initUART,divider?initUART,#6
+;000046            fractionaldivider = (divider & FBRD_Fract_Mask);
+0000006A    223F                       	MOVS            R2,#63
+0000006C    4010                       	ANDS            fractionaldivider?initUART,R2
+;000056            UARTx->IBRD = integerdivider;
+0000006E    6261                       	STR             integerdivider?initUART,[UARTx?initUART,#36]
+;000057            UARTx->FBRD = fractionaldivider;
+00000070    62A0                       	STR             fractionaldivider?initUART,[UARTx?initUART,#40]
+;000062            UARTx->LCR_H = 0x0060; //UART_WordLength8b | UART_Parity_No | UART_StopBits1;
+00000072    2160                       	MOVS            R1,#96
+00000074    62E1                       	STR             R1,[UARTx?initUART,#44]
+;000065            UARTx->CR = UART_CR_TXE;
+00000076    4909                       	LDR             R1,?lr0009	; 100h
+00000078    6321                       	STR             R1,[UARTx?initUART,#48]
+;000066            UARTx->CR |= UART_CR_UARTEN; // enable uart
+0000007A    6B21                       	LDR             R1,[UARTx?initUART,#48]
+0000007C    2201                       	MOVS            R2,#1
+0000007E    4311                       	ORRS            R1,R2
+00000080    6321                       	STR             R1,[UARTx?initUART,#48]
+;000071            init_printf(0,putc);
+00000082    2000                       	MOVS            R0,#0
+00000084    4906                       	LDR             R1,?lr0010	; putc
+00000086    FFBBF7FF                   	BLF             init_printf
+;000072    }
+0000008A    BD30                       	POP             {R4,R5,R15} 
+
+0000008C    00002580	?lr0005	.DCD	2580h	; used 1 time(s)
+00000090    00000000	?lr0006	.DCD	HCLK	; used 1 time(s)
+00000094    40030000	?lr0007	.DCD	40030000h	; used 1 time(s)
+00000098    40020028	?lr0008	.DCD	40020028h	; used 1 time(s)
+0000009C    00000100	?lr0009	.DCD	100h	; used 1 time(s)
+000000A0    00000001	?lr0010	.DCD	putc	; used 1 time(s)
+
+.ENDF
+
+uart.c: 164 byte(s), 44088 line(s), 0 error(s), 2 warning(s)
+

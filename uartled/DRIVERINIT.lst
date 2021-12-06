@@ -1,0 +1,246 @@
+*******************************************************************************
+*                                                                             *
+*                 ARM C CROSS COMPILER Version 1.03.130923 Demo               *
+*                      Copyright (C) 2009 Phyton, Inc.                        *
+*                                                                             *
+*******************************************************************************
+
+Warning[C93] driverInit.c(122,0): Code has no effect
+Warning[C146] driverInit.c(102,0): 'realspeed' is assigned a value which is never used in function 'SetupUART'
+Warning[C146] driverInit.c(103,0): 'speederror' is assigned a value which is never used in function 'SetupUART'
+                SetupUART??T:
+;FILE: driverInit.c
+;000072    void SetupUART(MDR_UART_TypeDef* UARTx)
+00000000    4641                       	MOV             R1,R8
+00000002    B5F2                       	PUSH            {R1,R4-R7,R14} 
+00000004    4604                       	MOV             R4,R0
+;000081            u32 BAUD_RATE = 9600;
+00000006    481D                       	LDR             R0,?lr0000	; 2580h
+00000008    4680                       	MOV             BAUD_RATE?SetupUART,R0
+;000083            cpuclock = HCLK;
+0000000A    491D                       	LDR             R1,?lr0001	; HCLK
+0000000C    680F                       	LDR             cpuclock?SetupUART,[R1,#0]
+;000084            tmpreg = MDR_RST_CLK->UART_CLOCK;
+0000000E    491D                       	LDR             R1,?lr0002	; 40020028h
+00000010    680A                       	LDR             tmpreg?SetupUART,[R1,#0]
+;000086            if (UARTx == MDR_UART1) {
+00000012    491D                       	LDR             R1,?lr0003	; 40030000h
+00000014    428C                       	CMP             UARTx?SetupUART,R1
+00000016    D107                       	BNE             ??_1_ELSE
+;000087                    cpuclock /= (1 << (tmpreg & UART1_BRG_Mask));
+00000018    2107                       	MOVS            R1,#7
+0000001A    400A                       	ANDS            tmpreg?SetupUART,R1
+0000001C    2101                       	MOVS            R1,#1
+0000001E    4091                       	LSLS            R1,tmpreg?SetupUART
+00000020    4638                       	MOV             R0,cpuclock?SetupUART
+00000022    FFEDF7FF                   	BLF             ??DIV32U
+00000026    4607                       	MOV             cpuclock?SetupUART,R0
+;000088            }
+                   ??_1_ELSE:
+;000091            divider = cpuclock / (BAUD_RATE >> 2);
+00000028    4642                       	MOV             R2,BAUD_RATE?SetupUART
+0000002A    0891                       	LSRS            R1,R2,#2
+0000002C    4638                       	MOV             R0,cpuclock?SetupUART
+0000002E    FFE7F7FF                   	BLF             ??DIV32U
+00000032    4605                       	MOV             divider?SetupUART,R0
+;000092            integerdivider = divider >> 6;
+00000034    09AE                       	LSRS            integerdivider?SetupUART,divider?SetupUART,#6
+;000095            fractionaldivider = (divider & FBRD_Fract_Mask);
+00000036    213F                       	MOVS            R1,#63
+00000038    400D                       	ANDS            fractionaldivider?SetupUART,R1
+;000098            realspeed = (cpuclock * 4) / ((integerdivider * 64) + fractionaldivider);
+0000003A    01B1                       	LSLS            realspeed?SetupUART,integerdivider?SetupUART,#6
+0000003C    4429                       	ADD             realspeed?SetupUART,fractionaldivider?SetupUART
+0000003E    00B8                       	LSLS            R0,cpuclock?SetupUART,#2
+00000040    FFDEF7FF                   	BLF             ??DIV32U
+00000044    4601                       	MOV             realspeed?SetupUART,R0
+;000099            speederror = ((realspeed - BAUD_RATE) * 128) / BAUD_RATE;
+00000046    4642                       	MOV             R2,BAUD_RATE?SetupUART
+00000048    1A89                       	SUBS            realspeed?SetupUART,realspeed?SetupUART,R2
+0000004A    01C8                       	LSLS            speederror?SetupUART,realspeed?SetupUART,#7
+0000004C    4641                       	MOV             realspeed?SetupUART,BAUD_RATE?SetupUART
+0000004E    FFD7F7FF                   	BLF             ??DIV32U
+;000100            if (speederror > 2) {
+00000052    2803                       	CMP             speederror?SetupUART,#3
+00000054    D301                       	BCC             ??_2_ELSE
+;000102                    realspeed = 0;// LOL
+00000056    2100                       	MOVS            realspeed?SetupUART,#0
+;000103                    speederror = 0;// lol
+00000058    2000                       	MOVS            speederror?SetupUART,#0
+;000104            }
+                   ??_2_ELSE:
+;000105            realspeed = 0;// LOL
+0000005A    2100                       	MOVS            realspeed?SetupUART,#0
+;000106            speederror = 0;// lol
+0000005C    2000                       	MOVS            speederror?SetupUART,#0
+;000109            UARTx->IBRD = integerdivider + realspeed/*LOL*/ + speederror/*LOL*/;
+0000005E    440E                       	ADD             integerdivider?SetupUART,realspeed?SetupUART
+00000060    4406                       	ADD             integerdivider?SetupUART,speederror?SetupUART
+00000062    6266                       	STR             integerdivider?SetupUART,[UARTx?SetupUART,#36]
+;000110            UARTx->FBRD = fractionaldivider;
+00000064    62A5                       	STR             fractionaldivider?SetupUART,[UARTx?SetupUART,#40]
+;000113            tmpreg = UARTx->LCR_H;
+00000066    6AE2                       	LDR             tmpreg?SetupUART,[UARTx?SetupUART,#44]
+;000114            tmpreg |= UART_WordLength8b | UART_Parity_No | UART_StopBits1 | UART_FIFO_ON;
+00000068    2170                       	MOVS            R1,#112
+0000006A    430A                       	ORRS            tmpreg?SetupUART,R1
+;000115            UARTx->LCR_H = tmpreg;
+0000006C    62E2                       	STR             tmpreg?SetupUART,[UARTx?SetupUART,#44]
+;000118            tmpreg = UARTx->CR;
+0000006E    6B22                       	LDR             tmpreg?SetupUART,[UARTx?SetupUART,#48]
+;000120            tmpreg &= ~CR_FC_Mask;
+00000070    4906                       	LDR             R1,?lr0004	; 0FFFF007Fh
+00000072    400A                       	ANDS            tmpreg?SetupUART,R1
+;000124            UARTx->CR = tmpreg;
+00000074    6322                       	STR             tmpreg?SetupUART,[UARTx?SetupUART,#48]
+;000125    }
+00000076    BCF2                       	POP             {R1,R4-R7} 
+00000078    4688                       	MOV             R8,R1
+0000007A    BD00                       	POP             {R15} 
+
+0000007C    00002580	?lr0000	.DCD	2580h	; used 1 time(s)
+00000080    00000000	?lr0001	.DCD	HCLK	; used 1 time(s)
+00000084    40020028	?lr0002	.DCD	40020028h	; used 1 time(s)
+00000088    40030000	?lr0003	.DCD	40030000h	; used 1 time(s)
+0000008C    FFFF007F	?lr0004	.DCD	0FFFF007Fh	; used 1 time(s)
+
+.ENDF
+                ClockInit??T:
+;000128    void ClockInit(){
+00000090    B500                       	PUSH            {R14} 
+;000129       MDR_RST_CLK->HS_CONTROL = RST_CLK_HSE_ON; // ok 0x01
+00000092    2101                       	MOVS            R1,#1
+00000094    481E                       	LDR             R0,?lr0005	; 40020008h
+00000096    6001                       	STR             R1,[R0,#0]
+;000135       MDR_RST_CLK->CPU_CLOCK = RST_CLK_CPU_PLLsrcHSEdiv1                                           |
+;000136                                RST_CLK_CPU_C2_SRC_CPU_C1                                           |
+;000137                                RST_CLK_CPUclkCPU_C3                                                |
+;000138                                SETBITS(RST_CLK_CPUclkDIV1, RST_CLK_CPU_CLOCK_CPU_C3_SEL_Pos); // ok 0x0102
+00000098    491E                       	LDR             R1,?lr0006	; 102h
+0000009A    481F                       	LDR             R0,?lr0007	; 4002000Ch
+0000009C    6001                       	STR             R1,[R0,#0]
+;000141       MDR_RST_CLK->PLL_CONTROL = RST_CLK_PLL_CONTROL_PLL_CPU_ON                                    |
+;000142                                  SETBITS(RST_CLK_CPU_PLLmul6, RST_CLK_PLL_CONTROL_PLL_CPU_MUL_Pos); // ok 0x0504
+0000009E    2104                       	MOVS            R1,#4
+000000A0    481E                       	LDR             R0,?lr0008	; 40020004h
+000000A2    6001                       	STR             R1,[R0,#0]
+;000145       MDR_RST_CLK->PLL_CONTROL |= RST_CLK_PLL_CONTROL_PLL_CPU_PLD;
+000000A4    6800                       	LDR             R0,[R0,#0]
+000000A6    2108                       	MOVS            R1,#8
+000000A8    4308                       	ORRS            R0,R1
+000000AA    491C                       	LDR             R1,?lr0008	; 40020004h
+000000AC    6008                       	STR             R0,[R1,#0]
+;000146       MDR_RST_CLK->PLL_CONTROL &= ~RST_CLK_PLL_CONTROL_PLL_CPU_PLD;
+000000AE    481B                       	LDR             R0,?lr0008	; 40020004h
+000000B0    6800                       	LDR             R0,[R0,#0]
+000000B2    2108                       	MOVS            R1,#8
+000000B4    43C9                       	MVNS            R1,R1
+000000B6    4008                       	ANDS            R0,R1
+000000B8    4918                       	LDR             R1,?lr0008	; 40020004h
+000000BA    6008                       	STR             R0,[R1,#0]
+;000149       DELAY_MKS(40);// wtf )
+000000BC    4818                       	LDR             R0,?lr0009	; HCLK
+000000BE    6800                       	LDR             R0,[R0,#0]
+000000C0    2128                       	MOVS            R1,#40
+000000C2    4348                       	MULS            R0,R1
+000000C4    4917                       	LDR             R1,?lr0010	; 0F4240h
+000000C6    FF9BF7FF                   	BLF             ??DIV32
+000000CA    4917                       	LDR             R1,?lr0011	; maxpause
+000000CC    6008                       	STR             R0,[R1,#0]
+000000CE    2100                       	MOVS            R1,#0
+000000D0    4816                       	LDR             R0,?lr0012	; ipause
+000000D2    6001                       	STR             R1,[R0,#0]
+000000D4    E004                       	B               ??_3_CHECK
+                   ??_3_LOOP:
+000000D6    4815                       	LDR             R0,?lr0012	; ipause
+000000D8    6800                       	LDR             R0,[R0,#0]
+000000DA    1C40                       	ADDS            R0,R0,#1
+000000DC    4913                       	LDR             R1,?lr0012	; ipause
+000000DE    6008                       	STR             R0,[R1,#0]
+                  ??_3_CHECK:
+000000E0    4812                       	LDR             R0,?lr0012	; ipause
+000000E2    6801                       	LDR             R1,[R0,#0]
+000000E4    4810                       	LDR             R0,?lr0011	; maxpause
+000000E6    6800                       	LDR             R0,[R0,#0]
+000000E8    4281                       	CMP             R1,R0
+000000EA    DBF4                       	BLT             ??_3_LOOP
+;000150       while ((MDR_RST_CLK->CLOCK_STATUS&RST_CLK_CLOCK_STATUS_PLL_CPU_RDY)==0);
+                     ??_4_DO:
+000000EC    4810                       	LDR             R0,?lr0013	; 40020000h
+000000EE    6800                       	LDR             R0,[R0,#0]
+000000F0    2102                       	MOVS            R1,#2
+000000F2    4008                       	ANDS            R0,R1
+000000F4    D0FA                       	BEQ             ??_4_DO
+;000153       MDR_RST_CLK->CPU_CLOCK = RST_CLK_CPU_PLLsrcHSEdiv1                                           | // pll source
+;000154                                RST_CLK_CPU_C2_SRC_CPU_PLL0                                         |
+;000155                                RST_CLK_CPUclkCPU_C3                                                |
+;000156                                SETBITS(RST_CLK_CPUclkDIV1, RST_CLK_CPU_CLOCK_CPU_C3_SEL_Pos); // ok 0x0106
+000000F6    490F                       	LDR             R1,?lr0014	; 106h
+000000F8    4807                       	LDR             R0,?lr0007	; 4002000Ch
+000000FA    6001                       	STR             R1,[R0,#0]
+;000159       MDR_RST_CLK->PER_CLOCK = //RST_CLK_PCLK_CAN1                 |
+;000160                                //RST_CLK_PCLK_CAN2                 |
+;000161                                //RST_CLK_PCLK_USB                  |
+;000162                                //RST_CLK_PCLK_EEPROM                 |
+;000163                                //RST_CLK_PCLK_RST_CLK                |
+;000164                                //RST_CLK_PCLK_DMA                    |
+;000165                                RST_CLK_PCLK_UART1                  |
+;000166                                //RST_CLK_PCLK_UART2                |
+;000167                                //RST_CLK_PCLK_SSP1                 |
+;000168                                //RST_CLK_PCLK_MIL_STD_15531          |
+;000169                                //RST_CLK_PCLK_MIL_STD_15532        |
+;000170                                //RST_CLK_PCLK_POWER                  |
+;000171                                //RST_CLK_PCLK_WWDG                   |
+;000172                                //RST_CLK_PCLK_IWDG                   |
+;000173                                //RST_CLK_PCLK_TIMER1                 |
+;000174                                //RST_CLK_PCLK_TIMER2                 |
+;000175                                //RST_CLK_PCLK_TIMER3                 |
+;000176                                //RST_CLK_PCLK_ADC                  |
+;000177                                //RST_CLK_PCLK_DAC                  |
+;000178                                //RST_CLK_PCLK_TIMER4                 |
+;000179                                //RST_CLK_PCLK_SSP2                 |
+;000180                                //RST_CLK_PCLK_PORTA                  |
+;000181                                //RST_CLK_PCLK_PORTB                  |
+;000182                                RST_CLK_PCLK_PORTC                  |
+;000183                                RST_CLK_PCLK_PORTD                  |
+;000184                                RST_CLK_PCLK_PORTE                  //|
+;000185                                //RST_CLK_PCLK_ARINC429R            |
+;000186                                //RST_CLK_PCLK_BKP                    |
+;000187                                //RST_CLK_PCLK_ARINC429T            |
+;000188                                //RST_CLK_PCLK_PORTF                  |
+;000189                                //RST_CLK_PCLK_EBC                    |
+;000190                                //RST_CLK_PCLK_SSP3
+;000191                                ;
+000000FC    490E                       	LDR             R1,?lr0015	; 3800040h
+000000FE    480F                       	LDR             R0,?lr0016	; 4002001Ch
+00000100    6001                       	STR             R1,[R0,#0]
+;000195       MDR_RST_CLK->UART_CLOCK =    SETBITS(UART_HCLKdiv2,RST_CLK_UART_CLOCK_UART1_BRG_Pos) |
+;000196                                    SETBITS(ENABLE,RST_CLK_UART_CLOCK_UART1_CLK_EN_Pos);
+00000102    2101                       	MOVS            R1,#1
+00000104    480E                       	LDR             R0,?lr0017	; 40020028h
+00000106    6001                       	STR             R1,[R0,#0]
+;000198       SetupUART( MDR_UART1 );
+00000108    480E                       	LDR             R0,?lr0018	; 40030000h
+0000010A    FF79F7FF                   	BLF             SetupUART??T
+;000199    }
+0000010E    BD00                       	POP             {R15} 
+
+00000110    40020008	?lr0005	.DCD	40020008h	; used 1 time(s)
+00000114    00000102	?lr0006	.DCD	102h	; used 1 time(s)
+00000118    4002000C	?lr0007	.DCD	4002000Ch	; used 2 time(s)
+0000011C    40020004	?lr0008	.DCD	40020004h	; used 4 time(s)
+00000120    00000000	?lr0009	.DCD	HCLK	; used 1 time(s)
+00000124    000F4240	?lr0010	.DCD	0F4240h	; used 1 time(s)
+00000128    00000000	?lr0011	.DCD	maxpause	; used 2 time(s)
+0000012C    00000000	?lr0012	.DCD	ipause	; used 4 time(s)
+00000130    40020000	?lr0013	.DCD	40020000h	; used 1 time(s)
+00000134    00000106	?lr0014	.DCD	106h	; used 1 time(s)
+00000138    03800040	?lr0015	.DCD	3800040h	; used 1 time(s)
+0000013C    4002001C	?lr0016	.DCD	4002001Ch	; used 1 time(s)
+00000140    40020028	?lr0017	.DCD	40020028h	; used 1 time(s)
+00000144    40030000	?lr0018	.DCD	40030000h	; used 1 time(s)
+
+.ENDF
+
+driverInit.c: 328 byte(s), 11705 line(s), 0 error(s), 3 warning(s)
+

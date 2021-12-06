@@ -1,0 +1,1293 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;;                ARM C CROSS COMPILER Version 1.03.130923 Demo              ;;
+;;                     Copyright (C) 2009 Phyton, Inc.                       ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;; ASSEMBLY SOURCE FILE FOR: main.c                                          ;;
+;; TARGET: Cortex-M0/M1                                                      ;;
+;; OPTIMIZATION LEVEL: 0                                                     ;;
+;; FULL COMMAND LINE:                                                        ;;
+;;  -CM1 -t -s -l -d -p -g -Op -E10 -W50 -Z0 -Q43 -IC:\Program Files (x86)\P ;;
+;;  hyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Inc;C:\Users\ivanov-ga\Desktop ;;
+;;  \uartled\INCLUDE                                                         ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	.PMODULE MAIN
+
+.RSEG	STRINGS__MAIN,code
+?lit00000:
+	.DB1	'Project "%s" %s %s',0Ah,00h
+?lit00001:
+	.DB1	'INTERSTELLAR',00h
+?lit00002:
+	.DB1	'0.1.6',00h
+?lit00003:
+	.DB1	'2016',00h
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.EXTRN(code)	HCLK
+.TYPE	HCLK(.UINT)
+.WORD	HCLK
+
+.EXTRN(data)	ipause
+.TYPE	ipause(.UINT)
+.WORD	ipause
+
+.EXTRN(data)	maxpause_ms
+.TYPE	maxpause_ms(.UINT)
+.WORD	maxpause_ms
+
+.EXTRN(code)	tfp_printf
+.FUNCTYPE	.VOID tfp_printf(.CHAR_PTR,.ELLIPSIS)
+
+.EXTRN(code)	buttonLedsDemo
+.FUNCTYPE	.VOID buttonLedsDemo(.NOCHECK)
+
+.EXTRN(code)	readButtonStates
+.FUNCTYPE	.VOID readButtonStates(.NOCHECK)
+
+.EXTRN(code)	initEvalboard
+.FUNCTYPE	.VOID initEvalboard(.NOCHECK)
+
+.EXTRN(code)	MarkM4Routine
+.FUNCTYPE	.VOID MarkM4Routine(.VOID)
+
+.EXTRN(data)	PC
+.TYPE	PC(.UINT)
+.WORD	PC
+
+.EXTRN(code)	??DIV32U
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	FUN_CODE__MAIN,code
+
+.PUBLIC	main, main??T
+.THUMB
+.FUNC	main??T	.VOID (.VOID)
+main	.EQU	main??T+1
+.FUNCTYPE	.VOID main(.VOID)
+;FILE: main.c
+;000006    void main ()
+	PUSH            {R4,R14} 
+
+i?main	.EQU	R4
+
+;000009            PC = 0;
+	MOVS            R1,#0
+	LDR             R0,?lr0000	; _PC
+	STR             R1,[R0,#0]
+;000013            initEvalboard();
+	BLF             initEvalboard
+;000021            SWITCH_LED__ON(LED1_pin|LED2_pin);
+	LDR             R1,?lr0001	; 180h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+;000022            DELAY_MS(400);
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	LDR             R1,?lr0005	; 190h
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_1_CHECK
+??_1_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_1_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_1_LOOP
+;000023            SWITCH_LED_OFF(LED1_pin|LED2_pin);
+	LDR             R1,?lr0001	; 180h
+	LDR             R0,?lr0008	; 400C0024h
+	STR             R1,[R0,#0]
+;000024            DELAY_MS(400);
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	LDR             R1,?lr0005	; 190h
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_2_CHECK
+??_2_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_2_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_2_LOOP
+;000025            SWITCH_LED__ON(LED7_pin|LED8_pin);
+	LDR             R1,?lr0009	; 6000h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+;000026            DELAY_MS(400);
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	LDR             R1,?lr0005	; 190h
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_3_CHECK
+??_3_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_3_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_3_LOOP
+;000027            SWITCH_LED_OFF(LED7_pin|LED8_pin);
+	LDR             R1,?lr0009	; 6000h
+	LDR             R0,?lr0008	; 400C0024h
+	STR             R1,[R0,#0]
+;000028            DELAY_MS(400);
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	LDR             R1,?lr0005	; 190h
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_4_CHECK
+??_4_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_4_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_4_LOOP
+;000031            for ( i = 3; i > 0; i-- )
+	MOVS            i?main,#3
+	B               ??_5_CHECK
+??_5_LOOP:
+;000032            {
+;000033                    SWITCH_LED__ON(LED1_pin);DELAY_MS(30);
+	MOVS            R1,#80h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_6_CHECK
+??_6_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_6_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_6_LOOP
+;000034                    SWITCH_LED__ON(LED2_pin);DELAY_MS(30);
+	LDR             R1,?lr0010	; 100h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_7_CHECK
+??_7_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_7_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_7_LOOP
+;000035                    SWITCH_LED__ON(LED3_pin);DELAY_MS(30);
+	LDR             R1,?lr0011	; 200h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_8_CHECK
+??_8_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_8_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_8_LOOP
+;000036                    SWITCH_LED_OFF(LED1_pin);DELAY_MS(30);
+	MOVS            R1,#80h
+	LDR             R0,?lr0008	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_9_CHECK
+??_9_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_9_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_9_LOOP
+;000037                    SWITCH_LED__ON(LED4_pin);DELAY_MS(30);
+	LDR             R1,?lr0012	; 400h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_10_CHECK
+??_10_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_10_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_10_LOOP
+;000038                    SWITCH_LED_OFF(LED2_pin);DELAY_MS(30);
+	LDR             R1,?lr0010	; 100h
+	LDR             R0,?lr0008	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_11_CHECK
+??_11_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_11_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_11_LOOP
+;000039                    SWITCH_LED__ON(LED5_pin);DELAY_MS(30);
+	LDR             R1,?lr0013	; 800h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_12_CHECK
+??_12_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_12_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_12_LOOP
+;000040                    SWITCH_LED_OFF(LED3_pin);DELAY_MS(30);
+	LDR             R1,?lr0011	; 200h
+	LDR             R0,?lr0008	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_13_CHECK
+??_13_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_13_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_13_LOOP
+;000041                    SWITCH_LED__ON(LED6_pin);DELAY_MS(30);
+	LDR             R1,?lr0014	; 1000h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_14_CHECK
+??_14_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_14_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_14_LOOP
+;000042                    SWITCH_LED_OFF(LED4_pin);DELAY_MS(30);
+	LDR             R1,?lr0012	; 400h
+	LDR             R0,?lr0008	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_15_CHECK
+??_15_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_15_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_15_LOOP
+;000043                    SWITCH_LED__ON(LED7_pin);DELAY_MS(30);
+	LDR             R1,?lr0015	; 2000h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_16_CHECK
+??_16_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_16_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_16_LOOP
+;000044                    SWITCH_LED_OFF(LED5_pin);DELAY_MS(30);
+	LDR             R1,?lr0013	; 800h
+	LDR             R0,?lr0008	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_17_CHECK
+??_17_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_17_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0006	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_17_LOOP
+;000045                    SWITCH_LED__ON(LED8_pin);DELAY_MS(30);
+	LDR             R1,?lr0016	; 4000h
+	LDR             R0,?lr0002	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0003	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0006	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ipause
+	STR             R1,[R0,#0]
+	B               ??_18_CHECK
+??_18_LOOP:
+	LDR             R0,?lr0007	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ipause
+	STR             R0,[R1,#0]
+??_18_CHECK:
+	LDR             R0,?lr0007	; ipause
+	LDR             R1,[R0,#0]
+	B               ??_41_LITPOOL
+
+?lr0000	.DCD	_PC	; used 1 time(s)
+?lr0001	.DCD	180h	; used 2 time(s)
+?lr0002	.DCD	400C0020h	; used 10 time(s)
+?lr0003	.DCD	HCLK	; used 17 time(s)
+?lr0004	.DCD	4F4Ch	; used 17 time(s)
+?lr0005	.DCD	190h	; used 4 time(s)
+?lr0006	.DCD	maxpause_ms	; used 33 time(s)
+?lr0007	.DCD	ipause	; used 68 time(s)
+?lr0008	.DCD	400C0024h	; used 7 time(s)
+?lr0009	.DCD	6000h	; used 2 time(s)
+?lr0010	.DCD	100h	; used 2 time(s)
+?lr0011	.DCD	200h	; used 2 time(s)
+?lr0012	.DCD	400h	; used 2 time(s)
+?lr0013	.DCD	800h	; used 2 time(s)
+?lr0014	.DCD	1000h	; used 1 time(s)
+?lr0015	.DCD	2000h	; used 1 time(s)
+?lr0016	.DCD	4000h	; used 1 time(s)
+
+??_41_LITPOOL:
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_18_LOOP
+;000046                    SWITCH_LED_OFF(LED6_pin);DELAY_MS(30);
+	LDR             R1,?lr0018	; 1000h
+	LDR             R0,?lr0019	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_19_CHECK
+??_19_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_19_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_19_LOOP
+;000047                    SWITCH_LED_OFF(LED7_pin);DELAY_MS(30);
+	LDR             R1,?lr0023	; 2000h
+	LDR             R0,?lr0019	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_20_CHECK
+??_20_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_20_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_20_LOOP
+;000048                    SWITCH_LED_OFF(LED8_pin);DELAY_MS(30);
+	LDR             R1,?lr0024	; 4000h
+	LDR             R0,?lr0019	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_21_CHECK
+??_21_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_21_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_21_LOOP
+;000050                    SWITCH_LED__ON(LED8_pin);DELAY_MS(30);
+	LDR             R1,?lr0024	; 4000h
+	LDR             R0,?lr0025	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_22_CHECK
+??_22_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_22_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_22_LOOP
+;000051                    SWITCH_LED__ON(LED7_pin);DELAY_MS(30);
+	LDR             R1,?lr0023	; 2000h
+	LDR             R0,?lr0025	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_23_CHECK
+??_23_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_23_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_23_LOOP
+;000052                    SWITCH_LED__ON(LED6_pin);DELAY_MS(30);
+	LDR             R1,?lr0018	; 1000h
+	LDR             R0,?lr0025	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_24_CHECK
+??_24_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_24_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_24_LOOP
+;000053                    SWITCH_LED_OFF(LED8_pin);DELAY_MS(30);
+	LDR             R1,?lr0024	; 4000h
+	LDR             R0,?lr0019	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_25_CHECK
+??_25_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_25_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_25_LOOP
+;000054                    SWITCH_LED__ON(LED5_pin);DELAY_MS(30);
+	LDR             R1,?lr0026	; 800h
+	LDR             R0,?lr0025	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_26_CHECK
+??_26_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_26_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_26_LOOP
+;000055                    SWITCH_LED_OFF(LED7_pin);DELAY_MS(30);
+	LDR             R1,?lr0023	; 2000h
+	LDR             R0,?lr0019	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_27_CHECK
+??_27_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_27_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_27_LOOP
+;000056                    SWITCH_LED__ON(LED4_pin);DELAY_MS(30);
+	LDR             R1,?lr0027	; 400h
+	LDR             R0,?lr0025	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_28_CHECK
+??_28_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_28_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_28_LOOP
+;000057                    SWITCH_LED_OFF(LED6_pin);DELAY_MS(30);
+	LDR             R1,?lr0018	; 1000h
+	LDR             R0,?lr0019	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_29_CHECK
+??_29_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_29_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_29_LOOP
+;000058                    SWITCH_LED__ON(LED3_pin);DELAY_MS(30);
+	LDR             R1,?lr0028	; 200h
+	LDR             R0,?lr0025	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_30_CHECK
+??_30_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_30_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_30_LOOP
+;000059                    SWITCH_LED_OFF(LED5_pin);DELAY_MS(30);
+	LDR             R1,?lr0026	; 800h
+	LDR             R0,?lr0019	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_31_CHECK
+??_31_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_31_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_31_LOOP
+;000060                    SWITCH_LED__ON(LED2_pin);DELAY_MS(30);
+	LDR             R1,?lr0029	; 100h
+	LDR             R0,?lr0025	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_32_CHECK
+??_32_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_32_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_32_LOOP
+;000061                    SWITCH_LED_OFF(LED4_pin);DELAY_MS(30);
+	LDR             R1,?lr0027	; 400h
+	LDR             R0,?lr0019	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_33_CHECK
+??_33_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_33_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_33_LOOP
+;000062                    SWITCH_LED__ON(LED1_pin);DELAY_MS(30);
+	MOVS            R1,#80h
+	LDR             R0,?lr0025	; 400C0020h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_34_CHECK
+??_34_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_34_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_34_LOOP
+;000063                    SWITCH_LED_OFF(LED3_pin);DELAY_MS(30);
+	LDR             R1,?lr0028	; 200h
+	LDR             R0,?lr0019	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0020	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0021	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0017	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0022	; ipause
+	STR             R1,[R0,#0]
+	B               ??_35_CHECK
+??_35_LOOP:
+	LDR             R0,?lr0022	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; ipause
+	STR             R0,[R1,#0]
+??_35_CHECK:
+	LDR             R0,?lr0022	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0017	; maxpause_ms
+	B               ??_42_LITPOOL
+
+.ALIGN	2
+?lr0017	.DCD	maxpause_ms	; used 35 time(s)
+?lr0018	.DCD	1000h	; used 3 time(s)
+?lr0019	.DCD	400C0024h	; used 9 time(s)
+?lr0020	.DCD	HCLK	; used 17 time(s)
+?lr0021	.DCD	4F4Ch	; used 17 time(s)
+?lr0022	.DCD	ipause	; used 68 time(s)
+?lr0023	.DCD	2000h	; used 3 time(s)
+?lr0024	.DCD	4000h	; used 3 time(s)
+?lr0025	.DCD	400C0020h	; used 8 time(s)
+?lr0026	.DCD	800h	; used 2 time(s)
+?lr0027	.DCD	400h	; used 2 time(s)
+?lr0028	.DCD	200h	; used 2 time(s)
+?lr0029	.DCD	100h	; used 1 time(s)
+
+??_42_LITPOOL:
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_35_LOOP
+;000064                    SWITCH_LED_OFF(LED2_pin);DELAY_MS(30);
+	LDR             R1,?lr0030	; 100h
+	LDR             R0,?lr0031	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0032	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0033	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0034	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0035	; ipause
+	STR             R1,[R0,#0]
+	B               ??_36_CHECK
+??_36_LOOP:
+	LDR             R0,?lr0035	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0035	; ipause
+	STR             R0,[R1,#0]
+??_36_CHECK:
+	LDR             R0,?lr0035	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0034	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_36_LOOP
+;000065                    SWITCH_LED_OFF(LED1_pin);DELAY_MS(30);
+	MOVS            R1,#80h
+	LDR             R0,?lr0031	; 400C0024h
+	STR             R1,[R0,#0]
+	LDR             R0,?lr0032	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0033	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#30
+	MULS            R0,R1
+	LDR             R1,?lr0034	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0035	; ipause
+	STR             R1,[R0,#0]
+	B               ??_37_CHECK
+??_37_LOOP:
+	LDR             R0,?lr0035	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0035	; ipause
+	STR             R0,[R1,#0]
+??_37_CHECK:
+	LDR             R0,?lr0035	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0034	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_37_LOOP
+;000066            }
+	SUBS            i?main,i?main,#1
+??_5_CHECK:
+	CMP             i?main,#1
+	BLT             ??_5_LOOP_BYPASS_82A
+	B               ??_5_LOOP
+??_5_LOOP_BYPASS_82A:
+;000068            SWITCH_LED__ON(LED1_pin|LED2_pin|LED3_pin|LED4_pin|LED5_pin|LED6_pin|LED7_pin|LED8_pin);
+	LDR             R1,?lr0036	; 7F80h
+	LDR             R0,?lr0037	; 400C0020h
+	STR             R1,[R0,#0]
+;000069            DELAY_MS(300);
+	LDR             R0,?lr0032	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0033	; 4F4Ch
+	BLF             ??DIV32U
+	LDR             R1,?lr0038	; 12Ch
+	MULS            R0,R1
+	LDR             R1,?lr0034	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0035	; ipause
+	STR             R1,[R0,#0]
+	B               ??_38_CHECK
+??_38_LOOP:
+	LDR             R0,?lr0035	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0035	; ipause
+	STR             R0,[R1,#0]
+??_38_CHECK:
+	LDR             R0,?lr0035	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0034	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_38_LOOP
+;000070            SWITCH_LED_OFF(LED1_pin|LED2_pin|LED3_pin|LED4_pin|LED5_pin|LED6_pin|LED7_pin|LED8_pin);
+	LDR             R1,?lr0036	; 7F80h
+	LDR             R0,?lr0031	; 400C0024h
+	STR             R1,[R0,#0]
+;000072            printf("Project \"%s\" %s %s\n",PROJECT_NAME,VERSION,YEAR );
+	LDR             R0,?lr0039	; ?lit00000
+	LDR             R1,?lr0040	; ?lit00001
+	LDR             R2,?lr0041	; ?lit00002
+	LDR             R3,?lr0042	; ?lit00003
+	BLF             tfp_printf
+	ADD             R13,#16
+;000076            while(1){
+??_39_DO:
+;000078                    PC++;
+	LDR             R0,?lr0043	; _PC
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0043	; _PC
+	STR             R0,[R1,#0]
+;000079                    DELAY_MS(250);
+	LDR             R0,?lr0032	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0033	; 4F4Ch
+	BLF             ??DIV32U
+	MOVS            R1,#0FAh
+	MULS            R0,R1
+	LDR             R1,?lr0034	; maxpause_ms
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0035	; ipause
+	STR             R1,[R0,#0]
+	B               ??_40_CHECK
+??_40_LOOP:
+	LDR             R0,?lr0035	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0035	; ipause
+	STR             R0,[R1,#0]
+??_40_CHECK:
+	LDR             R0,?lr0035	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0034	; maxpause_ms
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_40_LOOP
+;000085                    readButtonStates(); // driver
+	BLF             readButtonStates
+;000089                   buttonLedsDemo();
+	BLF             buttonLedsDemo
+;000092                   MarkM4Routine();
+	BLF             MarkM4Routine
+;000094            }
+	B               ??_39_DO
+;000095    }
+
+?lr0030	.DCD	100h	; used 1 time(s)
+?lr0031	.DCD	400C0024h	; used 3 time(s)
+?lr0032	.DCD	HCLK	; used 4 time(s)
+?lr0033	.DCD	4F4Ch	; used 4 time(s)
+?lr0034	.DCD	maxpause_ms	; used 8 time(s)
+?lr0035	.DCD	ipause	; used 16 time(s)
+?lr0036	.DCD	7F80h	; used 2 time(s)
+?lr0037	.DCD	400C0020h	; used 1 time(s)
+?lr0038	.DCD	12Ch	; used 1 time(s)
+?lr0039	.DCD	?lit00000	; used 1 time(s)
+?lr0040	.DCD	?lit00001	; used 1 time(s)
+?lr0041	.DCD	?lit00002	; used 1 time(s)
+?lr0042	.DCD	?lit00003	; used 1 time(s)
+?lr0043	.DCD	_PC	; used 2 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.EXTRN(code) ?start
+.TYPE ?start(.NOCHECK)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.END

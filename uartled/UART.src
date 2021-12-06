@@ -1,0 +1,176 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;;                ARM C CROSS COMPILER Version 1.03.130923 Demo              ;;
+;;                     Copyright (C) 2009 Phyton, Inc.                       ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;; ASSEMBLY SOURCE FILE FOR: uart.c                                          ;;
+;; TARGET: Cortex-M0/M1                                                      ;;
+;; OPTIMIZATION LEVEL: 0                                                     ;;
+;; FULL COMMAND LINE:                                                        ;;
+;;  -CM1 -t -s -l -d -p -g -Op -E10 -W50 -Z0 -Q43 -IC:\Program Files (x86)\P ;;
+;;  hyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Inc;C:\Users\ivanov-ga\Desktop ;;
+;;  \uartled\INCLUDE                                                         ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	.PMODULE UART
+
+.EXTRN(code)	HCLK
+.TYPE	HCLK(.UINT)
+.WORD	HCLK
+
+.EXTRN(code)	init_printf
+.FUNCTYPE	.VOID init_printf(.VOID_PTR,.NOCHECK)
+
+.EXTRN(code)	??DIV32U
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	FUN_CODE__UART,code
+
+.PUBLIC	putc, putc??T
+.THUMB
+.FUNC	putc??T	.VOID (.VOID_PTR,.CHAR)
+putc	.EQU	putc??T+1
+.FUNCTYPE	.VOID putc(.VOID_PTR,.CHAR)
+;FILE: uart.c
+;000005    void putc(void* ptr, char Data )
+
+Data?putc	.EQU	R1
+ptr?putc	.EQU	R0
+
+;000009            UART1_ACTIVITY__ON;
+	LDR             R2,?lr0000	; 180h
+	LDR             R0,?lr0001	; 400C0020h
+	STR             R2,[R0,#0]
+;000013            while ( ((DEBUG_UART->FR & UART_FR_TXFF) >> UART_FR_TXFF_Pos ) || ((DEBUG_UART->FR & UART_FR_BUSY) >> UART_FR_BUSY_Pos) );  // TODO:::: Macro for uart flags
+??_1_DO:
+	LDR             R0,?lr0002	; 40030018h
+	LDR             R0,[R0,#0]
+	MOVS            R2,#32
+	ANDS            R0,R2
+	LSRS            R0,R0,#5
+	BNE             ??_1_DO
+	LDR             R0,?lr0002	; 40030018h
+	LDR             R0,[R0,#0]
+	MOVS            R2,#8
+	ANDS            R0,R2
+	LSRS            R0,R0,#3
+	BNE             ??_1_DO
+;000016            DEBUG_UART->DR = Data;
+	SXTB            R0,Data?putc
+	LDR             R2,?lr0003	; 40030000h
+	STR             R0,[R2,#0]
+;000018            UART1_ACTIVITY_OFF;
+	LDR             R2,?lr0000	; 180h
+	LDR             R0,?lr0004	; 400C0024h
+	STR             R2,[R0,#0]
+;000019    }
+	BX              R14
+
+?lr0000	.DCD	180h	; used 2 time(s)
+?lr0001	.DCD	400C0020h	; used 1 time(s)
+?lr0002	.DCD	40030018h	; used 2 time(s)
+?lr0003	.DCD	40030000h	; used 1 time(s)
+?lr0004	.DCD	400C0024h	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	procUART, procUART??T
+.FUNC	procUART??T	.VOID (.VOID_PTR)
+procUART	.EQU	procUART??T+1
+.FUNCTYPE	.VOID procUART(.VOID_PTR)
+;000022    void procUART(void* data){
+
+data?procUART	.EQU	R0
+
+;000024    }
+	BX              R14
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	initUART, initUART??T
+.FUNC	initUART??T	.VOID (.NOCHECK)
+initUART	.EQU	initUART??T+1
+.FUNCTYPE	.VOID initUART(.NOCHECK)
+;000029    void initUART(MDR_UART_TypeDef* UARTx)
+	PUSH            {R4,R5,R14} 
+	MOV             R4,R0
+
+BAUD_RATE?initUART	.EQU	R5
+UARTx?initUART	.EQU	R4
+cpuclock?initUART	.EQU	R0
+divider?initUART	.EQU	R0
+fractionaldivider?initUART	.EQU	R0
+integerdivider?initUART	.EQU	R1
+
+;000031            u32 BAUD_RATE = 9600;
+	LDR             BAUD_RATE?initUART,?lr0005	; 2580h
+;000032            u32 cpuclock = HCLK;
+	LDR             R1,?lr0006	; HCLK
+	LDR             cpuclock?initUART,[R1,#0]
+;000037            if (UARTx == MDR_UART1) {
+	LDR             R1,?lr0007	; 40030000h
+	CMP             UARTx?initUART,R1
+	BNE             ??_3_ELSE
+;000038                    cpuclock /= (1 << ((MDR_RST_CLK->UART_CLOCK & UART1_BRG_Mask) >> RST_CLK_UART_CLOCK_UART1_BRG_Pos));
+	LDR             R1,?lr0008	; 40020028h
+	LDR             R2,[R1,#0]
+	MOVS            R1,#7
+	ANDS            R2,R1
+	MOVS            R1,#1
+	LSLS            R1,R2
+	BLF             ??DIV32U
+;000039            }
+??_3_ELSE:
+;000042            divider = cpuclock / (BAUD_RATE >> 2);
+	LSRS            R1,BAUD_RATE?initUART,#2
+	BLF             ??DIV32U
+;000043            integerdivider = divider >> 6;
+	LSRS            integerdivider?initUART,divider?initUART,#6
+;000046            fractionaldivider = (divider & FBRD_Fract_Mask);
+	MOVS            R2,#63
+	ANDS            fractionaldivider?initUART,R2
+;000056            UARTx->IBRD = integerdivider;
+	STR             integerdivider?initUART,[UARTx?initUART,#36]
+;000057            UARTx->FBRD = fractionaldivider;
+	STR             fractionaldivider?initUART,[UARTx?initUART,#40]
+;000062            UARTx->LCR_H = 0x0060; //UART_WordLength8b | UART_Parity_No | UART_StopBits1;
+	MOVS            R1,#96
+	STR             R1,[UARTx?initUART,#44]
+;000065            UARTx->CR = UART_CR_TXE;
+	LDR             R1,?lr0009	; 100h
+	STR             R1,[UARTx?initUART,#48]
+;000066            UARTx->CR |= UART_CR_UARTEN; // enable uart
+	LDR             R1,[UARTx?initUART,#48]
+	MOVS            R2,#1
+	ORRS            R1,R2
+	STR             R1,[UARTx?initUART,#48]
+;000071            init_printf(0,putc);
+	MOVS            R0,#0
+	LDR             R1,?lr0010	; putc
+	BLF             init_printf
+;000072    }
+	POP             {R4,R5,R15} 
+
+?lr0005	.DCD	2580h	; used 1 time(s)
+?lr0006	.DCD	HCLK	; used 1 time(s)
+?lr0007	.DCD	40030000h	; used 1 time(s)
+?lr0008	.DCD	40020028h	; used 1 time(s)
+?lr0009	.DCD	100h	; used 1 time(s)
+?lr0010	.DCD	putc	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.EXTRN(code) ?start
+.TYPE ?start(.NOCHECK)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.END

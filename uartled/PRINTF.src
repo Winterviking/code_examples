@@ -1,0 +1,716 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;;                ARM C CROSS COMPILER Version 1.03.130923 Demo              ;;
+;;                     Copyright (C) 2009 Phyton, Inc.                       ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;; ASSEMBLY SOURCE FILE FOR: printf.c                                        ;;
+;; TARGET: Cortex-M0/M1                                                      ;;
+;; OPTIMIZATION LEVEL: 0                                                     ;;
+;; FULL COMMAND LINE:                                                        ;;
+;;  -CM1 -t -s -l -d -p -g -Op -E10 -W50 -Z0 -Q43 -IC:\Program Files (x86)\P ;;
+;;  hyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Inc;C:\Users\ivanov-ga\Desktop ;;
+;;  \uartled\INCLUDE                                                         ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	.PMODULE PRINTF
+
+.EXTRN(code)	??DIV32U
+
+.EXTRN(code)	??MOD32U
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	UDATA__PRINTF,data
+.ALIGN 2
+
+stdout_putf	.DS	4
+
+stdout_putp	.DS	4
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	FUN_CODE__PRINTF,code
+
+.THUMB
+.FUNC	ui2a??T	.VOID (.UINT,.UINT,.INT,.CHAR_PTR)
+ui2a	.EQU	ui2a??T+1
+.FUNCTYPE	.VOID ui2a(.UINT,.UINT,.INT,.CHAR_PTR)
+;FILE: printf.c
+;000040    static void ui2a(unsigned int num, unsigned int base, int uc,char * bf)
+	PUSH            {R4-R7,R14} 
+	MOV             R4,R8
+	MOV             R5,R9
+	PUSH            {R4,R5} 
+	SUB             R13,#4
+	MOV             R6,R3
+	MOV             R8,R0
+	MOV             R9,R1
+	STR             R2,[R13,#0]
+
+base?ui2a	.EQU	R9
+bf?ui2a	.EQU	R6
+d?ui2a	.EQU	R4
+n?ui2a	.EQU	R5
+num?ui2a	.EQU	R8
+uc?ui2a	.EQU	0
+
+;000042            int n=0;
+	MOVS            n?ui2a,#0
+;000043            unsigned int d=1;
+	MOVS            d?ui2a,#1
+;000044            while (num/d >= base)
+	B               ??_1_CONTINUE
+??_1_DO:
+;000045                    d*=base;
+	MOV             R1,base?ui2a
+	MULS            d?ui2a,R1
+??_1_CONTINUE:
+	MOV             R0,num?ui2a
+	MOV             R1,d?ui2a
+	BLF             ??DIV32U
+	CMP             R0,base?ui2a
+	BCS             ??_1_DO
+;000046            while (d!=0) {
+	B               ??_2_CONTINUE
+??_2_DO:
+
+dgt?ui2a?0003	.EQU	R7
+
+;000047                    int dgt = num / d;
+	MOV             R0,num?ui2a
+	MOV             R1,d?ui2a
+	BLF             ??DIV32U
+	MOV             dgt?ui2a?0003,R0
+;000048                    num%= d;
+	MOV             R0,num?ui2a
+	MOV             R1,d?ui2a
+	BLF             ??MOD32U
+	MOV             num?ui2a,R0
+;000049                    d/=base;
+	MOV             R0,d?ui2a
+	MOV             R1,base?ui2a
+	BLF             ??DIV32U
+	MOV             d?ui2a,R0
+;000050                    if (n || dgt>0 || d==0) {
+	CMP             n?ui2a,#0
+	BNE             ??_3_IF
+	CMP             dgt?ui2a?0003,#1
+	BGE             ??_3_IF
+	CMP             d?ui2a,#0
+	BNE             ??_3_ELSE
+??_3_IF:
+;000051                            *bf++ = dgt+(dgt<10 ? '0' : (uc ? 'A' : 'a')-10);
+	CMP             dgt?ui2a?0003,#10
+	BGE             ??_6_ELSE
+	MOVS            R0,#48
+	B               ??_6_END
+??_6_ELSE:
+	LDR             R2,[R13,#uc?ui2a]
+	CMP             R2,#0
+	BEQ             ??_7_ELSE
+	MOVS            R0,#65
+	B               ??_7_END
+??_7_ELSE:
+	MOVS            R0,#97
+??_7_END:
+	MOVS            R1,#9
+	MVNS            R1,R1
+	ADD             R0,R1
+??_6_END:
+	ADD             R0,dgt?ui2a?0003
+	STRB            R0,[bf?ui2a,#0]
+	ADDS            bf?ui2a,bf?ui2a,#1
+;000052                            ++n;
+	ADDS            n?ui2a,n?ui2a,#1
+;000053                            }
+??_3_ELSE:
+;000054                    }
+??_2_CONTINUE:
+	CMP             d?ui2a,#0
+	BNE             ??_2_DO
+;000055            *bf=0;
+	MOVS            R0,#0
+	STRB            R0,[bf?ui2a,#0]
+;000056            }
+	ADD             R13,#4
+	POP             {R4,R5} 
+	MOV             R8,R4
+	MOV             R9,R5
+	POP             {R4-R7,R15} 
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.FUNC	i2a??T	.VOID (.INT,.CHAR_PTR)
+i2a	.EQU	i2a??T+1
+.FUNCTYPE	.VOID i2a(.INT,.CHAR_PTR)
+;000058    static void i2a (int num, char * bf)
+	PUSH            {R14} 
+	MOV             R3,R1
+
+bf?i2a	.EQU	R3
+num?i2a	.EQU	R0
+
+;000060            if (num<0) {
+	CMP             num?i2a,#0
+	BPL             ??_8_ELSE
+;000061                    num=-num;
+	RSBS            num?i2a,num?i2a
+;000062                    *bf++ = '-';
+	MOVS            R2,#45
+	STRB            R2,[bf?i2a,#0]
+	ADDS            bf?i2a,bf?i2a,#1
+;000063                    }
+??_8_ELSE:
+;000064            ui2a(num,10,0,bf);
+	MOVS            R1,#10
+	MOVS            R2,#0
+	BLF             ui2a??T
+;000065            }
+	POP             {R15} 
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.FUNC	a2d??T	.INT (.CHAR)
+a2d	.EQU	a2d??T+1
+.FUNCTYPE	.INT a2d(.CHAR)
+;000067    static int a2d(char ch)
+
+ch?a2d	.EQU	R0
+
+;000069            if (ch>='0' && ch<='9')
+	MOV             R1,ch?a2d
+	CMP             R1,#48
+	BLT             ??_9_ELSE
+	CMP             R1,#58
+	BGE             ??_9_ELSE
+;000070                    return ch-'0';
+	SUBS            ch?a2d,#48
+	BX              R14
+??_9_ELSE:
+;000071            else if (ch>='a' && ch<='f')
+	SXTB            R1,ch?a2d
+	CMP             R1,#97
+	BLT             ??_11_ELSE
+	SXTB            R1,ch?a2d
+	CMP             R1,#103
+	BGE             ??_11_ELSE
+;000072                    return ch-'a'+10;
+	SXTB            ch?a2d,ch?a2d
+	SUBS            ch?a2d,#87
+	BX              R14
+??_11_ELSE:
+;000073            else if (ch>='A' && ch<='F')
+	SXTB            R1,ch?a2d
+	CMP             R1,#65
+	BLT             ??_13_ELSE
+	SXTB            R1,ch?a2d
+	CMP             R1,#71
+	BGE             ??_13_ELSE
+;000074                    return ch-'A'+10;
+	SXTB            ch?a2d,ch?a2d
+	SUBS            ch?a2d,#55
+	BX              R14
+??_13_ELSE:
+;000075            else return -1;
+	MOVS            R0,#0
+	MVNS            R0,R0
+;000076            }
+	BX              R14
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.FUNC	a2i??T	.CHAR (.CHAR,.NOCHECK,.INT,.INT_PTR)
+a2i	.EQU	a2i??T+1
+.FUNCTYPE	.CHAR a2i(.CHAR,.NOCHECK,.INT,.INT_PTR)
+;000078    static char a2i(char ch, char** src,int base,int* nump)
+	PUSH            {R4-R7,R14} 
+	MOV             R4,R8
+	PUSH            {R4} 
+	SUB             R13,#4
+	MOV             R6,R2
+	MOV             R7,R1
+	MOV             R8,R0
+	STR             R3,[R13,#0]
+
+base?a2i	.EQU	R6
+ch?a2i	.EQU	R8
+digit?a2i	.EQU	R0
+num?a2i	.EQU	R5
+nump?a2i	.EQU	0
+p?a2i	.EQU	R4
+src?a2i	.EQU	R7
+
+;000080            char* p= *src;
+	LDR             p?a2i,[src?a2i,#0]
+;000081            int num=0;
+	MOVS            num?a2i,#0
+;000083            while ((digit=a2d(ch))>=0) {
+	B               ??_15_CONTINUE
+??_15_DO:
+;000084                    if (digit>base) break;
+	CMP             base?a2i,digit?a2i
+	BLT             ??_15_BREAK
+;000085                    num=num*base+digit;
+	MULS            num?a2i,base?a2i
+	ADD             num?a2i,digit?a2i
+;000086                    ch=*p++;
+	MOVS            R3,#0
+	LDRSB           R0,[p?a2i,R3]
+	MOV             ch?a2i,R0
+	ADDS            p?a2i,p?a2i,#1
+;000087                    }
+??_15_CONTINUE:
+	MOV             digit?a2i,ch?a2i
+	SXTB            digit?a2i,digit?a2i
+	BLF             a2d??T
+	CMP             digit?a2i,#0
+	BPL             ??_15_DO
+??_15_BREAK:
+;000088            *src=p;
+	STR             p?a2i,[src?a2i,#0]
+;000089            *nump=num;
+	LDR             R3,[R13,#nump?a2i]
+	STR             num?a2i,[R3,#0]
+;000090            return ch;
+	MOV             R0,ch?a2i
+	SXTB            R0,R0
+;000091            }
+	ADD             R13,#4
+	POP             {R4} 
+	MOV             R8,R4
+	POP             {R4-R7,R15} 
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.FUNC	putchw??T	.VOID (.VOID_PTR,.NOCHECK,.INT,.CHAR,.CHAR_PTR)
+putchw	.EQU	putchw??T+1
+.FUNCTYPE	.VOID putchw(.VOID_PTR,.NOCHECK,.INT,.CHAR,.CHAR_PTR)
+;000093    static void putchw(void* putp,putcf putf,int n, char z, char* bf)
+	PUSH            {R4-R7,R14} 
+	SUB             R13,#8
+	MOV             R4,R2
+	LDR             R6,[R13,#28]
+	MOV             R7,R1
+	STR             R0,[R13,#0]
+
+bf?putchw	.EQU	R6
+ch?putchw	.EQU	R1
+fc?putchw	.EQU	4
+n?putchw	.EQU	R4
+p?putchw	.EQU	R5
+putf?putchw	.EQU	R7
+putp?putchw	.EQU	0
+z?putchw	.EQU	R3
+
+;000095            char fc=z? '0' : ' ';
+	MOV             R5,z?putchw
+	CMP             R5,#0
+	BEQ             ??_17_ELSE
+	MOVS            R1,#48
+	B               ??_17_END
+??_17_ELSE:
+	MOVS            R1,#32
+??_17_END:
+	MOV             R0,R13
+	STRB            R1,[R0,#fc?putchw]
+;000097            char* p=bf;
+	MOV             p?putchw,bf?putchw
+;000098            while (*p++ && n > 0)
+	B               ??_18_CONTINUE
+??_18_DO:
+;000099                    n--;
+	SUBS            n?putchw,n?putchw,#1
+??_18_CONTINUE:
+	MOV             R1,p?putchw
+	ADDS            p?putchw,p?putchw,#1
+	MOVS            R2,#0
+	LDRSB           R1,[R1,R2]
+	CMP             R1,#0
+	BEQ             ??_20_CONTINUE
+	CMP             n?putchw,#1
+	BGE             ??_18_DO
+;000100            while (n-- > 0)
+	B               ??_20_CONTINUE
+??_20_DO:
+;000101                    putf(putp,fc);
+	ADD             R1,R13,#fc?putchw
+	MOVS            R0,#0
+	LDRSB           R1,[R1,R0]
+	LDR             R0,[R13,#putp?putchw]
+	BLX             putf?putchw
+??_20_CONTINUE:
+	MOV             R5,n?putchw
+	SUBS            n?putchw,n?putchw,#1
+	CMP             R5,#1
+	BGE             ??_20_DO
+;000102            while ((ch= *bf++))
+	B               ??_21_CONTINUE
+??_21_DO:
+;000103                    putf(putp,ch);
+	SXTB            ch?putchw,ch?putchw
+	LDR             R0,[R13,#putp?putchw]
+	BLX             putf?putchw
+??_21_CONTINUE:
+	MOV             R4,bf?putchw
+	ADDS            bf?putchw,bf?putchw,#1
+	MOVS            R5,#0
+	LDRSB           ch?putchw,[R4,R5]
+	MOV             R4,ch?putchw
+	CMP             R4,#0
+	BNE             ??_21_DO
+;000104            }
+	ADD             R13,#8
+	POP             {R4-R7,R15} 
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	tfp_format, tfp_format??T
+.FUNC	tfp_format??T	.VOID (.VOID_PTR,.NOCHECK,.CHAR_PTR,.VOID_PTR)
+tfp_format	.EQU	tfp_format??T+1
+.FUNCTYPE	.VOID tfp_format(.VOID_PTR,.NOCHECK,.CHAR_PTR,.VOID_PTR)
+;000106    void tfp_format(void* putp,putcf putf,char *fmt, va_list va)
+	PUSH            {R4-R7,R14} 
+	SUB             R13,#20
+	MOV             R4,R3
+	MOV             R5,R1
+	MOV             R7,R0
+	STR             R2,[R13,#0]
+
+bf?tfp_format	.EQU	8
+ch?tfp_format	.EQU	R0
+fmt?tfp_format	.EQU	0
+putf?tfp_format	.EQU	R5
+putp?tfp_format	.EQU	R7
+va?tfp_format	.EQU	R4
+
+;000113            while ((ch=*(fmt++))) {
+	B               ??_22_CONTINUE
+??_22_DO:
+;000114                    if (ch!='%')
+	SXTB            R2,ch?tfp_format
+	CMP             R2,#37
+	BEQ             ??_23_ELSE
+;000115                            putf(putp,ch);
+	SXTB            R1,ch?tfp_format
+	MOV             ch?tfp_format,putp?tfp_format
+	BLX             putf?tfp_format
+	B               ??_23_END
+??_23_ELSE:
+;000116                    else {
+
+lz?tfp_format?0013	.EQU	R6
+w?tfp_format?0013	.EQU	4
+
+;000117                            char lz=0;
+	MOVS            lz?tfp_format?0013,#0
+;000121                            int w=0;
+	MOVS            R1,#0
+	STR             R1,[R13,#w?tfp_format?0013]
+;000122                            ch=*(fmt++);
+	LDR             R2,[R13,#fmt?tfp_format]
+	LDRSB           ch?tfp_format,[R2,R1]
+	ADDS            R2,R2,#1
+	STR             R2,[R13,#fmt?tfp_format]
+;000123                            if (ch=='0') {
+	MOV             R2,ch?tfp_format
+	CMP             R2,#48
+	BNE             ??_24_ELSE
+;000124                                    ch=*(fmt++);
+	LDR             R2,[R13,#fmt?tfp_format]
+	LDRSB           ch?tfp_format,[R2,R6]
+	ADDS            R2,R2,#1
+	STR             R2,[R13,#fmt?tfp_format]
+;000125                                    lz=1;
+	MOVS            lz?tfp_format?0013,#1
+;000126                                    }
+??_24_ELSE:
+;000127                            if (ch>='0' && ch<='9') {
+	SXTB            R2,ch?tfp_format
+	CMP             R2,#48
+	BLT             ??_25_ELSE
+	SXTB            R2,ch?tfp_format
+	CMP             R2,#58
+	BGE             ??_25_ELSE
+;000128                                    ch=a2i(ch,&fmt,10,&w);
+	SXTB            ch?tfp_format,ch?tfp_format
+	ADD             R1,R13,#fmt?tfp_format
+	MOVS            R2,#10
+	ADD             R3,R13,#w?tfp_format?0013
+	BLF             a2i??T
+;000129                                    }
+??_25_ELSE:
+;000136                            switch (ch) {
+	SXTB            R2,ch?tfp_format
+	CMP             R2,#37
+	BEQ             ??_27_CASE_25
+	CMP             R2,#88
+	BEQ             ??_27_CASE_58
+	CMP             R2,#99
+	BEQ             ??_27_CASE_63
+	CMP             R2,#100
+	BEQ             ??_27_CASE_64
+	CMP             R2,#115
+	BEQ             ??_27_CASE_73
+	CMP             R2,#117
+	BEQ             ??_27_CASE_75
+	CMP             R2,#120
+	BEQ             ??_27_CASE_78
+	CMP             R2,#0
+	BNE             ??_27_DEFAULT
+;000138                                            goto abort;
+	B               ??_abort_tfp_format
+??_27_CASE_75:
+;000139                                    case 'u' : {
+;000145                                            ui2a(va_arg(va, unsigned int),10,0,bf);
+	ADDS            va?tfp_format,va?tfp_format,#4
+	SUBS            R2,va?tfp_format,#4
+	LDR             R0,[R2,#0]
+	MOVS            R1,#10
+	MOVS            R2,#0
+	ADD             R3,R13,#bf?tfp_format
+	BLF             ui2a??T
+;000146                                            putchw(putp,putf,w,lz,bf);
+	ADD             R2,R13,#bf?tfp_format
+	PUSH            {R2} 
+	MOV             R3,lz?tfp_format?0013
+	MOV             R0,putp?tfp_format
+	MOV             R1,putf?tfp_format
+	LDR             R2,[R13,#bf?tfp_format]
+	BLF             putchw??T
+	ADD             R13,#4
+;000147                                            break;
+	B               ??_27_BREAK
+;000148                                            }
+??_27_CASE_64:
+;000149                                    case 'd' :  {
+;000155                                            i2a(va_arg(va, int),bf);
+	ADDS            va?tfp_format,va?tfp_format,#4
+	SUBS            R2,va?tfp_format,#4
+	LDR             R0,[R2,#0]
+	ADD             R1,R13,#bf?tfp_format
+	BLF             i2a??T
+;000156                                            putchw(putp,putf,w,lz,bf);
+	ADD             R2,R13,#bf?tfp_format
+	PUSH            {R2} 
+	MOV             R3,lz?tfp_format?0013
+	MOV             R0,putp?tfp_format
+	MOV             R1,putf?tfp_format
+	LDR             R2,[R13,#bf?tfp_format]
+	BLF             putchw??T
+	ADD             R13,#4
+;000157                                            break;
+	B               ??_27_BREAK
+;000158                                            }
+??_27_CASE_78:
+??_27_CASE_58:
+;000165                                            ui2a(va_arg(va, unsigned int),16,(ch=='X'),bf);
+	SXTB            R2,ch?tfp_format
+	CMP             R2,#88
+	ADDS            va?tfp_format,va?tfp_format,#4
+	SUBS            R2,va?tfp_format,#4
+	LDR             ch?tfp_format,[R2,#0]
+	MOVS            R1,#16
+	BNE             ??_28_NOT
+	MOVS            R2,#1
+	B               ??_28_SKIP
+??_28_NOT:
+	MOVS            R2,#0
+??_28_SKIP:
+	ADD             R3,R13,#bf?tfp_format
+	BLF             ui2a??T
+;000166                                            putchw(putp,putf,w,lz,bf);
+	ADD             R2,R13,#bf?tfp_format
+	PUSH            {R2} 
+	MOV             R3,lz?tfp_format?0013
+	MOV             R0,putp?tfp_format
+	MOV             R1,putf?tfp_format
+	LDR             R2,[R13,#bf?tfp_format]
+	BLF             putchw??T
+	ADD             R13,#4
+;000167                                            break;
+	B               ??_27_BREAK
+??_27_CASE_63:
+;000169                                            putf(putp,(char)(va_arg(va, int)));
+	ADDS            va?tfp_format,va?tfp_format,#4
+	SUBS            R2,va?tfp_format,#4
+	MOVS            R6,#0
+	LDRSB           R1,[R2,R6]
+	MOV             R0,putp?tfp_format
+	BLX             putf?tfp_format
+;000170                                            break;
+	B               ??_27_BREAK
+??_27_CASE_73:
+;000172                                            putchw(putp,putf,w,0,va_arg(va, char*));
+	ADDS            va?tfp_format,va?tfp_format,#4
+	SUBS            R2,va?tfp_format,#4
+	LDR             R2,[R2,#0]
+	PUSH            {R2} 
+	MOV             R0,putp?tfp_format
+	MOV             R1,putf?tfp_format
+	LDR             R2,[R13,#8]
+	MOVS            R3,#0
+	BLF             putchw??T
+	ADD             R13,#4
+;000173                                            break;
+	B               ??_27_BREAK
+??_27_CASE_25:
+;000175                                            putf(putp,ch);
+	SXTB            R1,ch?tfp_format
+	MOV             ch?tfp_format,putp?tfp_format
+	BLX             putf?tfp_format
+??_27_DEFAULT:
+;000177                                            break;
+;000178                                    }
+??_27_BREAK:
+;000179                            }
+??_23_END:
+;000180                    }
+??_22_CONTINUE:
+	LDR             R6,[R13,#fmt?tfp_format]
+	LDR             R2,[R13,#fmt?tfp_format]
+	ADDS            R2,R2,#1
+	STR             R2,[R13,#fmt?tfp_format]
+	MOVS            R1,#0
+	LDRSB           ch?tfp_format,[R6,R1]
+	MOV             R2,ch?tfp_format
+	CMP             R2,#0
+	BEQ             ??_22_DO_BYPASS_2A2
+	B               ??_22_DO
+??_22_DO_BYPASS_2A2:
+??_abort_tfp_format:
+;000182            }
+	ADD             R13,#20
+	POP             {R4-R7,R15} 
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	init_printf, init_printf??T
+.FUNC	init_printf??T	.VOID (.VOID_PTR,.NOCHECK)
+init_printf	.EQU	init_printf??T+1
+.FUNCTYPE	.VOID init_printf(.VOID_PTR,.NOCHECK)
+;000185    void init_printf(void* putp,void (*putf) (void*,char))
+
+putf?init_printf	.EQU	R1
+putp?init_printf	.EQU	R0
+
+;000187            stdout_putf=putf;
+	LDR             R2,?lr0000	; stdout_putf
+	STR             putf?init_printf,[R2,#0]
+;000188            stdout_putp=putp;
+	LDR             R1,?lr0001	; stdout_putp
+	STR             putp?init_printf,[R1,#0]
+;000189            }
+	BX              R14
+
+?lr0000	.DCD	stdout_putf	; used 1 time(s)
+?lr0001	.DCD	stdout_putp	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	tfp_printf, tfp_printf??T
+.FUNC	tfp_printf??T	.VOID (.CHAR_PTR,.ELLIPSIS)
+tfp_printf	.EQU	tfp_printf??T+1
+.FUNCTYPE	.VOID tfp_printf(.CHAR_PTR,.ELLIPSIS)
+;000191    void tfp_printf(char *fmt, ...)
+	PUSH            {R0-R3} 
+	PUSH            {R4,R14} 
+
+fmt?tfp_printf	.EQU	8
+va?tfp_printf	.EQU	R3
+
+;000194            va_start(va,fmt);
+	ADD             va?tfp_printf,R13,#12
+;000195            tfp_format(stdout_putp,stdout_putf,fmt,va);
+	LDR             R0,?lr0002	; stdout_putf
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0003	; stdout_putp
+	LDR             R0,[R0,#0]
+	LDR             R2,[R13,#fmt?tfp_printf]
+	BLF             tfp_format??T
+;000197            }
+	POP             {R4,R15} 
+
+.ALIGN	2
+?lr0002	.DCD	stdout_putf	; used 1 time(s)
+?lr0003	.DCD	stdout_putp	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.FUNC	putcp??T	.VOID (.VOID_PTR,.CHAR)
+putcp	.EQU	putcp??T+1
+.FUNCTYPE	.VOID putcp(.VOID_PTR,.CHAR)
+;000199    static void putcp(void* p,char c)
+
+c?putcp	.EQU	R1
+p?putcp	.EQU	R0
+
+;000201            *(*((char**)p))++ = c;
+	LDR             R2,[p?putcp,#0]
+	LDR             R3,[p?putcp,#0]
+	ADDS            R3,R3,#1
+	STR             R3,[p?putcp,#0]
+	STRB            c?putcp,[R2,#0]
+;000202            }
+	BX              R14
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	tfp_sprintf, tfp_sprintf??T
+.FUNC	tfp_sprintf??T	.VOID (.CHAR_PTR,.CHAR_PTR,.ELLIPSIS)
+tfp_sprintf	.EQU	tfp_sprintf??T+1
+.FUNCTYPE	.VOID tfp_sprintf(.CHAR_PTR,.CHAR_PTR,.ELLIPSIS)
+;000206    void tfp_sprintf(char* s,char *fmt, ...)
+	PUSH            {R1-R3} 
+	PUSH            {R4,R14} 
+	SUB             R13,#4
+	STR             R0,[R13,#0]
+
+fmt?tfp_sprintf	.EQU	12
+s?tfp_sprintf	.EQU	0
+va?tfp_sprintf	.EQU	R3
+
+;000209            va_start(va,fmt);
+	ADD             va?tfp_sprintf,R13,#16
+;000210            tfp_format(&s,putcp,fmt,va);
+	ADD             R0,R13,#s?tfp_sprintf
+	LDR             R1,?lr0004	; putcp
+	LDR             R2,[R13,#fmt?tfp_sprintf]
+	BLF             tfp_format??T
+;000211            putcp(&s,0);
+	ADD             R0,R13,#s?tfp_sprintf
+	MOVS            R1,#0
+	BLF             putcp??T
+;000213            }
+	ADD             R13,#4
+	POP             {R4,R15} 
+
+?lr0004	.DCD	putcp	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	??DATA_SEGMENT_ADDRESSES,code
+	.DCD	.SFB UDATA__PRINTF, .SFE UDATA__PRINTF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.EXTRN(code) ?start
+.TYPE ?start(.NOCHECK)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.END

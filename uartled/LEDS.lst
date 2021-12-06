@@ -1,0 +1,130 @@
+*******************************************************************************
+*                                                                             *
+*                 ARM C CROSS COMPILER Version 1.03.130923 Demo               *
+*                      Copyright (C) 2009 Phyton, Inc.                        *
+*                                                                             *
+*******************************************************************************
+
+              InitPortLED??T:
+;FILE: leds.c
+;000011    void InitPortLED(void) {
+;000012        MDR_PORTD->FUNC &= ~((0x3FF << (LED0_OFS << 1)));   // port
+00000000    480F                       	LDR             R0,?lr0000	; 400C0008h
+00000002    6800                       	LDR             R0,[R0,#0]
+00000004    490F                       	LDR             R1,?lr0001	; 0FF003FFFh
+00000006    4008                       	ANDS            R0,R1
+00000008    490D                       	LDR             R1,?lr0000	; 400C0008h
+0000000A    6008                       	STR             R0,[R1,#0]
+;000013        MDR_PORTD->ANALOG |= LEDS_MASK;                     // digital
+0000000C    480E                       	LDR             R0,?lr0002	; 400C000Ch
+0000000E    6800                       	LDR             R0,[R0,#0]
+00000010    490E                       	LDR             R1,?lr0003	; 0F80h
+00000012    4308                       	ORRS            R0,R1
+00000014    490C                       	LDR             R1,?lr0002	; 400C000Ch
+00000016    6008                       	STR             R0,[R1,#0]
+;000014        MDR_PORTD->PWR |= (0x155 << (LED0_OFS << 1));       // slow
+00000018    480D                       	LDR             R0,?lr0004	; 400C0018h
+0000001A    6800                       	LDR             R0,[R0,#0]
+0000001C    490D                       	LDR             R1,?lr0005	; 554000h
+0000001E    4308                       	ORRS            R0,R1
+00000020    490B                       	LDR             R1,?lr0004	; 400C0018h
+00000022    6008                       	STR             R0,[R1,#0]
+;000015        MDR_PORTD->RXTX &= ~LEDS_MASK;
+00000024    480C                       	LDR             R0,?lr0006	; 400C0000h
+00000026    6800                       	LDR             R0,[R0,#0]
+00000028    490C                       	LDR             R1,?lr0007	; 0FFFFF07Fh
+0000002A    4008                       	ANDS            R0,R1
+0000002C    490A                       	LDR             R1,?lr0006	; 400C0000h
+0000002E    6008                       	STR             R0,[R1,#0]
+;000016        MDR_PORTD->OE |= LEDS_MASK;
+00000030    480B                       	LDR             R0,?lr0008	; 400C0004h
+00000032    6800                       	LDR             R0,[R0,#0]
+00000034    4905                       	LDR             R1,?lr0003	; 0F80h
+00000036    4308                       	ORRS            R0,R1
+00000038    4909                       	LDR             R1,?lr0008	; 400C0004h
+0000003A    6008                       	STR             R0,[R1,#0]
+;000017    }
+0000003C    4770                       	BX              R14
+
+.ALIGN	2
+00000040    400C0008	?lr0000	.DCD	400C0008h	; used 2 time(s)
+00000044    FF003FFF	?lr0001	.DCD	0FF003FFFh	; used 1 time(s)
+00000048    400C000C	?lr0002	.DCD	400C000Ch	; used 2 time(s)
+0000004C    00000F80	?lr0003	.DCD	0F80h	; used 2 time(s)
+00000050    400C0018	?lr0004	.DCD	400C0018h	; used 2 time(s)
+00000054    00554000	?lr0005	.DCD	554000h	; used 1 time(s)
+00000058    400C0000	?lr0006	.DCD	400C0000h	; used 2 time(s)
+0000005C    FFFFF07F	?lr0007	.DCD	0FFFFF07Fh	; used 1 time(s)
+00000060    400C0004	?lr0008	.DCD	400C0004h	; used 2 time(s)
+
+.ENDF
+              ShiftLights??T:
+;000019    void ShiftLights(void) {
+;000021        MDR_PORTD->RXTX = (MDR_PORTD->RXTX & ~LEDS_MASK) | (CurrentLights & LEDS_MASK);
+00000064    480E                       	LDR             R0,?lr0009	; CurrentLights
+00000066    6800                       	LDR             R0,[R0,#0]
+00000068    490E                       	LDR             R1,?lr0010	; 0F80h
+0000006A    4008                       	ANDS            R0,R1
+0000006C    490E                       	LDR             R1,?lr0011	; 400C0000h
+0000006E    6809                       	LDR             R1,[R1,#0]
+00000070    4A0E                       	LDR             R2,?lr0012	; 0FFFFF07Fh
+00000072    4011                       	ANDS            R1,R2
+00000074    4308                       	ORRS            R0,R1
+00000076    490C                       	LDR             R1,?lr0011	; 400C0000h
+00000078    6008                       	STR             R0,[R1,#0]
+;000022        ovf = (CurrentLights & (1UL << 31)) != 0;
+0000007A    4809                       	LDR             ovf?ShiftLights,?lr0009	; CurrentLights
+0000007C    6800                       	LDR             ovf?ShiftLights,[ovf?ShiftLights,#0]
+0000007E    490C                       	LDR             R1,?lr0013	; 80000000h
+00000080    4008                       	ANDS            ovf?ShiftLights,R1
+00000082    D001                       	BEQ             ??_1_NOT
+00000084    2001                       	MOVS            ovf?ShiftLights,#1
+00000086    E000                       	B               ??_1_SKIP
+                    ??_1_NOT:
+00000088    2000                       	MOVS            ovf?ShiftLights,#0
+                   ??_1_SKIP:
+;000023        CurrentLights <<= 1;
+0000008A    4905                       	LDR             R1,?lr0009	; CurrentLights
+0000008C    6809                       	LDR             R1,[R1,#0]
+0000008E    0049                       	LSLS            R1,R1,#1
+00000090    4A03                       	LDR             R2,?lr0009	; CurrentLights
+00000092    6011                       	STR             R1,[R2,#0]
+;000024        CurrentLights |= ovf;
+00000094    4902                       	LDR             R1,?lr0009	; CurrentLights
+00000096    6809                       	LDR             R1,[R1,#0]
+00000098    4308                       	ORRS            ovf?ShiftLights,R1
+0000009A    4901                       	LDR             R1,?lr0009	; CurrentLights
+0000009C    6008                       	STR             ovf?ShiftLights,[R1,#0]
+;000025    }
+0000009E    4770                       	BX              R14
+
+000000A0    00000000	?lr0009	.DCD	CurrentLights	; used 6 time(s)
+000000A4    00000F80	?lr0010	.DCD	0F80h	; used 1 time(s)
+000000A8    400C0000	?lr0011	.DCD	400C0000h	; used 2 time(s)
+000000AC    FFFFF07F	?lr0012	.DCD	0FFFFF07Fh	; used 1 time(s)
+000000B0    80000000	?lr0013	.DCD	80000000h	; used 1 time(s)
+
+.ENDF
+                   Lights??T:
+;000028    void Lights(u32 mask) {
+;000029        MDR_PORTD->RXTX = (MDR_PORTD->RXTX & ~LEDS_MASK) | (mask & LEDS_MASK);
+000000B4    4904                       	LDR             R1,?lr0014	; 0F80h
+000000B6    4008                       	ANDS            mask?Lights,R1
+000000B8    4904                       	LDR             R1,?lr0015	; 400C0000h
+000000BA    6809                       	LDR             R1,[R1,#0]
+000000BC    4A04                       	LDR             R2,?lr0016	; 0FFFFF07Fh
+000000BE    4011                       	ANDS            R1,R2
+000000C0    4308                       	ORRS            mask?Lights,R1
+000000C2    4902                       	LDR             R1,?lr0015	; 400C0000h
+000000C4    6008                       	STR             mask?Lights,[R1,#0]
+;000030    }
+000000C6    4770                       	BX              R14
+
+000000C8    00000F80	?lr0014	.DCD	0F80h	; used 1 time(s)
+000000CC    400C0000	?lr0015	.DCD	400C0000h	; used 2 time(s)
+000000D0    FFFFF07F	?lr0016	.DCD	0FFFFF07Fh	; used 1 time(s)
+
+.ENDF
+
+leds.c: 212 byte(s), 48090 line(s), 0 error(s), 0 warning(s)
+

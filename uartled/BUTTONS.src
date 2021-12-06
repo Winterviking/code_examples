@@ -1,0 +1,475 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;;                ARM C CROSS COMPILER Version 1.03.130923 Demo              ;;
+;;                     Copyright (C) 2009 Phyton, Inc.                       ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;; ASSEMBLY SOURCE FILE FOR: buttons.c                                       ;;
+;; TARGET: Cortex-M0/M1                                                      ;;
+;; OPTIMIZATION LEVEL: 0                                                     ;;
+;; FULL COMMAND LINE:                                                        ;;
+;;  -CM1 -t -s -l -d -p -g -Op -E10 -W50 -Z0 -Q43 -IC:\Program Files (x86)\P ;;
+;;  hyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Inc;C:\Users\ivanov-ga\Desktop ;;
+;;  \uartled\INCLUDE                                                         ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	.PMODULE BUTTONS
+
+.RSEG	UDATA__BUTTONS,data
+
+BUTTON_STATE_REGISTER	.DS	1
+.PUBLIC	BUTTON_STATE_REGISTER
+.TYPE	BUTTON_STATE_REGISTER(.UCHAR)
+.BYTE	BUTTON_STATE_REGISTER
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	FUN_CODE__BUTTONS,code
+
+.PUBLIC	readButtonStates, readButtonStates??T
+.THUMB
+.FUNC	readButtonStates??T	.VOID (.VOID)
+readButtonStates	.EQU	readButtonStates??T+1
+.FUNCTYPE	.VOID readButtonStates(.VOID)
+;FILE: buttons.c
+;000011    void readButtonStates()
+;000013            WRITE_BUTTON_STATE(RIGHT__BUTTON ,RIGHT__BUTTON_Msk );
+	LDR             R0,?lr0000	; 400C8000h
+	LDR             R0,[R0,#0]
+	MOVS            R1,#32
+	ANDS            R0,R1
+	BNE             ??_1_ELSE
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#1
+	ORRS            R0,R1
+	B               ??_1_END
+??_1_ELSE:
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#0FEh
+	ANDS            R0,R1
+??_1_END:
+	LDR             R1,?lr0001	; BUTTON_STATE_REGISTER
+	STRB            R0,[R1,#0]
+;000014            WRITE_BUTTON_STATE(TOP____BUTTON ,TOP____BUTTON_Msk );
+	LDR             R0,?lr0000	; 400C8000h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0002	; 100h
+	ANDS            R0,R1
+	BNE             ??_2_ELSE
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#2
+	ORRS            R0,R1
+	B               ??_2_END
+??_2_ELSE:
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#0FDh
+	ANDS            R0,R1
+??_2_END:
+	LDR             R1,?lr0001	; BUTTON_STATE_REGISTER
+	STRB            R0,[R1,#0]
+;000015            WRITE_BUTTON_STATE(SELECT_BUTTON ,SELECT_BUTTON_Msk );
+	LDR             R0,?lr0000	; 400C8000h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0003	; 200h
+	ANDS            R0,R1
+	BNE             ??_3_ELSE
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#4
+	ORRS            R0,R1
+	B               ??_3_END
+??_3_ELSE:
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#0FBh
+	ANDS            R0,R1
+??_3_END:
+	LDR             R1,?lr0001	; BUTTON_STATE_REGISTER
+	STRB            R0,[R1,#0]
+;000016            WRITE_BUTTON_STATE(LEFT___BUTTON ,LEFT___BUTTON_Msk );
+	LDR             R0,?lr0000	; 400C8000h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0004	; 400h
+	ANDS            R0,R1
+	BNE             ??_4_ELSE
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#8
+	ORRS            R0,R1
+	B               ??_4_END
+??_4_ELSE:
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#0F7h
+	ANDS            R0,R1
+??_4_END:
+	LDR             R1,?lr0001	; BUTTON_STATE_REGISTER
+	STRB            R0,[R1,#0]
+;000017            WRITE_BUTTON_STATE(BACK___BUTTON ,BACK___BUTTON_Msk );
+	LDR             R0,?lr0000	; 400C8000h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0005	; 800h
+	ANDS            R0,R1
+	BNE             ??_5_ELSE
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#16
+	ORRS            R0,R1
+	B               ??_5_END
+??_5_ELSE:
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#0EFh
+	ANDS            R0,R1
+??_5_END:
+	LDR             R1,?lr0001	; BUTTON_STATE_REGISTER
+	STRB            R0,[R1,#0]
+;000018            WRITE_BUTTON_STATE(BOTTOM_BUTTON ,BOTTOM_BUTTON_Msk );
+	LDR             R0,?lr0000	; 400C8000h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0006	; 8000h
+	ANDS            R0,R1
+	BNE             ??_6_ELSE
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#32
+	ORRS            R0,R1
+	B               ??_6_END
+??_6_ELSE:
+	LDR             R0,?lr0001	; BUTTON_STATE_REGISTER
+	LDRB            R0,[R0,#0]
+	MOVS            R1,#0DFh
+	ANDS            R0,R1
+??_6_END:
+	LDR             R1,?lr0001	; BUTTON_STATE_REGISTER
+	STRB            R0,[R1,#0]
+;000023    }
+	BX              R14
+
+.ALIGN	2
+?lr0000	.DCD	400C8000h	; used 6 time(s)
+?lr0001	.DCD	BUTTON_STATE_REGISTER	; used 18 time(s)
+?lr0002	.DCD	100h	; used 1 time(s)
+?lr0003	.DCD	200h	; used 1 time(s)
+?lr0004	.DCD	400h	; used 1 time(s)
+?lr0005	.DCD	800h	; used 1 time(s)
+?lr0006	.DCD	8000h	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	mapFileProc, mapFileProc??T
+.FUNC	mapFileProc??T	.VOID (.VOID)
+mapFileProc	.EQU	mapFileProc??T+1
+.FUNCTYPE	.VOID mapFileProc(.VOID)
+;000025    void mapFileProc()   {
+;000027    }
+	BX              R14
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	buttonLedsDemo, buttonLedsDemo??T
+.FUNC	buttonLedsDemo??T	.VOID (.VOID)
+buttonLedsDemo	.EQU	buttonLedsDemo??T+1
+.FUNCTYPE	.VOID buttonLedsDemo(.VOID)
+;000029    void buttonLedsDemo()
+
+bstate?buttonLedsDemo	.EQU	R0
+
+;000031            int bstate = READ_BUTTON_STATE(TOP____BUTTON_Msk);
+	LDR             bstate?buttonLedsDemo,?lr0007	; BUTTON_STATE_REGISTER
+	LDRB            bstate?buttonLedsDemo,[bstate?buttonLedsDemo,#0]
+	MOVS            R1,#2
+	ANDS            bstate?buttonLedsDemo,R1
+	BEQ             ??_7_NOT
+	MOVS            bstate?buttonLedsDemo,#1
+	B               ??_7_SKIP
+??_7_NOT:
+	MOVS            bstate?buttonLedsDemo,#0
+??_7_SKIP:
+;000033            if ( bstate != GET_LED_STATE(LED3_pin) )
+	LDR             R1,?lr0008	; 400C0000h
+	LDR             R1,[R1,#0]
+	LDR             R2,?lr0009	; 200h
+	ANDS            R1,R2
+	BEQ             ??_9_NOT
+	MOVS            R1,#1
+	B               ??_9_SKIP
+??_9_NOT:
+	MOVS            R1,#0
+??_9_SKIP:
+	CMP             bstate?buttonLedsDemo,R1
+	BEQ             ??_8_ELSE
+;000034                   if (bstate) SWITCH_LED__ON(LED3_pin); else SWITCH_LED_OFF(LED3_pin);
+	CMP             bstate?buttonLedsDemo,#0
+	BEQ             ??_10_ELSE
+	LDR             R1,?lr0009	; 200h
+	LDR             R0,?lr0010	; 400C0020h
+	STR             R1,[R0,#0]
+	B               ??_10_END
+??_10_ELSE:
+	LDR             R1,?lr0009	; 200h
+	LDR             R0,?lr0011	; 400C0024h
+	STR             R1,[R0,#0]
+??_10_END:
+??_8_ELSE:
+;000036            bstate = READ_BUTTON_STATE(RIGHT__BUTTON_Msk);
+	LDR             bstate?buttonLedsDemo,?lr0007	; BUTTON_STATE_REGISTER
+	LDRB            bstate?buttonLedsDemo,[bstate?buttonLedsDemo,#0]
+	MOVS            R1,#1
+	ANDS            bstate?buttonLedsDemo,R1
+	BEQ             ??_11_NOT
+	MOVS            bstate?buttonLedsDemo,#1
+	B               ??_11_SKIP
+??_11_NOT:
+	MOVS            bstate?buttonLedsDemo,#0
+??_11_SKIP:
+;000038            if ( bstate != GET_LED_STATE(LED4_pin) )
+	LDR             R1,?lr0008	; 400C0000h
+	LDR             R1,[R1,#0]
+	LDR             R2,?lr0012	; 400h
+	ANDS            R1,R2
+	BEQ             ??_13_NOT
+	MOVS            R1,#1
+	B               ??_13_SKIP
+??_13_NOT:
+	MOVS            R1,#0
+??_13_SKIP:
+	CMP             bstate?buttonLedsDemo,R1
+	BEQ             ??_12_ELSE
+;000039                   if (bstate) SWITCH_LED__ON(LED4_pin); else SWITCH_LED_OFF(LED4_pin);
+	CMP             bstate?buttonLedsDemo,#0
+	BEQ             ??_14_ELSE
+	LDR             R1,?lr0012	; 400h
+	LDR             R0,?lr0010	; 400C0020h
+	STR             R1,[R0,#0]
+	B               ??_14_END
+??_14_ELSE:
+	LDR             R1,?lr0012	; 400h
+	LDR             R0,?lr0011	; 400C0024h
+	STR             R1,[R0,#0]
+??_14_END:
+??_12_ELSE:
+;000041            bstate = READ_BUTTON_STATE(BOTTOM_BUTTON_Msk);
+	LDR             bstate?buttonLedsDemo,?lr0007	; BUTTON_STATE_REGISTER
+	LDRB            bstate?buttonLedsDemo,[bstate?buttonLedsDemo,#0]
+	MOVS            R1,#32
+	ANDS            bstate?buttonLedsDemo,R1
+	BEQ             ??_15_NOT
+	MOVS            bstate?buttonLedsDemo,#1
+	B               ??_15_SKIP
+??_15_NOT:
+	MOVS            bstate?buttonLedsDemo,#0
+??_15_SKIP:
+;000043            if ( bstate != GET_LED_STATE(LED5_pin) )
+	LDR             R1,?lr0008	; 400C0000h
+	LDR             R1,[R1,#0]
+	LDR             R2,?lr0013	; 800h
+	ANDS            R1,R2
+	BEQ             ??_17_NOT
+	MOVS            R1,#1
+	B               ??_17_SKIP
+??_17_NOT:
+	MOVS            R1,#0
+??_17_SKIP:
+	CMP             bstate?buttonLedsDemo,R1
+	BEQ             ??_16_ELSE
+;000044                   if (bstate) SWITCH_LED__ON(LED5_pin); else SWITCH_LED_OFF(LED5_pin);
+	CMP             bstate?buttonLedsDemo,#0
+	BEQ             ??_18_ELSE
+	LDR             R1,?lr0013	; 800h
+	LDR             R0,?lr0010	; 400C0020h
+	STR             R1,[R0,#0]
+	B               ??_18_END
+??_18_ELSE:
+	LDR             R1,?lr0013	; 800h
+	LDR             R0,?lr0011	; 400C0024h
+	STR             R1,[R0,#0]
+??_18_END:
+??_16_ELSE:
+;000046            bstate = READ_BUTTON_STATE(LEFT___BUTTON_Msk);
+	LDR             bstate?buttonLedsDemo,?lr0007	; BUTTON_STATE_REGISTER
+	LDRB            bstate?buttonLedsDemo,[bstate?buttonLedsDemo,#0]
+	MOVS            R1,#8
+	ANDS            bstate?buttonLedsDemo,R1
+	BEQ             ??_19_NOT
+	MOVS            bstate?buttonLedsDemo,#1
+	B               ??_19_SKIP
+??_19_NOT:
+	MOVS            bstate?buttonLedsDemo,#0
+??_19_SKIP:
+;000048            if ( bstate != GET_LED_STATE(LED6_pin) )
+	LDR             R1,?lr0008	; 400C0000h
+	LDR             R1,[R1,#0]
+	LDR             R2,?lr0014	; 1000h
+	ANDS            R1,R2
+	BEQ             ??_21_NOT
+	MOVS            R1,#1
+	B               ??_21_SKIP
+??_21_NOT:
+	MOVS            R1,#0
+??_21_SKIP:
+	CMP             bstate?buttonLedsDemo,R1
+	BEQ             ??_20_ELSE
+;000049                   if (bstate) SWITCH_LED__ON(LED6_pin); else SWITCH_LED_OFF(LED6_pin);
+	CMP             bstate?buttonLedsDemo,#0
+	BEQ             ??_22_ELSE
+	LDR             R1,?lr0014	; 1000h
+	LDR             R0,?lr0010	; 400C0020h
+	STR             R1,[R0,#0]
+	B               ??_22_END
+??_22_ELSE:
+	LDR             R1,?lr0014	; 1000h
+	LDR             R0,?lr0011	; 400C0024h
+	STR             R1,[R0,#0]
+??_22_END:
+??_20_ELSE:
+;000051            bstate = READ_BUTTON_STATE(SELECT_BUTTON_Msk);
+	LDR             bstate?buttonLedsDemo,?lr0007	; BUTTON_STATE_REGISTER
+	LDRB            bstate?buttonLedsDemo,[bstate?buttonLedsDemo,#0]
+	MOVS            R1,#4
+	ANDS            bstate?buttonLedsDemo,R1
+	BEQ             ??_23_NOT
+	MOVS            bstate?buttonLedsDemo,#1
+	B               ??_23_SKIP
+??_23_NOT:
+	MOVS            bstate?buttonLedsDemo,#0
+??_23_SKIP:
+;000052            if ( bstate != GET_LED_STATE(LED1_pin) || bstate != GET_LED_STATE(LED2_pin) )
+	LDR             R1,?lr0008	; 400C0000h
+	LDR             R1,[R1,#0]
+	MOVS            R2,#80h
+	ANDS            R1,R2
+	BEQ             ??_26_NOT
+	MOVS            R1,#1
+	B               ??_26_SKIP
+??_26_NOT:
+	MOVS            R1,#0
+??_26_SKIP:
+	CMP             bstate?buttonLedsDemo,R1
+	BNE             ??_24_IF
+	LDR             R1,?lr0008	; 400C0000h
+	LDR             R1,[R1,#0]
+	LDR             R2,?lr0015	; 100h
+	ANDS            R1,R2
+	BEQ             ??_27_NOT
+	MOVS            R1,#1
+	B               ??_27_SKIP
+??_27_NOT:
+	MOVS            R1,#0
+??_27_SKIP:
+	CMP             bstate?buttonLedsDemo,R1
+	BEQ             ??_24_ELSE
+??_24_IF:
+;000053                   if (bstate) SWITCH_LED__ON(LED1_pin|LED2_pin); else SWITCH_LED_OFF(LED1_pin|LED2_pin);
+	CMP             bstate?buttonLedsDemo,#0
+	BEQ             ??_28_ELSE
+	LDR             R1,?lr0016	; 180h
+	LDR             R0,?lr0010	; 400C0020h
+	STR             R1,[R0,#0]
+	B               ??_28_END
+??_28_ELSE:
+	LDR             R1,?lr0016	; 180h
+	LDR             R0,?lr0011	; 400C0024h
+	STR             R1,[R0,#0]
+??_28_END:
+??_24_ELSE:
+;000055            bstate = READ_BUTTON_STATE(BACK___BUTTON_Msk);
+	LDR             bstate?buttonLedsDemo,?lr0007	; BUTTON_STATE_REGISTER
+	LDRB            bstate?buttonLedsDemo,[bstate?buttonLedsDemo,#0]
+	MOVS            R1,#16
+	ANDS            bstate?buttonLedsDemo,R1
+	BEQ             ??_29_NOT
+	MOVS            bstate?buttonLedsDemo,#1
+	B               ??_29_SKIP
+??_29_NOT:
+	MOVS            bstate?buttonLedsDemo,#0
+??_29_SKIP:
+;000056            if ( bstate != GET_LED_STATE(LED7_pin) || bstate != GET_LED_STATE(LED8_pin) )
+	LDR             R1,?lr0008	; 400C0000h
+	LDR             R1,[R1,#0]
+	LDR             R2,?lr0017	; 2000h
+	ANDS            R1,R2
+	BEQ             ??_32_NOT
+	MOVS            R1,#1
+	B               ??_32_SKIP
+??_32_NOT:
+	MOVS            R1,#0
+??_32_SKIP:
+	CMP             bstate?buttonLedsDemo,R1
+	BNE             ??_30_IF
+	LDR             R1,?lr0008	; 400C0000h
+	LDR             R1,[R1,#0]
+	LDR             R2,?lr0018	; 4000h
+	ANDS            R1,R2
+	BEQ             ??_33_NOT
+	MOVS            R1,#1
+	B               ??_33_SKIP
+??_33_NOT:
+	MOVS            R1,#0
+??_33_SKIP:
+	CMP             bstate?buttonLedsDemo,R1
+	BEQ             ??_30_ELSE
+??_30_IF:
+;000057                   if (bstate) SWITCH_LED__ON(LED7_pin|LED8_pin); else SWITCH_LED_OFF(LED7_pin|LED8_pin);
+	CMP             bstate?buttonLedsDemo,#0
+	BEQ             ??_34_ELSE
+	LDR             R1,?lr0019	; 6000h
+	LDR             R0,?lr0010	; 400C0020h
+	STR             R1,[R0,#0]
+	BX              R14
+??_34_ELSE:
+	LDR             R1,?lr0019	; 6000h
+	LDR             R0,?lr0011	; 400C0024h
+	STR             R1,[R0,#0]
+??_30_ELSE:
+;000059    }
+	BX              R14
+
+?lr0007	.DCD	BUTTON_STATE_REGISTER	; used 6 time(s)
+?lr0008	.DCD	400C0000h	; used 8 time(s)
+?lr0009	.DCD	200h	; used 3 time(s)
+?lr0010	.DCD	400C0020h	; used 6 time(s)
+?lr0011	.DCD	400C0024h	; used 6 time(s)
+?lr0012	.DCD	400h	; used 3 time(s)
+?lr0013	.DCD	800h	; used 3 time(s)
+?lr0014	.DCD	1000h	; used 3 time(s)
+?lr0015	.DCD	100h	; used 1 time(s)
+?lr0016	.DCD	180h	; used 2 time(s)
+?lr0017	.DCD	2000h	; used 1 time(s)
+?lr0018	.DCD	4000h	; used 1 time(s)
+?lr0019	.DCD	6000h	; used 2 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	prepareMapFile, prepareMapFile??T
+.FUNC	prepareMapFile??T	.VOID (.VOID)
+prepareMapFile	.EQU	prepareMapFile??T+1
+.FUNCTYPE	.VOID prepareMapFile(.VOID)
+;000063    void prepareMapFile()
+;000066    }
+	BX              R14
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	??DATA_SEGMENT_ADDRESSES,code
+	.DCD	.SFB UDATA__BUTTONS, .SFE UDATA__BUTTONS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.EXTRN(code) ?start
+.TYPE ?start(.NOCHECK)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.END

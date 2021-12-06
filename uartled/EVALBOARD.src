@@ -1,0 +1,248 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;;                ARM C CROSS COMPILER Version 1.03.130923 Demo              ;;
+;;                     Copyright (C) 2009 Phyton, Inc.                       ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;; ASSEMBLY SOURCE FILE FOR: evalboard.c                                     ;;
+;; TARGET: Cortex-M0/M1                                                      ;;
+;; OPTIMIZATION LEVEL: 0                                                     ;;
+;; FULL COMMAND LINE:                                                        ;;
+;;  -CM1 -t -s -l -d -p -g -Op -E10 -W50 -Z0 -Q43 -IC:\Program Files (x86)\P ;;
+;;  hyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Inc;C:\Users\ivanov-ga\Desktop ;;
+;;  \uartled\INCLUDE                                                         ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	.PMODULE EVALBOARD
+
+.EXTRN(code)	HCLK
+.TYPE	HCLK(.UINT)
+.WORD	HCLK
+
+.EXTRN(data)	ipause
+.TYPE	ipause(.UINT)
+.WORD	ipause
+
+.EXTRN(data)	maxpause_mks
+.TYPE	maxpause_mks(.UINT)
+.WORD	maxpause_mks
+
+.EXTRN(code)	initUART
+.FUNCTYPE	.VOID initUART(.NOCHECK)
+
+.EXTRN(code)	assemblePorts
+.FUNCTYPE	.VOID assemblePorts(.NOCHECK)
+
+.EXTRN(code)	??DIV32U
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	FUN_CODE__EVALBOARD,code
+
+.PUBLIC	initEvalboard, initEvalboard??T
+.THUMB
+.FUNC	initEvalboard??T	.VOID (.VOID)
+initEvalboard	.EQU	initEvalboard??T+1
+.FUNCTYPE	.VOID initEvalboard(.VOID)
+;FILE: evalboard.c
+;000008    void initEvalboard(){
+	PUSH            {R14} 
+;000010            initClockEvalboard();
+	BLF             initClockEvalboard??T
+;000011            initPortEvalboard();
+	BLF             initPortEvalboard??T
+;000014            initUART(MDR_UART1);
+	LDR             R0,?lr0000	; 40030000h
+	BLF             initUART
+;000016    }
+	POP             {R15} 
+
+.ALIGN	2
+?lr0000	.DCD	40030000h	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	initPortEvalboard, initPortEvalboard??T
+.FUNC	initPortEvalboard??T	.VOID (.VOID)
+initPortEvalboard	.EQU	initPortEvalboard??T+1
+.FUNCTYPE	.VOID initPortEvalboard(.VOID)
+;000021    void initPortEvalboard(){
+	PUSH            {R14} 
+;000022            assemblePorts();
+	BLF             assemblePorts
+;000023    }
+	POP             {R15} 
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	initClockEvalboard, initClockEvalboard??T
+.FUNC	initClockEvalboard??T	.VOID (.VOID)
+initClockEvalboard	.EQU	initClockEvalboard??T+1
+.FUNCTYPE	.VOID initClockEvalboard(.VOID)
+;000025    void initClockEvalboard(){
+	PUSH            {R14} 
+;000029       MDR_RST_CLK->HS_CONTROL = RST_CLK_HSE_ON; // ok 0x01
+	MOVS            R1,#1
+	LDR             R0,?lr0001	; 40020008h
+	STR             R1,[R0,#0]
+;000035       MDR_RST_CLK->CPU_CLOCK = RST_CLK_CPU_PLLsrcHSEdiv1                                           |
+;000036                                RST_CLK_CPU_C2_SRC_CPU_C1                                           |
+;000037                                RST_CLK_CPUclkCPU_C3                                                |
+;000038                                SETBITS(RST_CLK_CPUclkDIV1, RST_CLK_CPU_CLOCK_CPU_C3_SEL_Pos); // ok 0x0102
+	LDR             R1,?lr0002	; 102h
+	LDR             R0,?lr0003	; 4002000Ch
+	STR             R1,[R0,#0]
+;000041       MDR_RST_CLK->PLL_CONTROL = RST_CLK_PLL_CONTROL_PLL_CPU_ON                                    |
+;000042                                  SETBITS(PLL_MUL_LABEL, RST_CLK_PLL_CONTROL_PLL_CPU_MUL_Pos); // ok 0x0504
+	LDR             R1,?lr0004	; 504h
+	LDR             R0,?lr0005	; 40020004h
+	STR             R1,[R0,#0]
+;000045       MDR_RST_CLK->PLL_CONTROL |= RST_CLK_PLL_CONTROL_PLL_CPU_PLD;
+	LDR             R0,[R0,#0]
+	MOVS            R1,#8
+	ORRS            R0,R1
+	LDR             R1,?lr0005	; 40020004h
+	STR             R0,[R1,#0]
+;000046       MDR_RST_CLK->PLL_CONTROL &= ~RST_CLK_PLL_CONTROL_PLL_CPU_PLD;
+	LDR             R0,?lr0005	; 40020004h
+	LDR             R0,[R0,#0]
+	MOVS            R1,#8
+	MVNS            R1,R1
+	ANDS            R0,R1
+	LDR             R1,?lr0005	; 40020004h
+	STR             R0,[R1,#0]
+;000049       DELAY_MKS(40);// wtf )
+	LDR             R0,?lr0006	; HCLK
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0007	; 135C0E0h
+	BLF             ??DIV32U
+	MOVS            R1,#40
+	MULS            R0,R1
+	LDR             R1,?lr0008	; maxpause_mks
+	STR             R0,[R1,#0]
+	MOVS            R1,#0
+	LDR             R0,?lr0009	; ipause
+	STR             R1,[R0,#0]
+	B               ??_1_CHECK
+??_1_LOOP:
+	LDR             R0,?lr0009	; ipause
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0009	; ipause
+	STR             R0,[R1,#0]
+??_1_CHECK:
+	LDR             R0,?lr0009	; ipause
+	LDR             R1,[R0,#0]
+	LDR             R0,?lr0008	; maxpause_mks
+	LDR             R0,[R0,#0]
+	CMP             R1,R0
+	BCC             ??_1_LOOP
+;000050       while ((MDR_RST_CLK->CLOCK_STATUS&RST_CLK_CLOCK_STATUS_PLL_CPU_RDY)==0);
+??_2_DO:
+	LDR             R0,?lr0010	; 40020000h
+	LDR             R0,[R0,#0]
+	MOVS            R1,#2
+	ANDS            R0,R1
+	BEQ             ??_2_DO
+;000054       MDR_RST_CLK->PER_CLOCK|=RST_CLK_PCLK_EEPROM; // EEPROM_CTRL Clock enable
+	LDR             R0,?lr0011	; 4002001Ch
+	LDR             R0,[R0,#0]
+	MOVS            R1,#8
+	ORRS            R0,R1
+	LDR             R1,?lr0011	; 4002001Ch
+	STR             R0,[R1,#0]
+;000057       MDR_EEPROM->CMD = EEPROM_Latency_0;
+	MOVS            R1,#0
+	LDR             R0,?lr0012	; 40018000h
+	STR             R1,[R0,#0]
+;000070       MDR_RST_CLK->PER_CLOCK&=(~RST_CLK_PCLK_EEPROM);  // EEPROM_CTRL Clock disable
+	LDR             R0,?lr0011	; 4002001Ch
+	LDR             R0,[R0,#0]
+	MOVS            R1,#8
+	MVNS            R1,R1
+	ANDS            R0,R1
+	LDR             R1,?lr0011	; 4002001Ch
+	STR             R0,[R1,#0]
+;000073       MDR_RST_CLK->CPU_CLOCK = RST_CLK_CPU_PLLsrcHSEdiv1                                           | // pll source
+;000074                                RST_CLK_CPU_C2_SRC_CPU_PLL0                                         |
+;000075                                RST_CLK_CPUclkCPU_C3                                                |
+;000076                                SETBITS(RST_CLK_CPUclkDIV1, RST_CLK_CPU_CLOCK_CPU_C3_SEL_Pos); // ok 0x0106
+	LDR             R1,?lr0013	; 106h
+	LDR             R0,?lr0003	; 4002000Ch
+	STR             R1,[R0,#0]
+;000079       MDR_RST_CLK->PER_CLOCK = //RST_CLK_PCLK_CAN1                 |
+;000080                                //RST_CLK_PCLK_CAN2                 |
+;000081                                //RST_CLK_PCLK_USB                  |
+;000082                                RST_CLK_PCLK_EEPROM                 |
+;000083                                RST_CLK_PCLK_RST_CLK                |
+;000084                                //RST_CLK_PCLK_DMA                    |
+;000085                                RST_CLK_PCLK_UART1                  |
+;000086                                //RST_CLK_PCLK_UART2                |
+;000087                                //RST_CLK_PCLK_SSP1                 |
+;000088                                //RST_CLK_PCLK_MIL_STD_15531          |
+;000089                                //RST_CLK_PCLK_MIL_STD_15532          |
+;000090                                //RST_CLK_PCLK_POWER                  |
+;000091                                //RST_CLK_PCLK_WWDG                   |
+;000092                                //RST_CLK_PCLK_IWDG                   |
+;000093                                RST_CLK_PCLK_TIMER1                 |
+;000094                                RST_CLK_PCLK_TIMER2                 |
+;000095                                //RST_CLK_PCLK_TIMER3                 |
+;000096                                //RST_CLK_PCLK_ADC                  |
+;000097                                //RST_CLK_PCLK_DAC                  |
+;000098                                RST_CLK_PCLK_TIMER4                 |
+;000099                                //RST_CLK_PCLK_SSP2                 |
+;000100                                //RST_CLK_PCLK_PORTA                  |
+;000101                                //RST_CLK_PCLK_PORTB                  |
+;000102                                RST_CLK_PCLK_PORTC                  |
+;000103                                RST_CLK_PCLK_PORTD                  |
+;000104                                RST_CLK_PCLK_PORTE                  |
+;000105                                //RST_CLK_PCLK_ARINC429R            |
+;000106                                //RST_CLK_PCLK_BKP                    |
+;000107                                //RST_CLK_PCLK_ARINC429T            |
+;000108                                RST_CLK_PCLK_PORTF                  //|
+;000109                                //RST_CLK_PCLK_EBC                    |
+;000110                                //RST_CLK_PCLK_SSP3
+;000111                                ;
+	LDR             R1,?lr0014	; 2388C058h
+	LDR             R0,?lr0011	; 4002001Ch
+	STR             R1,[R0,#0]
+;000117            MDR_RST_CLK->UART_CLOCK =       SETBITS(UART_HCLKdiv2,RST_CLK_UART_CLOCK_UART1_BRG_Pos) |
+;000118                                            SETBITS(ENABLE,RST_CLK_UART_CLOCK_UART1_CLK_EN_Pos);
+	LDR             R1,?lr0015	; 1000001h
+	LDR             R0,?lr0016	; 40020028h
+	STR             R1,[R0,#0]
+;000120    }
+	POP             {R15} 
+
+.ALIGN	2
+?lr0001	.DCD	40020008h	; used 1 time(s)
+?lr0002	.DCD	102h	; used 1 time(s)
+?lr0003	.DCD	4002000Ch	; used 2 time(s)
+?lr0004	.DCD	504h	; used 1 time(s)
+?lr0005	.DCD	40020004h	; used 4 time(s)
+?lr0006	.DCD	HCLK	; used 1 time(s)
+?lr0007	.DCD	135C0E0h	; used 1 time(s)
+?lr0008	.DCD	maxpause_mks	; used 2 time(s)
+?lr0009	.DCD	ipause	; used 4 time(s)
+?lr0010	.DCD	40020000h	; used 1 time(s)
+?lr0011	.DCD	4002001Ch	; used 5 time(s)
+?lr0012	.DCD	40018000h	; used 1 time(s)
+?lr0013	.DCD	106h	; used 1 time(s)
+?lr0014	.DCD	2388C058h	; used 1 time(s)
+?lr0015	.DCD	1000001h	; used 1 time(s)
+?lr0016	.DCD	40020028h	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.EXTRN(code) ?start
+.TYPE ?start(.NOCHECK)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.END

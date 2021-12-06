@@ -1,0 +1,64 @@
+*******************************************************************************
+*                                                                             *
+*                 ARM C CROSS COMPILER Version 1.03.130923 Demo               *
+*                      Copyright (C) 2009 Phyton, Inc.                        *
+*                                                                             *
+*******************************************************************************
+
+            MarkM4Routine??T:
+;FILE: driver.c
+;000029    void MarkM4Routine(void){
+;000030            if ( M128Mark ) // if teh mark is on
+00000000    480D                       	LDR             R0,?lr0000	; M128Mark
+00000002    6800                       	LDR             R0,[R0,#0]
+00000004    2800                       	CMP             R0,#0
+00000006    D016                       	BEQ             ??_1_ELSE
+;000031            {
+;000037                    SWITCH_PIN__ON(MDR_PORTC,0x1);
+00000008    2101                       	MOVS            R1,#1
+0000000A    480C                       	LDR             R0,?lr0001	; 400B8020h
+0000000C    6001                       	STR             R1,[R0,#0]
+;000038                    SWITCH_LED__ON(LED3_pin);
+0000000E    490C                       	LDR             R1,?lr0002	; 200h
+00000010    480C                       	LDR             R0,?lr0003	; 400C0020h
+00000012    6001                       	STR             R1,[R0,#0]
+;000040                    if ( PC > 9000 ) PC = 0;
+00000014    480C                       	LDR             R0,?lr0004	; _PC
+00000016    6800                       	LDR             R0,[R0,#0]
+00000018    490C                       	LDR             R1,?lr0005	; 2329h
+0000001A    4288                       	CMP             R0,R1
+0000001C    D302                       	BCC             ??_2_ELSE
+0000001E    2100                       	MOVS            R1,#0
+00000020    4809                       	LDR             R0,?lr0004	; _PC
+00000022    6001                       	STR             R1,[R0,#0]
+                   ??_2_ELSE:
+;000043                    SWITCH_PIN_OFF(MDR_PORTC,0x1);
+00000024    2101                       	MOVS            R1,#1
+00000026    480A                       	LDR             R0,?lr0006	; 400B8024h
+00000028    6001                       	STR             R1,[R0,#0]
+;000044                    SWITCH_LED_OFF(LED3_pin);
+0000002A    4905                       	LDR             R1,?lr0002	; 200h
+0000002C    4809                       	LDR             R0,?lr0007	; 400C0024h
+0000002E    6001                       	STR             R1,[R0,#0]
+;000046                    M128Mark = 0;// switch off mark
+00000030    2100                       	MOVS            R1,#0
+00000032    4801                       	LDR             R0,?lr0000	; M128Mark
+00000034    6001                       	STR             R1,[R0,#0]
+;000047            }
+                   ??_1_ELSE:
+;000048    }
+00000036    4770                       	BX              R14
+
+00000038    00000000	?lr0000	.DCD	M128Mark	; used 2 time(s)
+0000003C    400B8020	?lr0001	.DCD	400B8020h	; used 1 time(s)
+00000040    00000200	?lr0002	.DCD	200h	; used 2 time(s)
+00000044    400C0020	?lr0003	.DCD	400C0020h	; used 1 time(s)
+00000048    00000000	?lr0004	.DCD	_PC	; used 2 time(s)
+0000004C    00002329	?lr0005	.DCD	2329h	; used 1 time(s)
+00000050    400B8024	?lr0006	.DCD	400B8024h	; used 1 time(s)
+00000054    400C0024	?lr0007	.DCD	400C0024h	; used 1 time(s)
+
+.ENDF
+
+driver.c: 88 byte(s), 57908 line(s), 0 error(s), 0 warning(s)
+

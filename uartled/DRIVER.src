@@ -1,0 +1,134 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;;                ARM C CROSS COMPILER Version 1.03.130923 Demo              ;;
+;;                     Copyright (C) 2009 Phyton, Inc.                       ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;; ASSEMBLY SOURCE FILE FOR: driver.c                                        ;;
+;; TARGET: Cortex-M0/M1                                                      ;;
+;; OPTIMIZATION LEVEL: 0                                                     ;;
+;; FULL COMMAND LINE:                                                        ;;
+;;  -CM1 -t -s -l -d -p -g -Op -E10 -W50 -Z0 -Q43 -IC:\Program Files (x86)\P ;;
+;;  hyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Inc;C:\Users\ivanov-ga\Desktop ;;
+;;  \uartled\INCLUDE                                                         ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	.PMODULE DRIVER
+
+.EXTRNI(data)	M128Mark
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	UDATA__DRIVER,data
+.ALIGN 2
+
+_PC	.DS	4
+.PUBLIC	_PC
+.TYPE	_PC(.UINT)
+.WORD	_PC
+
+ipause	.DS	4
+.PUBLIC	ipause
+.TYPE	ipause(.UINT)
+.WORD	ipause
+
+maxpause_mks	.DS	4
+.PUBLIC	maxpause_mks
+.TYPE	maxpause_mks(.UINT)
+.WORD	maxpause_mks
+
+maxpause_ms	.DS	4
+.PUBLIC	maxpause_ms
+.TYPE	maxpause_ms(.UINT)
+.WORD	maxpause_ms
+
+maxpause_s	.DS	4
+.PUBLIC	maxpause_s
+.TYPE	maxpause_s(.UINT)
+.WORD	maxpause_s
+
+.RSEG	CDATA__DRIVER,code
+.ALIGN 2
+
+HCLK	.DB4	2DC6C00h
+.PUBLIC	HCLK
+.TYPE	HCLK(.UINT)
+.WORD	HCLK
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	FUN_CODE__DRIVER,code
+
+.PUBLIC	MarkM4Routine, MarkM4Routine??T
+.THUMB
+.FUNC	MarkM4Routine??T	.VOID (.VOID)
+MarkM4Routine	.EQU	MarkM4Routine??T+1
+.FUNCTYPE	.VOID MarkM4Routine(.VOID)
+;FILE: driver.c
+;000029    void MarkM4Routine(void){
+;000030            if ( M128Mark ) // if teh mark is on
+	LDR             R0,?lr0000	; M128Mark
+	LDR             R0,[R0,#0]
+	CMP             R0,#0
+	BEQ             ??_1_ELSE
+;000031            {
+;000037                    SWITCH_PIN__ON(MDR_PORTC,0x1);
+	MOVS            R1,#1
+	LDR             R0,?lr0001	; 400B8020h
+	STR             R1,[R0,#0]
+;000038                    SWITCH_LED__ON(LED3_pin);
+	LDR             R1,?lr0002	; 200h
+	LDR             R0,?lr0003	; 400C0020h
+	STR             R1,[R0,#0]
+;000040                    if ( PC > 9000 ) PC = 0;
+	LDR             R0,?lr0004	; _PC
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0005	; 2329h
+	CMP             R0,R1
+	BCC             ??_2_ELSE
+	MOVS            R1,#0
+	LDR             R0,?lr0004	; _PC
+	STR             R1,[R0,#0]
+??_2_ELSE:
+;000043                    SWITCH_PIN_OFF(MDR_PORTC,0x1);
+	MOVS            R1,#1
+	LDR             R0,?lr0006	; 400B8024h
+	STR             R1,[R0,#0]
+;000044                    SWITCH_LED_OFF(LED3_pin);
+	LDR             R1,?lr0002	; 200h
+	LDR             R0,?lr0007	; 400C0024h
+	STR             R1,[R0,#0]
+;000046                    M128Mark = 0;// switch off mark
+	MOVS            R1,#0
+	LDR             R0,?lr0000	; M128Mark
+	STR             R1,[R0,#0]
+;000047            }
+??_1_ELSE:
+;000048    }
+	BX              R14
+
+?lr0000	.DCD	M128Mark	; used 2 time(s)
+?lr0001	.DCD	400B8020h	; used 1 time(s)
+?lr0002	.DCD	200h	; used 2 time(s)
+?lr0003	.DCD	400C0020h	; used 1 time(s)
+?lr0004	.DCD	_PC	; used 2 time(s)
+?lr0005	.DCD	2329h	; used 1 time(s)
+?lr0006	.DCD	400B8024h	; used 1 time(s)
+?lr0007	.DCD	400C0024h	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	??DATA_SEGMENT_ADDRESSES,code
+	.DCD	.SFB UDATA__DRIVER, .SFE UDATA__DRIVER
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.EXTRN(code) ?start
+.TYPE ?start(.NOCHECK)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.END

@@ -1,0 +1,545 @@
+*******************************************************************************
+*                                                                             *
+*                 ARM C CROSS COMPILER Version 1.03.130923 Demo               *
+*                      Copyright (C) 2009 Phyton, Inc.                        *
+*                                                                             *
+*******************************************************************************
+
+        Timer1_IRQHandler??T:
+;FILE: frontDetection.c
+;000090    void Timer1_IRQHandler(void) {
+;000094        u32 INTERRUPT_TIMER_STATUS = MDR_TIMER1->STATUS;
+00000000    48A3                       	LDR             INTERRUPT_TIMER_STATUS?Timer1_IRQHandler,?lr0000	; 40070054h
+00000002    6800                       	LDR             INTERRUPT_TIMER_STATUS?Timer1_IRQHandler,[INTERRUPT_TIMER_STATUS?Timer1_IRQHandler,#0]
+;000095        MDR_TIMER1->STATUS&=~1;
+00000004    49A2                       	LDR             R1,?lr0000	; 40070054h
+00000006    6809                       	LDR             R1,[R1,#0]
+00000008    2201                       	MOVS            R2,#1
+0000000A    43D2                       	MVNS            R2,R2
+0000000C    4011                       	ANDS            R1,R2
+0000000E    4AA0                       	LDR             R2,?lr0000	; 40070054h
+00000010    6011                       	STR             R1,[R2,#0]
+;000097        if ( (INTERRUPT_TIMER_STATUS & TIMER_STATUS_CCR_CAP_CH1) > 0 )
+00000012    2120                       	MOVS            R1,#32
+00000014    4008                       	ANDS            INTERRUPT_TIMER_STATUS?Timer1_IRQHandler,R1
+00000016    D06F                       	BEQ             ??_1_ELSE
+;000098        {
+;000101            bufZ = MDR_TIMER1->CCR1 - TZp;
+00000018    489E                       	LDR             bufZ?Timer1_IRQHandler,?lr0001	; 40070010h
+0000001A    6801                       	LDR             R1,[bufZ?Timer1_IRQHandler,#0]
+0000001C    489E                       	LDR             bufZ?Timer1_IRQHandler,?lr0002	; TZp
+0000001E    6800                       	LDR             bufZ?Timer1_IRQHandler,[bufZ?Timer1_IRQHandler,#0]
+00000020    1A08                       	SUBS            bufZ?Timer1_IRQHandler,R1,bufZ?Timer1_IRQHandler
+;000103            Zaccum[Zptr] = bufZ;
+00000022    499E                       	LDR             R1,?lr0003	; Zptr
+00000024    6809                       	LDR             R1,[R1,#0]
+00000026    0089                       	LSLS            R1,R1,#2
+00000028    4A9D                       	LDR             R2,?lr0004	; Zaccum
+0000002A    5088                       	STR             bufZ?Timer1_IRQHandler,[R1,R2]
+;000104            MDR_TIMER1->CCR2 = TZp + bufZ + (bufZ >> 1);
+0000002C    499A                       	LDR             R1,?lr0002	; TZp
+0000002E    680A                       	LDR             R2,[R1,#0]
+00000030    1881                       	ADDS            R1,bufZ?Timer1_IRQHandler,R2
+00000032    0840                       	LSRS            bufZ?Timer1_IRQHandler,bufZ?Timer1_IRQHandler,#1
+00000034    4401                       	ADD             R1,bufZ?Timer1_IRQHandler
+00000036    489B                       	LDR             bufZ?Timer1_IRQHandler,?lr0005	; 40070014h
+00000038    6001                       	STR             R1,[bufZ?Timer1_IRQHandler,#0]
+;000105            TZp = MDR_TIMER1->CCR1;
+0000003A    4896                       	LDR             R0,?lr0001	; 40070010h
+0000003C    6800                       	LDR             R0,[R0,#0]
+0000003E    4996                       	LDR             R1,?lr0002	; TZp
+00000040    6008                       	STR             R0,[R1,#0]
+;000107            Zptr++;
+00000042    4896                       	LDR             R0,?lr0003	; Zptr
+00000044    6800                       	LDR             R0,[R0,#0]
+00000046    1C40                       	ADDS            R0,R0,#1
+00000048    4994                       	LDR             R1,?lr0003	; Zptr
+0000004A    6008                       	STR             R0,[R1,#0]
+;000110            switch ( ecss_status ){
+0000004C    4896                       	LDR             R0,?lr0006	; ecss_status
+0000004E    6800                       	LDR             R0,[R0,#0]
+00000050    2801                       	CMP             R0,#1
+00000052    D00C                       	BEQ             ??_2_CASE_1
+00000054    2802                       	CMP             R0,#2
+00000056    D011                       	BEQ             ??_2_CASE_2
+00000058    2803                       	CMP             R0,#3
+0000005A    D01F                       	BEQ             ??_2_CASE_3
+0000005C    2804                       	CMP             R0,#4
+0000005E    D04A                       	BEQ             ??_2_BREAK
+00000060    2805                       	CMP             R0,#5
+00000062    D03D                       	BEQ             ??_2_CASE_5
+00000064    2806                       	CMP             R0,#6
+00000066    D041                       	BEQ             ??_2_CASE_6
+00000068    2800                       	CMP             R0,#0
+0000006A    D144                       	BNE             ??_2_BREAK
+;000113                break;
+0000006C    4770                       	BX              R14
+                 ??_2_CASE_1:
+;000115                    ZCC = 0;
+0000006E    2100                       	MOVS            R1,#0
+00000070    488E                       	LDR             R0,?lr0007	; ZCC
+00000072    6001                       	STR             R1,[R0,#0]
+;000116                    ecss_status = ECSS_PRE_SYNC;
+00000074    2102                       	MOVS            R1,#2
+00000076    488C                       	LDR             R0,?lr0006	; ecss_status
+00000078    6001                       	STR             R1,[R0,#0]
+;000117                break;
+0000007A    4770                       	BX              R14
+                 ??_2_CASE_2:
+;000119                    ZCC++;
+0000007C    488B                       	LDR             R0,?lr0007	; ZCC
+0000007E    6800                       	LDR             R0,[R0,#0]
+00000080    1C40                       	ADDS            R0,R0,#1
+00000082    498A                       	LDR             R1,?lr0007	; ZCC
+00000084    6008                       	STR             R0,[R1,#0]
+;000120                    if ( ZCC == 2 ){
+00000086    4889                       	LDR             R0,?lr0007	; ZCC
+00000088    6800                       	LDR             R0,[R0,#0]
+0000008A    2802                       	CMP             R0,#2
+0000008C    D133                       	BNE             ??_2_BREAK
+;000121                        INIT_PRIMARY_SYNC;// запуск прерывания по пропущеным зубкам
+0000008E    4988                       	LDR             R1,?lr0008	; 420h
+00000090    4888                       	LDR             R0,?lr0009	; 40070058h
+00000092    6001                       	STR             R1,[R0,#0]
+;000122                        ecss_status = ECSS_PRIMARY_SYNC;
+00000094    2104                       	MOVS            R1,#4
+00000096    4884                       	LDR             R0,?lr0006	; ecss_status
+00000098    6001                       	STR             R1,[R0,#0]
+;000123                    }
+;000125                break;
+0000009A    4770                       	BX              R14
+                 ??_2_CASE_3:
+;000127                    MDR_TIMER1->CCR3 = 0;
+0000009C    2100                       	MOVS            R1,#0
+0000009E    4886                       	LDR             R0,?lr0010	; 40070018h
+000000A0    6001                       	STR             R1,[R0,#0]
+;000128                    MDR_TIMER1->CCR4 = 0;
+000000A2    4886                       	LDR             R0,?lr0011	; 4007001Ch
+000000A4    6001                       	STR             R1,[R0,#0]
+;000129                    MDR_TIMER1->CCR31 = 0;
+000000A6    4886                       	LDR             R0,?lr0012	; 40070078h
+000000A8    6001                       	STR             R1,[R0,#0]
+;000130                    MDR_TIMER1->CCR41 = 0;
+000000AA    4886                       	LDR             R0,?lr0013	; 4007007Ch
+000000AC    6001                       	STR             R1,[R0,#0]
+;000132                    MDR_TIMER2->CCR1 = 0;
+000000AE    4886                       	LDR             R0,?lr0014	; 40078010h
+000000B0    6001                       	STR             R1,[R0,#0]
+;000133                    MDR_TIMER2->CCR2 = 0;
+000000B2    4886                       	LDR             R0,?lr0015	; 40078014h
+000000B4    6001                       	STR             R1,[R0,#0]
+;000134                    MDR_TIMER2->CCR3 = 0;
+000000B6    4886                       	LDR             R0,?lr0016	; 40078018h
+000000B8    6001                       	STR             R1,[R0,#0]
+;000135                    MDR_TIMER2->CCR4 = 0;
+000000BA    4886                       	LDR             R0,?lr0017	; 4007801Ch
+000000BC    6001                       	STR             R1,[R0,#0]
+;000136                    MDR_TIMER2->CCR11 = 0;
+000000BE    4886                       	LDR             R0,?lr0018	; 40078070h
+000000C0    6001                       	STR             R1,[R0,#0]
+;000137                    MDR_TIMER2->CCR21 = 0;
+000000C2    4886                       	LDR             R0,?lr0019	; 40078074h
+000000C4    6001                       	STR             R1,[R0,#0]
+;000138                    MDR_TIMER2->CCR31 = 0;
+000000C6    4886                       	LDR             R0,?lr0020	; 40078078h
+000000C8    6001                       	STR             R1,[R0,#0]
+;000139                    MDR_TIMER2->CCR41 = 0;
+000000CA    4886                       	LDR             R0,?lr0021	; 4007807Ch
+000000CC    6001                       	STR             R1,[R0,#0]
+;000141                    SRCntr = 0;
+000000CE    4886                       	LDR             R0,?lr0022	; SRCntr
+000000D0    6001                       	STR             R1,[R0,#0]
+;000142                    ecss_status = ECSS_PRIMARY_SYNC;
+000000D2    2104                       	MOVS            R1,#4
+000000D4    4874                       	LDR             R0,?lr0006	; ecss_status
+000000D6    6001                       	STR             R1,[R0,#0]
+;000143                    integral_error = 0;
+000000D8    2100                       	MOVS            R1,#0
+000000DA    4884                       	LDR             R0,?lr0023	; integral_error
+000000DC    6001                       	STR             R1,[R0,#0]
+;000145                break;
+000000DE    4770                       	BX              R14
+;000148                break;
+                 ??_2_CASE_5:
+;000150                    CTz++;
+000000E0    4883                       	LDR             R0,?lr0024	; CTz
+000000E2    6800                       	LDR             R0,[R0,#0]
+000000E4    1C40                       	ADDS            R0,R0,#1
+000000E6    4982                       	LDR             R1,?lr0024	; CTz
+000000E8    6008                       	STR             R0,[R1,#0]
+;000152                break;
+000000EA    4770                       	BX              R14
+                 ??_2_CASE_6:
+;000154                    CTz++;
+000000EC    4880                       	LDR             R0,?lr0024	; CTz
+000000EE    6800                       	LDR             R0,[R0,#0]
+000000F0    1C40                       	ADDS            R0,R0,#1
+000000F2    497F                       	LDR             R1,?lr0024	; CTz
+000000F4    6008                       	STR             R0,[R1,#0]
+;000155                break;
+;000156            };
+                  ??_2_BREAK:
+;000160        }else if ( (MDR_TIMER1->STATUS & TIMER_STATUS_CCR_REF_CH2) > 0 ){
+000000F6    4770                       	BX              R14
+                   ??_1_ELSE:
+000000F8    4865                       	LDR             R0,?lr0000	; 40070054h
+000000FA    6800                       	LDR             R0,[R0,#0]
+000000FC    497D                       	LDR             R1,?lr0025	; 400h
+000000FE    4008                       	ANDS            R0,R1
+00000100    D100                       	BNE             ??_4_ELSE_BYPASS_100
+00000102    E0C4                       	B               ??_4_ELSE
+        ??_4_ELSE_BYPASS_100:
+;000164            istantPERIOD = (Zaccum[Zptr - 1] - lastTooth)*36;
+00000104    4865                       	LDR             istantPERIOD?Timer1_IRQHandler,?lr0003	; Zptr
+00000106    6800                       	LDR             istantPERIOD?Timer1_IRQHandler,[istantPERIOD?Timer1_IRQHandler,#0]
+00000108    0080                       	LSLS            istantPERIOD?Timer1_IRQHandler,istantPERIOD?Timer1_IRQHandler,#2
+0000010A    4968                       	LDR             R1,?lr0007	; ZCC
+0000010C    5841                       	LDR             R1,[istantPERIOD?Timer1_IRQHandler,R1]
+0000010E    487A                       	LDR             istantPERIOD?Timer1_IRQHandler,?lr0026	; lastTooth
+00000110    6800                       	LDR             istantPERIOD?Timer1_IRQHandler,[istantPERIOD?Timer1_IRQHandler,#0]
+00000112    1A08                       	SUBS            istantPERIOD?Timer1_IRQHandler,R1,istantPERIOD?Timer1_IRQHandler
+00000114    2124                       	MOVS            R1,#36
+00000116    4348                       	MULS            istantPERIOD?Timer1_IRQHandler,R1
+;000165            lastTooth = Zaccum[Zptr - 1];
+00000118    4960                       	LDR             R1,?lr0003	; Zptr
+0000011A    6809                       	LDR             R1,[R1,#0]
+0000011C    0089                       	LSLS            R1,R1,#2
+0000011E    4A63                       	LDR             R2,?lr0007	; ZCC
+00000120    5889                       	LDR             R1,[R1,R2]
+00000122    4A75                       	LDR             R2,?lr0026	; lastTooth
+00000124    6011                       	STR             R1,[R2,#0]
+;000166            Zptr = 0;
+00000126    2200                       	MOVS            R2,#0
+00000128    495C                       	LDR             R1,?lr0003	; Zptr
+0000012A    600A                       	STR             R2,[R1,#0]
+;000169            Zperiod = MDR_TIMER1->CCR1 + ((istantPERIOD>0)?(1):(-1))*(((istantPERIOD>0)?(istantPERIOD):(-istantPERIOD))>>1);
+0000012C    2800                       	CMP             istantPERIOD?Timer1_IRQHandler,#0
+0000012E    D001                       	BEQ             ??_5_ELSE
+00000130    4601                       	MOV             R1,istantPERIOD?Timer1_IRQHandler
+00000132    E000                       	B               ??_5_END
+                   ??_5_ELSE:
+00000134    4241                       	RSBS            R1,istantPERIOD?Timer1_IRQHandler
+                    ??_5_END:
+00000136    0849                       	LSRS            R1,R1,#1
+00000138    2800                       	CMP             istantPERIOD?Timer1_IRQHandler,#0
+0000013A    D001                       	BEQ             ??_6_ELSE
+0000013C    2001                       	MOVS            istantPERIOD?Timer1_IRQHandler,#1
+0000013E    E001                       	B               ??_6_END
+                   ??_6_ELSE:
+00000140    2000                       	MOVS            istantPERIOD?Timer1_IRQHandler,#0
+00000142    43C0                       	MVNS            istantPERIOD?Timer1_IRQHandler,istantPERIOD?Timer1_IRQHandler
+                    ??_6_END:
+00000144    4341                       	MULS            R1,istantPERIOD?Timer1_IRQHandler
+00000146    4853                       	LDR             istantPERIOD?Timer1_IRQHandler,?lr0001	; 40070010h
+00000148    6800                       	LDR             istantPERIOD?Timer1_IRQHandler,[istantPERIOD?Timer1_IRQHandler,#0]
+0000014A    4401                       	ADD             R1,istantPERIOD?Timer1_IRQHandler
+0000014C    486B                       	LDR             istantPERIOD?Timer1_IRQHandler,?lr0027	; Zperiod
+0000014E    6001                       	STR             R1,[istantPERIOD?Timer1_IRQHandler,#0]
+;000171            SRCntr++;
+00000150    4865                       	LDR             R0,?lr0022	; SRCntr
+00000152    6800                       	LDR             R0,[R0,#0]
+00000154    1C40                       	ADDS            R0,R0,#1
+00000156    4964                       	LDR             R1,?lr0022	; SRCntr
+00000158    6008                       	STR             R0,[R1,#0]
+;000173            switch ( ecss_status ){
+0000015A    4853                       	LDR             R0,?lr0006	; ecss_status
+0000015C    6800                       	LDR             R0,[R0,#0]
+0000015E    2801                       	CMP             R0,#1
+00000160    D009                       	BEQ             ??_7_CASE_1
+00000162    2804                       	CMP             R0,#4
+00000164    D008                       	BEQ             ??_7_CASE_4
+00000166    2805                       	CMP             R0,#5
+00000168    D007                       	BEQ             ??_7_CASE_5
+0000016A    2806                       	CMP             R0,#6
+0000016C    D00D                       	BEQ             ??_7_CASE_6
+0000016E    2800                       	CMP             R0,#0
+00000170    D000                       	BEQ             ??_7_BREAK_BYPASS_170
+00000172    E087                       	B               ??_7_BREAK
+       ??_7_BREAK_BYPASS_170:
+;000176                break;
+00000174    E086                       	B               ??_7_BREAK
+                 ??_7_CASE_1:
+;000179                break;
+00000176    E085                       	B               ??_7_BREAK
+                 ??_7_CASE_4:
+;000182                break;
+00000178    E084                       	B               ??_7_BREAK
+                 ??_7_CASE_5:
+;000184                    if (SRCntr == 3) ecss_status = ECSS_NORMAL_OPERATION;
+0000017A    485B                       	LDR             R0,?lr0022	; SRCntr
+0000017C    6800                       	LDR             R0,[R0,#0]
+0000017E    2803                       	CMP             R0,#3
+00000180    D102                       	BNE             ??_8_ELSE
+00000182    2106                       	MOVS            R1,#6
+00000184    4848                       	LDR             R0,?lr0006	; ecss_status
+00000186    6001                       	STR             R1,[R0,#0]
+                   ??_8_ELSE:
+;000185                break;
+00000188    E07C                       	B               ??_7_BREAK
+                 ??_7_CASE_6:
+;000187                    ecss_status = ( ((CRANKSHAFT_TEETH_MIN <= CTz) && (CTz <= CRANKSHAFT_TEETH_MAX)) || (CTz == 0) ) ? ECSS_NORMAL_OPERATION : ECSS_EMERGENCY_SYNC; // защита от помех ( кулибин эдишн )
+0000018A    4859                       	LDR             R0,?lr0024	; CTz
+0000018C    6800                       	LDR             R0,[R0,#0]
+0000018E    2820                       	CMP             R0,#32
+00000190    D303                       	BCC             ??_10_SKIP
+00000192    4857                       	LDR             R0,?lr0024	; CTz
+00000194    6800                       	LDR             R0,[R0,#0]
+00000196    2825                       	CMP             R0,#37
+00000198    D303                       	BCC             ??_9_IF
+                  ??_10_SKIP:
+0000019A    4855                       	LDR             R0,?lr0024	; CTz
+0000019C    6800                       	LDR             R0,[R0,#0]
+0000019E    2800                       	CMP             R0,#0
+000001A0    D101                       	BNE             ??_9_ELSE
+                     ??_9_IF:
+000001A2    2006                       	MOVS            R0,#6
+000001A4    E000                       	B               ??_9_END
+                   ??_9_ELSE:
+000001A6    2003                       	MOVS            R0,#3
+                    ??_9_END:
+000001A8    493F                       	LDR             R1,?lr0006	; ecss_status
+000001AA    6008                       	STR             R0,[R1,#0]
+;000189                    if ( CRANKSHAFT_TEETH != CTz ) integral_error++;
+000001AC    4850                       	LDR             R0,?lr0024	; CTz
+000001AE    6800                       	LDR             R0,[R0,#0]
+000001B0    2822                       	CMP             R0,#34
+000001B2    D005                       	BEQ             ??_12_ELSE
+000001B4    484D                       	LDR             R0,?lr0023	; integral_error
+000001B6    6800                       	LDR             R0,[R0,#0]
+000001B8    1C40                       	ADDS            R0,R0,#1
+000001BA    494C                       	LDR             R1,?lr0023	; integral_error
+000001BC    6008                       	STR             R0,[R1,#0]
+000001BE    E002                       	B               ??_12_END
+                  ??_12_ELSE:
+;000190                    else integral_error = 0;
+000001C0    2100                       	MOVS            R1,#0
+000001C2    484A                       	LDR             R0,?lr0023	; integral_error
+000001C4    6001                       	STR             R1,[R0,#0]
+                   ??_12_END:
+;000192                    if (CRANKSHAFT_MAX_INTEGRAL_ERROR < integral_error ) ecss_status = ECSS_EMERGENCY_SYNC;
+000001C6    4849                       	LDR             R0,?lr0023	; integral_error
+000001C8    6800                       	LDR             R0,[R0,#0]
+000001CA    494D                       	LDR             R1,?lr0028	; 0E11h
+000001CC    4288                       	CMP             R0,R1
+000001CE    D302                       	BCC             ??_13_ELSE
+000001D0    2103                       	MOVS            R1,#3
+000001D2    4835                       	LDR             R0,?lr0006	; ecss_status
+000001D4    6001                       	STR             R1,[R0,#0]
+                  ??_13_ELSE:
+;000195                    MDR_TIMER2->CNT = 0x00000000;
+000001D6    2100                       	MOVS            R1,#0
+000001D8    484A                       	LDR             R0,?lr0029	; 40078000h
+000001DA    6001                       	STR             R1,[R0,#0]
+;000198                    MDR_TIMER1->CCR3 = Zperiod >>1;
+000001DC    4847                       	LDR             R0,?lr0027	; Zperiod
+000001DE    6800                       	LDR             R0,[R0,#0]
+000001E0    0840                       	LSRS            R0,R0,#1
+000001E2    4935                       	LDR             R1,?lr0010	; 40070018h
+000001E4    6008                       	STR             R0,[R1,#0]
+;000199                    MDR_TIMER1->CCR4 = Zperiod >>1;
+000001E6    4845                       	LDR             R0,?lr0027	; Zperiod
+000001E8    6800                       	LDR             R0,[R0,#0]
+000001EA    0840                       	LSRS            R0,R0,#1
+000001EC    4933                       	LDR             R1,?lr0011	; 4007001Ch
+000001EE    6008                       	STR             R0,[R1,#0]
+;000200                    MDR_TIMER1->CCR31 = Zperiod >>1 + Zperiod >>2;
+000001F0    4842                       	LDR             R0,?lr0027	; Zperiod
+000001F2    6800                       	LDR             R0,[R0,#0]
+000001F4    4941                       	LDR             R1,?lr0027	; Zperiod
+000001F6    6809                       	LDR             R1,[R1,#0]
+000001F8    1C49                       	ADDS            R1,R1,#1
+000001FA    40C8                       	LSRS            R0,R1
+000001FC    0880                       	LSRS            R0,R0,#2
+000001FE    4930                       	LDR             R1,?lr0012	; 40070078h
+00000200    6008                       	STR             R0,[R1,#0]
+;000201                    MDR_TIMER1->CCR41 = Zperiod >>1 + Zperiod >>2;
+00000202    483E                       	LDR             R0,?lr0027	; Zperiod
+00000204    6800                       	LDR             R0,[R0,#0]
+00000206    493D                       	LDR             R1,?lr0027	; Zperiod
+00000208    6809                       	LDR             R1,[R1,#0]
+0000020A    1C49                       	ADDS            R1,R1,#1
+0000020C    40C8                       	LSRS            R0,R1
+0000020E    0880                       	LSRS            R0,R0,#2
+00000210    492C                       	LDR             R1,?lr0013	; 4007007Ch
+00000212    6008                       	STR             R0,[R1,#0]
+;000203                    MDR_TIMER2->CCR1 = Zperiod >>1;
+00000214    4839                       	LDR             R0,?lr0027	; Zperiod
+00000216    6800                       	LDR             R0,[R0,#0]
+00000218    0840                       	LSRS            R0,R0,#1
+0000021A    492B                       	LDR             R1,?lr0014	; 40078010h
+0000021C    6008                       	STR             R0,[R1,#0]
+;000204                    MDR_TIMER2->CCR2 = Zperiod >>1;
+0000021E    4837                       	LDR             R0,?lr0027	; Zperiod
+00000220    6800                       	LDR             R0,[R0,#0]
+00000222    0840                       	LSRS            R0,R0,#1
+00000224    4929                       	LDR             R1,?lr0015	; 40078014h
+00000226    6008                       	STR             R0,[R1,#0]
+;000205                    MDR_TIMER2->CCR3 = Zperiod >>1;
+00000228    4834                       	LDR             R0,?lr0027	; Zperiod
+0000022A    6800                       	LDR             R0,[R0,#0]
+0000022C    0840                       	LSRS            R0,R0,#1
+0000022E    4928                       	LDR             R1,?lr0016	; 40078018h
+00000230    6008                       	STR             R0,[R1,#0]
+;000206                    MDR_TIMER2->CCR4 = Zperiod >>1;
+00000232    4832                       	LDR             R0,?lr0027	; Zperiod
+00000234    6800                       	LDR             R0,[R0,#0]
+00000236    0840                       	LSRS            R0,R0,#1
+00000238    4926                       	LDR             R1,?lr0017	; 4007801Ch
+0000023A    6008                       	STR             R0,[R1,#0]
+;000207                    MDR_TIMER2->CCR11 = Zperiod >>1 + Zperiod >>2;
+0000023C    482F                       	LDR             R0,?lr0027	; Zperiod
+0000023E    6800                       	LDR             R0,[R0,#0]
+00000240    492E                       	LDR             R1,?lr0027	; Zperiod
+00000242    6809                       	LDR             R1,[R1,#0]
+00000244    1C49                       	ADDS            R1,R1,#1
+00000246    40C8                       	LSRS            R0,R1
+00000248    0880                       	LSRS            R0,R0,#2
+0000024A    4923                       	LDR             R1,?lr0018	; 40078070h
+0000024C    6008                       	STR             R0,[R1,#0]
+;000208                    MDR_TIMER2->CCR21 = Zperiod >>1 + Zperiod >>2;
+0000024E    482B                       	LDR             R0,?lr0027	; Zperiod
+00000250    6800                       	LDR             R0,[R0,#0]
+00000252    492A                       	LDR             R1,?lr0027	; Zperiod
+00000254    6809                       	LDR             R1,[R1,#0]
+00000256    1C49                       	ADDS            R1,R1,#1
+00000258    40C8                       	LSRS            R0,R1
+0000025A    0880                       	LSRS            R0,R0,#2
+0000025C    491F                       	LDR             R1,?lr0019	; 40078074h
+0000025E    6008                       	STR             R0,[R1,#0]
+;000209                    MDR_TIMER2->CCR31 = Zperiod >>1 + Zperiod >>2;
+00000260    4826                       	LDR             R0,?lr0027	; Zperiod
+00000262    6800                       	LDR             R0,[R0,#0]
+00000264    4925                       	LDR             R1,?lr0027	; Zperiod
+00000266    6809                       	LDR             R1,[R1,#0]
+00000268    1C49                       	ADDS            R1,R1,#1
+0000026A    40C8                       	LSRS            R0,R1
+0000026C    0880                       	LSRS            R0,R0,#2
+0000026E    491C                       	LDR             R1,?lr0020	; 40078078h
+00000270    6008                       	STR             R0,[R1,#0]
+;000210                    MDR_TIMER2->CCR41 = Zperiod >>1 + Zperiod >>2;
+00000272    4822                       	LDR             R0,?lr0027	; Zperiod
+00000274    6800                       	LDR             R0,[R0,#0]
+00000276    4921                       	LDR             R1,?lr0027	; Zperiod
+00000278    6809                       	LDR             R1,[R1,#0]
+0000027A    1C49                       	ADDS            R1,R1,#1
+0000027C    40C8                       	LSRS            R0,R1
+0000027E    0880                       	LSRS            R0,R0,#2
+00000280    4918                       	LDR             R1,?lr0021	; 4007807Ch
+00000282    6008                       	STR             R0,[R1,#0]
+;000212                break;
+;000213            };
+                  ??_7_BREAK:
+;000214            CTz = 0;// сбрасываем счётчик зубьев
+00000284    2100                       	MOVS            R1,#0
+00000286    481A                       	LDR             R0,?lr0024	; CTz
+00000288    6001                       	STR             R1,[R0,#0]
+;000215            MDR_TIMER1->CNT = 0x00000000; // сбрасываем первый таймер в 0
+0000028A    481F                       	LDR             R0,?lr0030	; 40070000h
+0000028C    6001                       	STR             R1,[R0,#0]
+;000216        }
+                   ??_4_ELSE:
+;000217    }
+0000028E    4770                       	BX              R14
+
+00000290    40070054	?lr0000	.DCD	40070054h	; used 4 time(s)
+00000294    40070010	?lr0001	.DCD	40070010h	; used 3 time(s)
+00000298    00000008	?lr0002	.DCD	TZp	; used 3 time(s)
+0000029C    00000104	?lr0003	.DCD	Zptr	; used 6 time(s)
+000002A0    00000010	?lr0004	.DCD	Zaccum	; used 1 time(s)
+000002A4    40070014	?lr0005	.DCD	40070014h	; used 1 time(s)
+000002A8    00000108	?lr0006	.DCD	ecss_status	; used 8 time(s)
+000002AC    0000000C	?lr0007	.DCD	ZCC	; used 6 time(s)
+000002B0    00000420	?lr0008	.DCD	420h	; used 1 time(s)
+000002B4    40070058	?lr0009	.DCD	40070058h	; used 1 time(s)
+000002B8    40070018	?lr0010	.DCD	40070018h	; used 2 time(s)
+000002BC    4007001C	?lr0011	.DCD	4007001Ch	; used 2 time(s)
+000002C0    40070078	?lr0012	.DCD	40070078h	; used 2 time(s)
+000002C4    4007007C	?lr0013	.DCD	4007007Ch	; used 2 time(s)
+000002C8    40078010	?lr0014	.DCD	40078010h	; used 2 time(s)
+000002CC    40078014	?lr0015	.DCD	40078014h	; used 2 time(s)
+000002D0    40078018	?lr0016	.DCD	40078018h	; used 2 time(s)
+000002D4    4007801C	?lr0017	.DCD	4007801Ch	; used 2 time(s)
+000002D8    40078070	?lr0018	.DCD	40078070h	; used 2 time(s)
+000002DC    40078074	?lr0019	.DCD	40078074h	; used 2 time(s)
+000002E0    40078078	?lr0020	.DCD	40078078h	; used 2 time(s)
+000002E4    4007807C	?lr0021	.DCD	4007807Ch	; used 2 time(s)
+000002E8    00000004	?lr0022	.DCD	SRCntr	; used 4 time(s)
+000002EC    0000010C	?lr0023	.DCD	integral_error	; used 5 time(s)
+000002F0    00000000	?lr0024	.DCD	CTz	; used 9 time(s)
+000002F4    00000400	?lr0025	.DCD	400h	; used 1 time(s)
+000002F8    00000110	?lr0026	.DCD	lastTooth	; used 2 time(s)
+000002FC    00000100	?lr0027	.DCD	Zperiod	; used 19 time(s)
+00000300    00000E11	?lr0028	.DCD	0E11h	; used 1 time(s)
+00000304    40078000	?lr0029	.DCD	40078000h	; used 1 time(s)
+00000308    40070000	?lr0030	.DCD	40070000h	; used 1 time(s)
+
+.ENDF
+ initFrontDetectionModule??T:
+;000239    void initFrontDetectionModule(){
+;000243            CTz = 0;
+0000030C    2100                       	MOVS            R1,#0
+0000030E    4811                       	LDR             R0,?lr0031	; CTz
+00000310    6001                       	STR             R1,[R0,#0]
+;000244            TZp = 0;
+00000312    4811                       	LDR             R0,?lr0032	; TZp
+00000314    6001                       	STR             R1,[R0,#0]
+;000245            ZCC = 0;
+00000316    4811                       	LDR             R0,?lr0033	; ZCC
+00000318    6001                       	STR             R1,[R0,#0]
+;000246            SRCntr = 0;
+0000031A    4811                       	LDR             R0,?lr0034	; SRCntr
+0000031C    6001                       	STR             R1,[R0,#0]
+;000248            for ( i = 0; i < CRANKSHAFT_BUFFER; i++ ) {Zaccum[i] = 0;}
+0000031E    2000                       	MOVS            i?initFrontDetectionModule,#0
+00000320    E004                       	B               ??_14_CHECK
+                  ??_14_LOOP:
+00000322    0081                       	LSLS            R1,i?initFrontDetectionModule,#2
+00000324    2300                       	MOVS            R3,#0
+00000326    4A0F                       	LDR             R2,?lr0035	; Zaccum
+00000328    508B                       	STR             R3,[R1,R2]
+0000032A    1C40                       	ADDS            i?initFrontDetectionModule,i?initFrontDetectionModule,#1
+                 ??_14_CHECK:
+0000032C    283C                       	CMP             i?initFrontDetectionModule,#60
+0000032E    D3F8                       	BCC             ??_14_LOOP
+;000250            Zptr = 0;
+00000330    2100                       	MOVS            R1,#0
+00000332    480D                       	LDR             R0,?lr0036	; Zptr
+00000334    6001                       	STR             R1,[R0,#0]
+;000252            Zperiod = 0;
+00000336    480D                       	LDR             R0,?lr0037	; Zperiod
+00000338    6001                       	STR             R1,[R0,#0]
+;000253            lastTooth = 0;
+0000033A    480D                       	LDR             R0,?lr0038	; lastTooth
+0000033C    6001                       	STR             R1,[R0,#0]
+;000255            ecss_status = ECSS_INIT_SYNC;
+0000033E    2101                       	MOVS            R1,#1
+00000340    480C                       	LDR             R0,?lr0039	; ecss_status
+00000342    6001                       	STR             R1,[R0,#0]
+;000256            integral_error = 0;
+00000344    2100                       	MOVS            R1,#0
+00000346    480C                       	LDR             R0,?lr0040	; integral_error
+00000348    6001                       	STR             R1,[R0,#0]
+;000261            INIT_SYNC;
+0000034A    2120                       	MOVS            R1,#32
+0000034C    480B                       	LDR             R0,?lr0041	; 40070058h
+0000034E    6001                       	STR             R1,[R0,#0]
+;000262    }
+00000350    4770                       	BX              R14
+
+.ALIGN	2
+00000354    00000000	?lr0031	.DCD	CTz	; used 1 time(s)
+00000358    00000008	?lr0032	.DCD	TZp	; used 1 time(s)
+0000035C    0000000C	?lr0033	.DCD	ZCC	; used 1 time(s)
+00000360    00000004	?lr0034	.DCD	SRCntr	; used 1 time(s)
+00000364    00000010	?lr0035	.DCD	Zaccum	; used 1 time(s)
+00000368    00000104	?lr0036	.DCD	Zptr	; used 1 time(s)
+0000036C    00000100	?lr0037	.DCD	Zperiod	; used 1 time(s)
+00000370    00000110	?lr0038	.DCD	lastTooth	; used 1 time(s)
+00000374    00000108	?lr0039	.DCD	ecss_status	; used 1 time(s)
+00000378    0000010C	?lr0040	.DCD	integral_error	; used 1 time(s)
+0000037C    40070058	?lr0041	.DCD	40070058h	; used 1 time(s)
+
+.ENDF
+
+frontDetection.c: 896 byte(s), 51061 line(s), 0 error(s), 0 warning(s)
+

@@ -1,0 +1,778 @@
+*******************************************************************************
+*                                                                             *
+*              UNIVERSAL CROSS LINKER Version 1.13.130827 Demo                *
+*                    Copyright (C) 2004-2012 Phyton, Inc.                     *
+*                                                                             *
+*******************************************************************************
+
+                 * * *  O P T I O N S   A T   S T A R T  * * *
+
+    -O C:\Program Files (x86)\Phyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Lib
+    -E UARTLED
+    -M 10
+    -M 20
+    -M 21
+    -M 60
+    -M 80
+    -F MIE
+    -m
+    -t
+    -A (code)CODE(00H-01FFFFH)
+    -A (data)DATA(020000000H-020007FFFH,020100000H-020103FFFH)
+    -Z CSTACK(1024)
+
+            * * *  A D D I N G   P R O G R A M   M O D U L E S  * * *
+
+  Module:                ?STARTUP_DEVICE                         
+
+  Module:                MAIN                                    
+
+  Module:                MILANDRPORTDEFINITION                   
+
+  Module:                PRINTF                                  
+
+  Module:                DRIVER                                  
+
+  Module:                EVALBOARD                               
+
+  Module:                TIMERDRIVER                             
+
+  Module:                INIT                                    
+
+  Module:                UART                                    
+
+  Module:                BUTTONS                                 
+
+  Module:                LEDS                                    
+
+  Module:                FRONTDETECTION                          
+
+            * * *  A D D I N G   L I B R A R Y   M O D U L E S  * * *
+
+  Module:                ?RESET_HANDLER           low-priority   
+
+  Module:                ?NMI_HANDLER             low-priority   
+
+  Module:                ?HARDFAULT_HANDLER       low-priority   
+
+  Module:                ?SVC_HANDLER             low-priority   
+
+  Module:                ?PENDSV_HANDLER          low-priority   
+
+  Module:                ?SYSTICK_HANDLER         low-priority   
+
+  Module:                ?MIL_STD_1553B2_IRQHANDLERlow-priority   
+
+  Module:                ?MIL_STD_1553B1_IRQHANDLERlow-priority   
+
+  Module:                ?USB_IRQHANDLER          low-priority   
+
+  Module:                ?CAN1_IRQHANDLER         low-priority   
+
+  Module:                ?CAN2_IRQHANDLER         low-priority   
+
+  Module:                ?DMA_IRQHANDLER          low-priority   
+
+  Module:                ?UART1_IRQHANDLER        low-priority   
+
+  Module:                ?UART2_IRQHANDLER        low-priority   
+
+  Module:                ?SSP1_IRQHANDLER         low-priority   
+
+  Module:                ?BUSY_IRQHANDLER         low-priority   
+
+  Module:                ?ARINC429RX_IRQHANDLER   low-priority   
+
+  Module:                ?POWER_IRQHANDLER        low-priority   
+
+  Module:                ?WWDG_IRQHANDLER         low-priority   
+
+  Module:                ?ADC_IRQHANDLER          low-priority   
+
+  Module:                ?ETH_IRQHANDLER          low-priority   
+
+  Module:                ?SSP3_IRQHANDLER         low-priority   
+
+  Module:                ?SSP2_IRQHANDLER         low-priority   
+
+  Module:                ?ARINC429T1_IRQHANDLER   low-priority   
+
+  Module:                ?ARINC429T2_IRQHANDLER   low-priority   
+
+  Module:                ?ARINC429T3_IRQHANDLER   low-priority   
+
+  Module:                ?ARINC429T4_IRQHANDLER   low-priority   
+
+  Module:                ?BACKUP_IRQHANDLER       low-priority   
+
+  Module:                ?EXT_INT1_IRQHANDLER     low-priority   
+
+  Module:                ?EXT_INT2_IRQHANDLER     low-priority   
+
+  Module:                ?EXT_INT3_IRQHANDLER     low-priority   
+
+  Module:                ?EXT_INT4_IRQHANDLER     low-priority   
+
+  Module:                ??SYSTEMINIT             low-priority   
+
+  Module:                ??CSTARTUP               low-priority   
+
+  Module:                ??CEXIT                  low-priority   
+
+  Module:                ?DIV32R                  low-priority   
+
+  Module:                ?MOD32U                  low-priority   
+
+              * * *  F U L L   S E T   O F   O P T I O N S  * * *
+
+    -O C:\Program Files (x86)\Phyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Lib
+    -E UARTLED
+    -M 10
+    -M 20
+    -M 21
+    -M 60
+    -M 80
+    -F MIE
+    -m
+    -t
+    -A (code)CODE(00H-01FFFFH)
+    -A (data)DATA(020000000H-020007FFFH,020100000H-020103FFFH)
+    -Z CSTACK(1024)
+    -K code(0000H-00BFH)
+
+               * * *  B U I L D I N G   S E G M E N T S  * * *
+
+  Segment: ??CODE_CLIB                             code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  ??SYSTEMINIT              00000002        01        00000000
+  ??CSTARTUP                00000070        02        00000004
+  ??CEXIT                   00000002        01        00000074
+  ?DIV32R                   00000040        01        00000076
+  ?MOD32U                   0000000A        01        000000B6
+  ============================================================
+  Total:                    000000C0        02
+
+
+  Segment: ??DATA_SEGMENT_ADDRESSES                code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  PRINTF                    00000008        02        00000000
+  DRIVER                    00000008        02        00000008
+  TIMERDRIVER               00000008        02        00000010
+  BUTTONS                   00000008        02        00000018
+  LEDS                      00000008        02        00000020
+  FRONTDETECTION            00000008        02        00000028
+  ============================================================
+  Total:                    00000030        02
+
+
+  Segment: ??DEFAULT_HANDLERS                      code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  ?RESET_HANDLER            0000001C        02        00000000
+  ?NMI_HANDLER              00000002        01        0000001C
+  ?HARDFAULT_HANDLER        00000002        01        0000001E
+  ?SVC_HANDLER              00000002        01        00000020
+  ?PENDSV_HANDLER           00000002        01        00000022
+  ?SYSTICK_HANDLER          00000002        01        00000024
+  ?MIL_STD_1553B2_IRQHANDLER 00000002        01        00000026
+  ?MIL_STD_1553B1_IRQHANDLER 00000002        01        00000028
+  ?USB_IRQHANDLER           00000002        01        0000002A
+  ?CAN1_IRQHANDLER          00000002        01        0000002C
+  ?CAN2_IRQHANDLER          00000002        01        0000002E
+  ?DMA_IRQHANDLER           00000002        01        00000030
+  ?UART1_IRQHANDLER         00000002        01        00000032
+  ?UART2_IRQHANDLER         00000002        01        00000034
+  ?SSP1_IRQHANDLER          00000002        01        00000036
+  ?BUSY_IRQHANDLER          00000002        01        00000038
+  ?ARINC429RX_IRQHANDLER    00000002        01        0000003A
+  ?POWER_IRQHANDLER         00000002        01        0000003C
+  ?WWDG_IRQHANDLER          00000002        01        0000003E
+  ?ADC_IRQHANDLER           00000002        01        00000040
+  ?ETH_IRQHANDLER           00000002        01        00000042
+  ?SSP3_IRQHANDLER          00000002        01        00000044
+  ?SSP2_IRQHANDLER          00000002        01        00000046
+  ?ARINC429T1_IRQHANDLER    00000002        01        00000048
+  ?ARINC429T2_IRQHANDLER    00000002        01        0000004A
+  ?ARINC429T3_IRQHANDLER    00000002        01        0000004C
+  ?ARINC429T4_IRQHANDLER    00000002        01        0000004E
+  ?BACKUP_IRQHANDLER        00000002        01        00000050
+  ?EXT_INT1_IRQHANDLER      00000002        01        00000052
+  ?EXT_INT2_IRQHANDLER      00000002        01        00000054
+  ?EXT_INT3_IRQHANDLER      00000002        01        00000056
+  ?EXT_INT4_IRQHANDLER      00000002        01        00000058
+  ============================================================
+  Total:                    0000005A        02
+
+
+  Segment: CDATA__DRIVER                           code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  DRIVER                    00000004        02        00000000
+  ============================================================
+  Total:                    00000004        02
+
+
+  Segment: CSTACK                                  data    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  ============================================================
+  Total:        (increased) 00000400        03
+
+
+  Segment: FUN_CODE__BUTTONS                       code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  BUTTONS                   00000286        02        00000000
+  ============================================================
+  Total:                    00000286        02
+
+
+  Segment: FUN_CODE__DRIVER                        code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  DRIVER                    00000058        02        00000000
+  ============================================================
+  Total:                    00000058        02
+
+
+  Segment: FUN_CODE__EVALBOARD                     code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  EVALBOARD                 000000FC        02        00000000
+  ============================================================
+  Total:                    000000FC        02
+
+
+  Segment: FUN_CODE__FRONTDETECTION                code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  FRONTDETECTION            00000380        02        00000000
+  ============================================================
+  Total:                    00000380        02
+
+
+  Segment: FUN_CODE__INIT                          code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  INIT                      00000204        02        00000000
+  ============================================================
+  Total:                    00000204        02
+
+
+  Segment: FUN_CODE__LEDS                          code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  LEDS                      000000D4        02        00000000
+  ============================================================
+  Total:                    000000D4        02
+
+
+  Segment: FUN_CODE__MAIN                          code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  MAIN                      000008F8        02        00000000
+  ============================================================
+  Total:                    000008F8        02
+
+
+  Segment: FUN_CODE__MILANDRPORTDEFINITION         code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  MILANDRPORTDEFINITION     00000144        02        00000000
+  ============================================================
+  Total:                    00000144        02
+
+
+  Segment: FUN_CODE__PRINTF                        code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  PRINTF                    0000030C        02        00000000
+  ============================================================
+  Total:                    0000030C        02
+
+
+  Segment: FUN_CODE__TIMERDRIVER                   code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  TIMERDRIVER               00000418        02        00000000
+  ============================================================
+  Total:                    00000418        02
+
+
+  Segment: FUN_CODE__UART                          code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  UART                      000000A4        02        00000000
+  ============================================================
+  Total:                    000000A4        02
+
+
+  Segment: INTVEC                                  code    ABS
+  ------------------------------------------------------------
+  Module                     Start         End          Size  
+  ============================================================
+  ?STARTUP_DEVICE           00000000     000000BF     000000C0
+  ============================================================
+  Total:                min:00000000 max:000000BF     000000C0
+
+
+  Segment: STRINGS__MAIN                           code    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  MAIN                      0000002C        01        00000000
+  ============================================================
+  Total:                    0000002C        01
+
+
+  Segment: UDATA__BUTTONS                          data    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  BUTTONS                   00000001        00        00000000
+  ============================================================
+  Total:                    00000001        00
+
+
+  Segment: UDATA__DRIVER                           data    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  DRIVER                    00000014        02        00000000
+  ============================================================
+  Total:                    00000014        02
+
+
+  Segment: UDATA__FRONTDETECTION                   data    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  FRONTDETECTION            00000114        02        00000000
+  ============================================================
+  Total:                    00000114        02
+
+
+  Segment: UDATA__LEDS                             data    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  LEDS                      00000004        02        00000000
+  ============================================================
+  Total:                    00000004        02
+
+
+  Segment: UDATA__PRINTF                           data    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  PRINTF                    00000008        02        00000000
+  ============================================================
+  Total:                    00000008        02
+
+
+  Segment: UDATA__TIMERDRIVER                      data    REL
+  ------------------------------------------------------------
+  Module                      Size        Align        Offset 
+  ============================================================
+  TIMERDRIVER               00000014        02        00000000
+  ============================================================
+  Total:                    00000014        02
+
+         * * *  A D D R E S S   A R E A S   D E F I N I T I O N  * * *
+
+  Name:                          CODE
+  Allocation:                    code
+  Ranges:                        000000C0 0001FFFF
+  Reserved for abs segments:     00000000 000000BF
+
+  Name:                          DATA
+  Allocation:                    data
+  Ranges:                        20000000 20007FFF
+                                 20100000 20103FFF
+
+     * * *  P L A C I N G   R E L O C A T A B L E   S E G M E N T S  * * *
+
+  Segment:                       ??CODE_CLIB
+  Allocation:                    code
+  Size:                          000000C0
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     000000C0
+  Ends at:                       0000017F
+
+
+  Segment:                       ??DEFAULT_HANDLERS
+  Allocation:                    code
+  Size:                          0000005A
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     00000180
+  Ends at:                       000001D9
+
+
+  Segment:                       ??DATA_SEGMENT_ADDRESSES
+  Allocation:                    code
+  Size:                          00000030
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     000001DC
+  Ends at:                       0000020B
+
+
+  Segment:                       CDATA__DRIVER
+  Allocation:                    code
+  Size:                          00000004
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     0000020C
+  Ends at:                       0000020F
+
+
+  Segment:                       FUN_CODE__BUTTONS
+  Allocation:                    code
+  Size:                          00000284
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     00000210
+  Ends at:                       00000493
+
+
+  Segment:                       FUN_CODE__DRIVER
+  Allocation:                    code
+  Size:                          00000058
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     00000494
+  Ends at:                       000004EB
+
+
+  Segment:                       FUN_CODE__EVALBOARD
+  Allocation:                    code
+  Size:                          000000FC
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     000004EC
+  Ends at:                       000005E7
+
+
+  Segment:                       FUN_CODE__FRONTDETECTION
+  Allocation:                    code
+  Size:                          0000030C
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     000005E8
+  Ends at:                       000008F3
+
+
+  Segment:                       FUN_CODE__MAIN
+  Allocation:                    code
+  Size:                          000008F8
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     000008F4
+  Ends at:                       000011EB
+
+
+  Segment:                       FUN_CODE__MILANDRPORTDEFINITION
+  Allocation:                    code
+  Size:                          00000144
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     000011EC
+  Ends at:                       0000132F
+
+
+  Segment:                       FUN_CODE__PRINTF
+  Allocation:                    code
+  Size:                          000002DC
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     00001330
+  Ends at:                       0000160B
+
+
+  Segment:                       FUN_CODE__TIMERDRIVER
+  Allocation:                    code
+  Size:                          00000074
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     0000160C
+  Ends at:                       0000167F
+
+
+  Segment:                       FUN_CODE__UART
+  Allocation:                    code
+  Size:                          000000A4
+  Align:                         02
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     00001680
+  Ends at:                       00001723
+
+
+  Segment:                       STRINGS__MAIN
+  Allocation:                    code
+  Size:                          0000002C
+  Align:                         01
+  Address area:                  CODE
+  Border:                        >00000000
+  Placed at:                     00001724
+  Ends at:                       0000174F
+
+
+  Segment:                       CSTACK
+  Allocation:                    data
+  Size:                          00000400
+  Align:                         03
+  Address area:                  DATA
+  Border:                        >00000000
+  Placed at:                     20000000
+  Ends at:                       200003FF
+
+
+  Segment:                       UDATA__BUTTONS
+  Allocation:                    data
+  Size:                          00000001
+  Align:                         00
+  Address area:                  DATA
+  Border:                        >00000000
+  Placed at:                     20000400
+  Ends at:                       20000400
+
+
+  Segment:                       UDATA__DRIVER
+  Allocation:                    data
+  Size:                          00000014
+  Align:                         02
+  Address area:                  DATA
+  Border:                        >00000000
+  Placed at:                     20000404
+  Ends at:                       20000417
+
+
+  Segment:                       UDATA__FRONTDETECTION
+  Allocation:                    data
+  Size:                          00000114
+  Align:                         02
+  Address area:                  DATA
+  Border:                        >00000000
+  Placed at:                     20000418
+  Ends at:                       2000052B
+
+
+  Segment:                       UDATA__LEDS
+  Allocation:                    data
+  Size:                          00000004
+  Align:                         02
+  Address area:                  DATA
+  Border:                        >00000000
+  Placed at:                     2000052C
+  Ends at:                       2000052F
+
+
+  Segment:                       UDATA__PRINTF
+  Allocation:                    data
+  Size:                          00000008
+  Align:                         02
+  Address area:                  DATA
+  Border:                        >00000000
+  Placed at:                     20000530
+  Ends at:                       20000537
+
+
+  Segment:                       UDATA__TIMERDRIVER
+  Allocation:                    data
+  Size:                          00000014
+  Align:                         02
+  Address area:                  DATA
+  Border:                        >00000000
+  Placed at:                     20000538
+  Ends at:                       2000054B
+
+                * * *  A D D R E S S   A R E A S   M A P  * * *
+
+  Address area: CODE
+  ----------------------------------------------------------------------------
+  Segment                       Align  Starts at   Ends at   Size(hex)   (dec)
+  ----------------------------------------------------------------------------
+  *** RESERVED ***               -     00000000    000000BF  000000C0    192
+  ??CODE_CLIB                    2     000000C0    0000017F  000000C0    192
+  ??DEFAULT_HANDLERS             2     00000180    000001D9  0000005A    90
+  *** GAP ***                    -     000001DA    000001DB  00000002    2
+  ??DATA_SEGMENT_ADDRESSES       2     000001DC    0000020B  00000030    48
+  CDATA__DRIVER                  2     0000020C    0000020F  00000004    4
+  FUN_CODE__BUTTONS              2     00000210    00000493  00000284    644
+  FUN_CODE__DRIVER               2     00000494    000004EB  00000058    88
+  FUN_CODE__EVALBOARD            2     000004EC    000005E7  000000FC    252
+  FUN_CODE__FRONTDETECTION       2     000005E8    000008F3  0000030C    780
+  FUN_CODE__MAIN                 2     000008F4    000011EB  000008F8    2296
+  FUN_CODE__MILANDRPORTDEFINITI  2     000011EC    0000132F  00000144    324
+  FUN_CODE__PRINTF               2     00001330    0000160B  000002DC    732
+  FUN_CODE__TIMERDRIVER          2     0000160C    0000167F  00000074    116
+  FUN_CODE__UART                 2     00001680    00001723  000000A4    164
+  STRINGS__MAIN                  1     00001724    0000174F  0000002C    44
+  *** GAP ***                    -     00001750    0001FFFF  0001E8B0    125104
+
+
+  Address area: DATA
+  ----------------------------------------------------------------------------
+  Segment                       Align  Starts at   Ends at   Size(hex)   (dec)
+  ----------------------------------------------------------------------------
+  CSTACK                         3     20000000    200003FF  00000400    1024
+  UDATA__BUTTONS                 0     20000400    20000400  00000001    1
+  *** GAP ***                    -     20000401    20000403  00000003    3
+  UDATA__DRIVER                  2     20000404    20000417  00000014    20
+  UDATA__FRONTDETECTION          2     20000418    2000052B  00000114    276
+  UDATA__LEDS                    2     2000052C    2000052F  00000004    4
+  UDATA__PRINTF                  2     20000530    20000537  00000008    8
+  UDATA__TIMERDRIVER             2     20000538    2000054B  00000014    20
+  *** GAP ***                    -     2000054C    20007FFF  00007AB4    31412
+  *** GAP ***                    -     20100000    20103FFF  00004000    16384
+
+                     * * *  S Y M B O L   T A B L E  * * *
+
+  Name                           Segment          Value       Type info
+
+  ?cstart                        ??CODE_CLIB     000000C4 *** <function>
+  ?start                         ??CODE_CLIB     000000C5     n/a
+  ADC_IRQHandler                 ??DEFAULT_HANDL 000001C1     <function>
+  ARINC429Rx_IRQHandler          ??DEFAULT_HANDL 000001BB     <function>
+  ARINC429T1_IRQHandler          ??DEFAULT_HANDL 000001C9     <function>
+  ARINC429T2_IRQHandler          ??DEFAULT_HANDL 000001CB     <function>
+  ARINC429T3_IRQHandler          ??DEFAULT_HANDL 000001CD     <function>
+  ARINC429T4_IRQHandler          ??DEFAULT_HANDL 000001CF     <function>
+  BACKUP_IRQHandler              ??DEFAULT_HANDL 000001D1     <function>
+  BUSY_IRQHandler                ??DEFAULT_HANDL 000001B9     <function>
+  BUTTON_STATE_REGISTER          UDATA__BUTTONS  20000400 *** unsigned char
+  CAN1_IRQHandler                ??DEFAULT_HANDL 000001AD     <function>
+  CAN2_IRQHandler                ??DEFAULT_HANDL 000001AF     <function>
+  CTz                            UDATA__FRONTDET 20000418 *** unsigned int
+  CurrentLights                  UDATA__LEDS     2000052C *** unsigned int
+  DMA_IRQHandler                 ??DEFAULT_HANDL 000001B1     <function>
+  ETH_IRQHandler                 ??DEFAULT_HANDL 000001C3     <function>
+  EXT_INT1_IRQHandler            ??DEFAULT_HANDL 000001D3     <function>
+  EXT_INT2_IRQHandler            ??DEFAULT_HANDL 000001D5     <function>
+  EXT_INT3_IRQHandler            ??DEFAULT_HANDL 000001D7     <function>
+  EXT_INT4_IRQHandler            ??DEFAULT_HANDL 000001D9     <function>
+  HCLK                           CDATA__DRIVER   0000020C     unsigned int
+  HardFault_Handler              ??DEFAULT_HANDL 0000019F     <function>
+  M128Mark                       UDATA__TIMERDRI 20000538     int
+  MIL_STD_1553B1_IRQHandler      ??DEFAULT_HANDL 000001A9     <function>
+  MIL_STD_1553B2_IRQHandler      ??DEFAULT_HANDL 000001A7     <function>
+  MarkM4Routine                  FUN_CODE__DRIVE 00000495     <function>
+  MarkM4Routine??T               FUN_CODE__DRIVE 00000494 *** <function>
+  NMI_Handler                    ??DEFAULT_HANDL 0000019D     <function>
+  PC                             UDATA__DRIVER   20000404     unsigned int
+  POWER_IRQHandler               ??DEFAULT_HANDL 000001BD     <function>
+  PendSV_Handler                 ??DEFAULT_HANDL 000001A3     <function>
+  Reset_Handler                  ??DEFAULT_HANDL 00000181     <function>
+  SRCntr                         UDATA__FRONTDET 2000041C *** unsigned int
+  SSP1_IRQHandler                ??DEFAULT_HANDL 000001B7     <function>
+  SSP2_IRQHandler                ??DEFAULT_HANDL 000001C7     <function>
+  SSP3_IRQHandler                ??DEFAULT_HANDL 000001C5     <function>
+  SVC_Handler                    ??DEFAULT_HANDL 000001A1     <function>
+  SysTick_Handler                ??DEFAULT_HANDL 000001A5     <function>
+  SystemInit                     ??CODE_CLIB     000000C1     <function>
+  TC_Timer1                      UDATA__TIMERDRI 2000053C *** int
+  TC_Timer2                      UDATA__TIMERDRI 20000540 *** int
+  TC_Timer3                      UDATA__TIMERDRI 20000544 *** int
+  TC_Timer4                      UDATA__TIMERDRI 20000548 *** int
+  TZp                            UDATA__FRONTDET 20000420 *** unsigned int
+  Timer1_IRQHandler              FUN_CODE__FRONT 000005E9     <function>
+  Timer1_IRQHandler??T           FUN_CODE__FRONT 000005E8 *** <function>
+  Timer2_IRQHandler              FUN_CODE__TIMER 0000160D     <function>
+  Timer2_IRQHandler??T           FUN_CODE__TIMER 0000160C *** <function>
+  Timer3_IRQHandler              FUN_CODE__TIMER 00001631     <function>
+  Timer3_IRQHandler??T           FUN_CODE__TIMER 00001630 *** <function>
+  Timer4_IRQHandler              FUN_CODE__TIMER 00001655     <function>
+  Timer4_IRQHandler??T           FUN_CODE__TIMER 00001654 *** <function>
+  UART1_IRQHandler               ??DEFAULT_HANDL 000001B3     <function>
+  UART2_IRQHandler               ??DEFAULT_HANDL 000001B5     <function>
+  USB_IRQHandler                 ??DEFAULT_HANDL 000001AB     <function>
+  WWDG_IRQHandler                ??DEFAULT_HANDL 000001BF     <function>
+  ZCC                            UDATA__FRONTDET 20000424 *** unsigned int
+  Zaccum                         UDATA__FRONTDET 20000428 *** <array>
+  Zperiod                        UDATA__FRONTDET 20000518 *** unsigned int
+  Zptr                           UDATA__FRONTDET 2000051C *** unsigned int
+  assemblePorts                  FUN_CODE__MILAN 000011ED     <function>
+  assemblePorts??T               FUN_CODE__MILAN 000011EC *** <function>
+  buttonLedsDemo                 FUN_CODE__BUTTO 000002F1     <function>
+  buttonLedsDemo??T              FUN_CODE__BUTTO 000002F0 *** <function>
+  ecss_status                    UDATA__FRONTDET 20000520 *** n/a
+  exit                           ??CODE_CLIB     00000135 *** <function>
+  exit??T                        ??CODE_CLIB     00000134 *** n/a
+  initClockEvalboard             FUN_CODE__EVALB 0000050D *** <function>
+  initClockEvalboard??T          FUN_CODE__EVALB 0000050C *** <function>
+  initEvalboard                  FUN_CODE__EVALB 000004ED     <function>
+  initEvalboard??T               FUN_CODE__EVALB 000004EC *** <function>
+  initPortEvalboard              FUN_CODE__EVALB 00000505 *** <function>
+  initPortEvalboard??T           FUN_CODE__EVALB 00000504 *** <function>
+  initUART                       FUN_CODE__UART  000016C1     <function>
+  initUART??T                    FUN_CODE__UART  000016C0 *** <function>
+  init_printf                    FUN_CODE__PRINT 000015DB     <function>
+  init_printf??T                 FUN_CODE__PRINT 000015DA *** <function>
+  integral_error                 UDATA__FRONTDET 20000524 *** unsigned int
+  ipause                         UDATA__DRIVER   20000408     unsigned int
+  lastTooth                      UDATA__FRONTDET 20000528 *** unsigned int
+  main                           FUN_CODE__MAIN  000008F5     <function>
+  main??T                        FUN_CODE__MAIN  000008F4 *** <function>
+  maxpause_mks                   UDATA__DRIVER   2000040C     unsigned int
+  maxpause_ms                    UDATA__DRIVER   20000410     unsigned int
+  maxpause_s                     UDATA__DRIVER   20000414 *** unsigned int
+  putc                           FUN_CODE__UART  00001681 *** <function>
+  putc??T                        FUN_CODE__UART  00001680 *** <function>
+  readButtonStates               FUN_CODE__BUTTO 00000211     <function>
+  readButtonStates??T            FUN_CODE__BUTTO 00000210 *** <function>
+  tfp_format                     FUN_CODE__PRINT 000014AF *** <function>
+  tfp_format??T                  FUN_CODE__PRINT 000014AE *** <function>
+  tfp_printf                     FUN_CODE__PRINT 000015ED     <function>
+  tfp_printf??T                  FUN_CODE__PRINT 000015EC *** <function>
+
+  ***  These symbols do not resolve any external reference
+
+
+                     * * *  O U T P U T   F I L E S  * * *
+
+  Phyton/MicroCOSM format:
+    UARTLED.mce
+
+  Intel Extended HEX format:
+    UARTLED.HEX                     for Address Area CODE
+
+  ELF format:
+    UARTLED.elf
+
+  Generated code is suitable for:  Cortex-M1
+
+  5774 bytes of CODE memory (+192 absolute)
+  1353 bytes of DATA memory

@@ -1,0 +1,643 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;;                ARM C CROSS COMPILER Version 1.03.130923 Demo              ;;
+;;                     Copyright (C) 2009 Phyton, Inc.                       ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                           ;;
+;; ASSEMBLY SOURCE FILE FOR: frontDetection.c                                ;;
+;; TARGET: Cortex-M0/M1                                                      ;;
+;; OPTIMIZATION LEVEL: 0                                                     ;;
+;; FULL COMMAND LINE:                                                        ;;
+;;  -CM1 -t -s -l -d -p -g -Op -E10 -W50 -Z0 -Q43 -IC:\Program Files (x86)\P ;;
+;;  hyton CodeMaster-ARM Demo\2_40_00\CMC-ARM\Inc;C:\Users\ivanov-ga\Desktop ;;
+;;  \uartled\INCLUDE                                                         ;;
+;;                                                                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	.PMODULE FRONTDETECTION
+
+.RSEG	UDATA__FRONTDETECTION,data
+.ALIGN 2
+
+CTz	.DS	4
+.PUBLIC	CTz
+.TYPE	CTz(.UINT)
+.WORD	CTz
+
+SRCntr	.DS	4
+.PUBLIC	SRCntr
+.TYPE	SRCntr(.UINT)
+.WORD	SRCntr
+
+TZp	.DS	4
+.PUBLIC	TZp
+.TYPE	TZp(.UINT)
+.WORD	TZp
+
+ZCC	.DS	4
+.PUBLIC	ZCC
+.TYPE	ZCC(.UINT)
+.WORD	ZCC
+
+Zaccum:
+	.DS	240
+.PUBLIC	Zaccum
+.TYPE	Zaccum(.NOCHECK)
+.WORD	Zaccum
+
+Zperiod	.DS	4
+.PUBLIC	Zperiod
+.TYPE	Zperiod(.UINT)
+.WORD	Zperiod
+
+Zptr	.DS	4
+.PUBLIC	Zptr
+.TYPE	Zptr(.UINT)
+.WORD	Zptr
+
+ecss_status	.DS	4
+.PUBLIC	ecss_status
+.TYPE	ecss_status(.NOCHECK)
+.WORD	ecss_status
+
+integral_error	.DS	4
+.PUBLIC	integral_error
+.TYPE	integral_error(.UINT)
+.WORD	integral_error
+
+lastTooth	.DS	4
+.PUBLIC	lastTooth
+.TYPE	lastTooth(.UINT)
+.WORD	lastTooth
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	FUN_CODE__FRONTDETECTION,code
+
+.PUBLIC	Timer1_IRQHandler, Timer1_IRQHandler??T
+.THUMB
+.FUNC	Timer1_IRQHandler??T	.VOID (.VOID)
+Timer1_IRQHandler	.EQU	Timer1_IRQHandler??T+1
+.FUNCTYPE	.VOID Timer1_IRQHandler(.VOID)
+;FILE: frontDetection.c
+;000090    void Timer1_IRQHandler(void) {
+
+INTERRUPT_TIMER_STATUS?Timer1_IRQHandler	.EQU	R0
+bufZ?Timer1_IRQHandler	.EQU	R0
+istantPERIOD?Timer1_IRQHandler	.EQU	R0
+
+;000094        u32 INTERRUPT_TIMER_STATUS = MDR_TIMER1->STATUS;
+	LDR             INTERRUPT_TIMER_STATUS?Timer1_IRQHandler,?lr0000	; 40070054h
+	LDR             INTERRUPT_TIMER_STATUS?Timer1_IRQHandler,[INTERRUPT_TIMER_STATUS?Timer1_IRQHandler,#0]
+;000095        MDR_TIMER1->STATUS&=~1;
+	LDR             R1,?lr0000	; 40070054h
+	LDR             R1,[R1,#0]
+	MOVS            R2,#1
+	MVNS            R2,R2
+	ANDS            R1,R2
+	LDR             R2,?lr0000	; 40070054h
+	STR             R1,[R2,#0]
+;000097        if ( (INTERRUPT_TIMER_STATUS & TIMER_STATUS_CCR_CAP_CH1) > 0 )
+	MOVS            R1,#32
+	ANDS            INTERRUPT_TIMER_STATUS?Timer1_IRQHandler,R1
+	BEQ             ??_1_ELSE
+;000098        {
+;000101            bufZ = MDR_TIMER1->CCR1 - TZp;
+	LDR             bufZ?Timer1_IRQHandler,?lr0001	; 40070010h
+	LDR             R1,[bufZ?Timer1_IRQHandler,#0]
+	LDR             bufZ?Timer1_IRQHandler,?lr0002	; TZp
+	LDR             bufZ?Timer1_IRQHandler,[bufZ?Timer1_IRQHandler,#0]
+	SUBS            bufZ?Timer1_IRQHandler,R1,bufZ?Timer1_IRQHandler
+;000103            Zaccum[Zptr] = bufZ;
+	LDR             R1,?lr0003	; Zptr
+	LDR             R1,[R1,#0]
+	LSLS            R1,R1,#2
+	LDR             R2,?lr0004	; Zaccum
+	STR             bufZ?Timer1_IRQHandler,[R1,R2]
+;000104            MDR_TIMER1->CCR2 = TZp + bufZ + (bufZ >> 1);
+	LDR             R1,?lr0002	; TZp
+	LDR             R2,[R1,#0]
+	ADDS            R1,bufZ?Timer1_IRQHandler,R2
+	LSRS            bufZ?Timer1_IRQHandler,bufZ?Timer1_IRQHandler,#1
+	ADD             R1,bufZ?Timer1_IRQHandler
+	LDR             bufZ?Timer1_IRQHandler,?lr0005	; 40070014h
+	STR             R1,[bufZ?Timer1_IRQHandler,#0]
+;000105            TZp = MDR_TIMER1->CCR1;
+	LDR             R0,?lr0001	; 40070010h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0002	; TZp
+	STR             R0,[R1,#0]
+;000107            Zptr++;
+	LDR             R0,?lr0003	; Zptr
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0003	; Zptr
+	STR             R0,[R1,#0]
+;000110            switch ( ecss_status ){
+	LDR             R0,?lr0006	; ecss_status
+	LDR             R0,[R0,#0]
+	CMP             R0,#1
+	BEQ             ??_2_CASE_1
+	CMP             R0,#2
+	BEQ             ??_2_CASE_2
+	CMP             R0,#3
+	BEQ             ??_2_CASE_3
+	CMP             R0,#4
+	BEQ             ??_2_BREAK
+	CMP             R0,#5
+	BEQ             ??_2_CASE_5
+	CMP             R0,#6
+	BEQ             ??_2_CASE_6
+	CMP             R0,#0
+	BNE             ??_2_BREAK
+;000113                break;
+	BX              R14
+??_2_CASE_1:
+;000115                    ZCC = 0;
+	MOVS            R1,#0
+	LDR             R0,?lr0007	; ZCC
+	STR             R1,[R0,#0]
+;000116                    ecss_status = ECSS_PRE_SYNC;
+	MOVS            R1,#2
+	LDR             R0,?lr0006	; ecss_status
+	STR             R1,[R0,#0]
+;000117                break;
+	BX              R14
+??_2_CASE_2:
+;000119                    ZCC++;
+	LDR             R0,?lr0007	; ZCC
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0007	; ZCC
+	STR             R0,[R1,#0]
+;000120                    if ( ZCC == 2 ){
+	LDR             R0,?lr0007	; ZCC
+	LDR             R0,[R0,#0]
+	CMP             R0,#2
+	BNE             ??_2_BREAK
+;000121                        INIT_PRIMARY_SYNC;// запуск прерывания по пропущеным зубкам
+	LDR             R1,?lr0008	; 420h
+	LDR             R0,?lr0009	; 40070058h
+	STR             R1,[R0,#0]
+;000122                        ecss_status = ECSS_PRIMARY_SYNC;
+	MOVS            R1,#4
+	LDR             R0,?lr0006	; ecss_status
+	STR             R1,[R0,#0]
+;000123                    }
+;000125                break;
+	BX              R14
+??_2_CASE_3:
+;000127                    MDR_TIMER1->CCR3 = 0;
+	MOVS            R1,#0
+	LDR             R0,?lr0010	; 40070018h
+	STR             R1,[R0,#0]
+;000128                    MDR_TIMER1->CCR4 = 0;
+	LDR             R0,?lr0011	; 4007001Ch
+	STR             R1,[R0,#0]
+;000129                    MDR_TIMER1->CCR31 = 0;
+	LDR             R0,?lr0012	; 40070078h
+	STR             R1,[R0,#0]
+;000130                    MDR_TIMER1->CCR41 = 0;
+	LDR             R0,?lr0013	; 4007007Ch
+	STR             R1,[R0,#0]
+;000132                    MDR_TIMER2->CCR1 = 0;
+	LDR             R0,?lr0014	; 40078010h
+	STR             R1,[R0,#0]
+;000133                    MDR_TIMER2->CCR2 = 0;
+	LDR             R0,?lr0015	; 40078014h
+	STR             R1,[R0,#0]
+;000134                    MDR_TIMER2->CCR3 = 0;
+	LDR             R0,?lr0016	; 40078018h
+	STR             R1,[R0,#0]
+;000135                    MDR_TIMER2->CCR4 = 0;
+	LDR             R0,?lr0017	; 4007801Ch
+	STR             R1,[R0,#0]
+;000136                    MDR_TIMER2->CCR11 = 0;
+	LDR             R0,?lr0018	; 40078070h
+	STR             R1,[R0,#0]
+;000137                    MDR_TIMER2->CCR21 = 0;
+	LDR             R0,?lr0019	; 40078074h
+	STR             R1,[R0,#0]
+;000138                    MDR_TIMER2->CCR31 = 0;
+	LDR             R0,?lr0020	; 40078078h
+	STR             R1,[R0,#0]
+;000139                    MDR_TIMER2->CCR41 = 0;
+	LDR             R0,?lr0021	; 4007807Ch
+	STR             R1,[R0,#0]
+;000141                    SRCntr = 0;
+	LDR             R0,?lr0022	; SRCntr
+	STR             R1,[R0,#0]
+;000142                    ecss_status = ECSS_PRIMARY_SYNC;
+	MOVS            R1,#4
+	LDR             R0,?lr0006	; ecss_status
+	STR             R1,[R0,#0]
+;000143                    integral_error = 0;
+	MOVS            R1,#0
+	LDR             R0,?lr0023	; integral_error
+	STR             R1,[R0,#0]
+;000145                break;
+	BX              R14
+;000148                break;
+??_2_CASE_5:
+;000150                    CTz++;
+	LDR             R0,?lr0024	; CTz
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0024	; CTz
+	STR             R0,[R1,#0]
+;000152                break;
+	BX              R14
+??_2_CASE_6:
+;000154                    CTz++;
+	LDR             R0,?lr0024	; CTz
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0024	; CTz
+	STR             R0,[R1,#0]
+;000155                break;
+;000156            };
+??_2_BREAK:
+;000160        }else if ( (MDR_TIMER1->STATUS & TIMER_STATUS_CCR_REF_CH2) > 0 ){
+	BX              R14
+??_1_ELSE:
+	LDR             R0,?lr0000	; 40070054h
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0025	; 400h
+	ANDS            R0,R1
+	BNE             ??_4_ELSE_BYPASS_100
+	B               ??_4_ELSE
+??_4_ELSE_BYPASS_100:
+;000164            istantPERIOD = (Zaccum[Zptr - 1] - lastTooth)*36;
+	LDR             istantPERIOD?Timer1_IRQHandler,?lr0003	; Zptr
+	LDR             istantPERIOD?Timer1_IRQHandler,[istantPERIOD?Timer1_IRQHandler,#0]
+	LSLS            istantPERIOD?Timer1_IRQHandler,istantPERIOD?Timer1_IRQHandler,#2
+	LDR             R1,?lr0007	; ZCC
+	LDR             R1,[istantPERIOD?Timer1_IRQHandler,R1]
+	LDR             istantPERIOD?Timer1_IRQHandler,?lr0026	; lastTooth
+	LDR             istantPERIOD?Timer1_IRQHandler,[istantPERIOD?Timer1_IRQHandler,#0]
+	SUBS            istantPERIOD?Timer1_IRQHandler,R1,istantPERIOD?Timer1_IRQHandler
+	MOVS            R1,#36
+	MULS            istantPERIOD?Timer1_IRQHandler,R1
+;000165            lastTooth = Zaccum[Zptr - 1];
+	LDR             R1,?lr0003	; Zptr
+	LDR             R1,[R1,#0]
+	LSLS            R1,R1,#2
+	LDR             R2,?lr0007	; ZCC
+	LDR             R1,[R1,R2]
+	LDR             R2,?lr0026	; lastTooth
+	STR             R1,[R2,#0]
+;000166            Zptr = 0;
+	MOVS            R2,#0
+	LDR             R1,?lr0003	; Zptr
+	STR             R2,[R1,#0]
+;000169            Zperiod = MDR_TIMER1->CCR1 + ((istantPERIOD>0)?(1):(-1))*(((istantPERIOD>0)?(istantPERIOD):(-istantPERIOD))>>1);
+	CMP             istantPERIOD?Timer1_IRQHandler,#0
+	BEQ             ??_5_ELSE
+	MOV             R1,istantPERIOD?Timer1_IRQHandler
+	B               ??_5_END
+??_5_ELSE:
+	RSBS            R1,istantPERIOD?Timer1_IRQHandler
+??_5_END:
+	LSRS            R1,R1,#1
+	CMP             istantPERIOD?Timer1_IRQHandler,#0
+	BEQ             ??_6_ELSE
+	MOVS            istantPERIOD?Timer1_IRQHandler,#1
+	B               ??_6_END
+??_6_ELSE:
+	MOVS            istantPERIOD?Timer1_IRQHandler,#0
+	MVNS            istantPERIOD?Timer1_IRQHandler,istantPERIOD?Timer1_IRQHandler
+??_6_END:
+	MULS            R1,istantPERIOD?Timer1_IRQHandler
+	LDR             istantPERIOD?Timer1_IRQHandler,?lr0001	; 40070010h
+	LDR             istantPERIOD?Timer1_IRQHandler,[istantPERIOD?Timer1_IRQHandler,#0]
+	ADD             R1,istantPERIOD?Timer1_IRQHandler
+	LDR             istantPERIOD?Timer1_IRQHandler,?lr0027	; Zperiod
+	STR             R1,[istantPERIOD?Timer1_IRQHandler,#0]
+;000171            SRCntr++;
+	LDR             R0,?lr0022	; SRCntr
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0022	; SRCntr
+	STR             R0,[R1,#0]
+;000173            switch ( ecss_status ){
+	LDR             R0,?lr0006	; ecss_status
+	LDR             R0,[R0,#0]
+	CMP             R0,#1
+	BEQ             ??_7_CASE_1
+	CMP             R0,#4
+	BEQ             ??_7_CASE_4
+	CMP             R0,#5
+	BEQ             ??_7_CASE_5
+	CMP             R0,#6
+	BEQ             ??_7_CASE_6
+	CMP             R0,#0
+	BEQ             ??_7_BREAK_BYPASS_170
+	B               ??_7_BREAK
+??_7_BREAK_BYPASS_170:
+;000176                break;
+	B               ??_7_BREAK
+??_7_CASE_1:
+;000179                break;
+	B               ??_7_BREAK
+??_7_CASE_4:
+;000182                break;
+	B               ??_7_BREAK
+??_7_CASE_5:
+;000184                    if (SRCntr == 3) ecss_status = ECSS_NORMAL_OPERATION;
+	LDR             R0,?lr0022	; SRCntr
+	LDR             R0,[R0,#0]
+	CMP             R0,#3
+	BNE             ??_8_ELSE
+	MOVS            R1,#6
+	LDR             R0,?lr0006	; ecss_status
+	STR             R1,[R0,#0]
+??_8_ELSE:
+;000185                break;
+	B               ??_7_BREAK
+??_7_CASE_6:
+;000187                    ecss_status = ( ((CRANKSHAFT_TEETH_MIN <= CTz) && (CTz <= CRANKSHAFT_TEETH_MAX)) || (CTz == 0) ) ? ECSS_NORMAL_OPERATION : ECSS_EMERGENCY_SYNC; // защита от помех ( кулибин эдишн )
+	LDR             R0,?lr0024	; CTz
+	LDR             R0,[R0,#0]
+	CMP             R0,#32
+	BCC             ??_10_SKIP
+	LDR             R0,?lr0024	; CTz
+	LDR             R0,[R0,#0]
+	CMP             R0,#37
+	BCC             ??_9_IF
+??_10_SKIP:
+	LDR             R0,?lr0024	; CTz
+	LDR             R0,[R0,#0]
+	CMP             R0,#0
+	BNE             ??_9_ELSE
+??_9_IF:
+	MOVS            R0,#6
+	B               ??_9_END
+??_9_ELSE:
+	MOVS            R0,#3
+??_9_END:
+	LDR             R1,?lr0006	; ecss_status
+	STR             R0,[R1,#0]
+;000189                    if ( CRANKSHAFT_TEETH != CTz ) integral_error++;
+	LDR             R0,?lr0024	; CTz
+	LDR             R0,[R0,#0]
+	CMP             R0,#34
+	BEQ             ??_12_ELSE
+	LDR             R0,?lr0023	; integral_error
+	LDR             R0,[R0,#0]
+	ADDS            R0,R0,#1
+	LDR             R1,?lr0023	; integral_error
+	STR             R0,[R1,#0]
+	B               ??_12_END
+??_12_ELSE:
+;000190                    else integral_error = 0;
+	MOVS            R1,#0
+	LDR             R0,?lr0023	; integral_error
+	STR             R1,[R0,#0]
+??_12_END:
+;000192                    if (CRANKSHAFT_MAX_INTEGRAL_ERROR < integral_error ) ecss_status = ECSS_EMERGENCY_SYNC;
+	LDR             R0,?lr0023	; integral_error
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0028	; 0E11h
+	CMP             R0,R1
+	BCC             ??_13_ELSE
+	MOVS            R1,#3
+	LDR             R0,?lr0006	; ecss_status
+	STR             R1,[R0,#0]
+??_13_ELSE:
+;000195                    MDR_TIMER2->CNT = 0x00000000;
+	MOVS            R1,#0
+	LDR             R0,?lr0029	; 40078000h
+	STR             R1,[R0,#0]
+;000198                    MDR_TIMER1->CCR3 = Zperiod >>1;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LSRS            R0,R0,#1
+	LDR             R1,?lr0010	; 40070018h
+	STR             R0,[R1,#0]
+;000199                    MDR_TIMER1->CCR4 = Zperiod >>1;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LSRS            R0,R0,#1
+	LDR             R1,?lr0011	; 4007001Ch
+	STR             R0,[R1,#0]
+;000200                    MDR_TIMER1->CCR31 = Zperiod >>1 + Zperiod >>2;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0027	; Zperiod
+	LDR             R1,[R1,#0]
+	ADDS            R1,R1,#1
+	LSRS            R0,R1
+	LSRS            R0,R0,#2
+	LDR             R1,?lr0012	; 40070078h
+	STR             R0,[R1,#0]
+;000201                    MDR_TIMER1->CCR41 = Zperiod >>1 + Zperiod >>2;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0027	; Zperiod
+	LDR             R1,[R1,#0]
+	ADDS            R1,R1,#1
+	LSRS            R0,R1
+	LSRS            R0,R0,#2
+	LDR             R1,?lr0013	; 4007007Ch
+	STR             R0,[R1,#0]
+;000203                    MDR_TIMER2->CCR1 = Zperiod >>1;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LSRS            R0,R0,#1
+	LDR             R1,?lr0014	; 40078010h
+	STR             R0,[R1,#0]
+;000204                    MDR_TIMER2->CCR2 = Zperiod >>1;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LSRS            R0,R0,#1
+	LDR             R1,?lr0015	; 40078014h
+	STR             R0,[R1,#0]
+;000205                    MDR_TIMER2->CCR3 = Zperiod >>1;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LSRS            R0,R0,#1
+	LDR             R1,?lr0016	; 40078018h
+	STR             R0,[R1,#0]
+;000206                    MDR_TIMER2->CCR4 = Zperiod >>1;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LSRS            R0,R0,#1
+	LDR             R1,?lr0017	; 4007801Ch
+	STR             R0,[R1,#0]
+;000207                    MDR_TIMER2->CCR11 = Zperiod >>1 + Zperiod >>2;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0027	; Zperiod
+	LDR             R1,[R1,#0]
+	ADDS            R1,R1,#1
+	LSRS            R0,R1
+	LSRS            R0,R0,#2
+	LDR             R1,?lr0018	; 40078070h
+	STR             R0,[R1,#0]
+;000208                    MDR_TIMER2->CCR21 = Zperiod >>1 + Zperiod >>2;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0027	; Zperiod
+	LDR             R1,[R1,#0]
+	ADDS            R1,R1,#1
+	LSRS            R0,R1
+	LSRS            R0,R0,#2
+	LDR             R1,?lr0019	; 40078074h
+	STR             R0,[R1,#0]
+;000209                    MDR_TIMER2->CCR31 = Zperiod >>1 + Zperiod >>2;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0027	; Zperiod
+	LDR             R1,[R1,#0]
+	ADDS            R1,R1,#1
+	LSRS            R0,R1
+	LSRS            R0,R0,#2
+	LDR             R1,?lr0020	; 40078078h
+	STR             R0,[R1,#0]
+;000210                    MDR_TIMER2->CCR41 = Zperiod >>1 + Zperiod >>2;
+	LDR             R0,?lr0027	; Zperiod
+	LDR             R0,[R0,#0]
+	LDR             R1,?lr0027	; Zperiod
+	LDR             R1,[R1,#0]
+	ADDS            R1,R1,#1
+	LSRS            R0,R1
+	LSRS            R0,R0,#2
+	LDR             R1,?lr0021	; 4007807Ch
+	STR             R0,[R1,#0]
+;000212                break;
+;000213            };
+??_7_BREAK:
+;000214            CTz = 0;// сбрасываем счётчик зубьев
+	MOVS            R1,#0
+	LDR             R0,?lr0024	; CTz
+	STR             R1,[R0,#0]
+;000215            MDR_TIMER1->CNT = 0x00000000; // сбрасываем первый таймер в 0
+	LDR             R0,?lr0030	; 40070000h
+	STR             R1,[R0,#0]
+;000216        }
+??_4_ELSE:
+;000217    }
+	BX              R14
+
+?lr0000	.DCD	40070054h	; used 4 time(s)
+?lr0001	.DCD	40070010h	; used 3 time(s)
+?lr0002	.DCD	TZp	; used 3 time(s)
+?lr0003	.DCD	Zptr	; used 6 time(s)
+?lr0004	.DCD	Zaccum	; used 1 time(s)
+?lr0005	.DCD	40070014h	; used 1 time(s)
+?lr0006	.DCD	ecss_status	; used 8 time(s)
+?lr0007	.DCD	ZCC	; used 6 time(s)
+?lr0008	.DCD	420h	; used 1 time(s)
+?lr0009	.DCD	40070058h	; used 1 time(s)
+?lr0010	.DCD	40070018h	; used 2 time(s)
+?lr0011	.DCD	4007001Ch	; used 2 time(s)
+?lr0012	.DCD	40070078h	; used 2 time(s)
+?lr0013	.DCD	4007007Ch	; used 2 time(s)
+?lr0014	.DCD	40078010h	; used 2 time(s)
+?lr0015	.DCD	40078014h	; used 2 time(s)
+?lr0016	.DCD	40078018h	; used 2 time(s)
+?lr0017	.DCD	4007801Ch	; used 2 time(s)
+?lr0018	.DCD	40078070h	; used 2 time(s)
+?lr0019	.DCD	40078074h	; used 2 time(s)
+?lr0020	.DCD	40078078h	; used 2 time(s)
+?lr0021	.DCD	4007807Ch	; used 2 time(s)
+?lr0022	.DCD	SRCntr	; used 4 time(s)
+?lr0023	.DCD	integral_error	; used 5 time(s)
+?lr0024	.DCD	CTz	; used 9 time(s)
+?lr0025	.DCD	400h	; used 1 time(s)
+?lr0026	.DCD	lastTooth	; used 2 time(s)
+?lr0027	.DCD	Zperiod	; used 19 time(s)
+?lr0028	.DCD	0E11h	; used 1 time(s)
+?lr0029	.DCD	40078000h	; used 1 time(s)
+?lr0030	.DCD	40070000h	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.PUBLIC	initFrontDetectionModule, initFrontDetectionModule??T
+.FUNC	initFrontDetectionModule??T	.VOID (.VOID)
+initFrontDetectionModule	.EQU	initFrontDetectionModule??T+1
+.FUNCTYPE	.VOID initFrontDetectionModule(.VOID)
+;000239    void initFrontDetectionModule(){
+
+i?initFrontDetectionModule	.EQU	R0
+
+;000243            CTz = 0;
+	MOVS            R1,#0
+	LDR             R0,?lr0031	; CTz
+	STR             R1,[R0,#0]
+;000244            TZp = 0;
+	LDR             R0,?lr0032	; TZp
+	STR             R1,[R0,#0]
+;000245            ZCC = 0;
+	LDR             R0,?lr0033	; ZCC
+	STR             R1,[R0,#0]
+;000246            SRCntr = 0;
+	LDR             R0,?lr0034	; SRCntr
+	STR             R1,[R0,#0]
+;000248            for ( i = 0; i < CRANKSHAFT_BUFFER; i++ ) {Zaccum[i] = 0;}
+	MOVS            i?initFrontDetectionModule,#0
+	B               ??_14_CHECK
+??_14_LOOP:
+	LSLS            R1,i?initFrontDetectionModule,#2
+	MOVS            R3,#0
+	LDR             R2,?lr0035	; Zaccum
+	STR             R3,[R1,R2]
+	ADDS            i?initFrontDetectionModule,i?initFrontDetectionModule,#1
+??_14_CHECK:
+	CMP             i?initFrontDetectionModule,#60
+	BCC             ??_14_LOOP
+;000250            Zptr = 0;
+	MOVS            R1,#0
+	LDR             R0,?lr0036	; Zptr
+	STR             R1,[R0,#0]
+;000252            Zperiod = 0;
+	LDR             R0,?lr0037	; Zperiod
+	STR             R1,[R0,#0]
+;000253            lastTooth = 0;
+	LDR             R0,?lr0038	; lastTooth
+	STR             R1,[R0,#0]
+;000255            ecss_status = ECSS_INIT_SYNC;
+	MOVS            R1,#1
+	LDR             R0,?lr0039	; ecss_status
+	STR             R1,[R0,#0]
+;000256            integral_error = 0;
+	MOVS            R1,#0
+	LDR             R0,?lr0040	; integral_error
+	STR             R1,[R0,#0]
+;000261            INIT_SYNC;
+	MOVS            R1,#32
+	LDR             R0,?lr0041	; 40070058h
+	STR             R1,[R0,#0]
+;000262    }
+	BX              R14
+
+.ALIGN	2
+?lr0031	.DCD	CTz	; used 1 time(s)
+?lr0032	.DCD	TZp	; used 1 time(s)
+?lr0033	.DCD	ZCC	; used 1 time(s)
+?lr0034	.DCD	SRCntr	; used 1 time(s)
+?lr0035	.DCD	Zaccum	; used 1 time(s)
+?lr0036	.DCD	Zptr	; used 1 time(s)
+?lr0037	.DCD	Zperiod	; used 1 time(s)
+?lr0038	.DCD	lastTooth	; used 1 time(s)
+?lr0039	.DCD	ecss_status	; used 1 time(s)
+?lr0040	.DCD	integral_error	; used 1 time(s)
+?lr0041	.DCD	40070058h	; used 1 time(s)
+
+.ENDF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.RSEG	??DATA_SEGMENT_ADDRESSES,code
+	.DCD	.SFB UDATA__FRONTDETECTION, .SFE UDATA__FRONTDETECTION
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.EXTRN(code) ?start
+.TYPE ?start(.NOCHECK)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	.END
