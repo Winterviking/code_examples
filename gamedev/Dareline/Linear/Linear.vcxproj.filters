@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="BackgroundLayer.cpp">
+      <Filter>Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="rectArea.cpp">
+      <Filter>Area</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="AreaFactory.cpp">
+      <Filter>Area\factory</Filter>
+    </ClCompile>
+    <ClCompile Include="defArea.cpp">
+      <Filter>Area</Filter>
+    </ClCompile>
+    <ClCompile Include="MultipleRectArea.cpp">
+      <Filter>Area</Filter>
+    </ClCompile>
+    <ClCompile Include="LineCloudLayer.cpp">
+      <Filter>Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="demo.cpp" />
+    <ClCompile Include="StarSystem.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLreading.cpp">
+      <Filter>Canvas related</Filter>
+    </ClCompile>
+    <ClCompile Include="LayerFactory.cpp">
+      <Filter>Layers\factory</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectFactory.cpp">
+      <Filter>GameObjects\factory</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureCacheFragmentedLayer.cpp">
+      <Filter>Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas.cpp">
+      <Filter>Canvas related</Filter>
+    </ClCompile>
+    <ClCompile Include="LayerManager.cpp">
+      <Filter>Canvas related</Filter>
+    </ClCompile>
+    <ClCompile Include="CursorLayer.cpp">
+      <Filter>Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="CacheManager.cpp">
+      <Filter>Canvas related</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureCache.cpp">
+      <Filter>Cache\outdated</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="readme.txt" />
+    <None Include="demo.cpp.txt" />
+    <None Include="data.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tests.h" />
+    <ClInclude Include="BackgroundLayer.h">
+      <Filter>Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="IArea.h">
+      <Filter>Area</Filter>
+    </ClInclude>
+    <ClInclude Include="rectArea.h">
+      <Filter>Area</Filter>
+    </ClInclude>
+    <ClInclude Include="IAreaFactory.h">
+      <Filter>Area\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaFactory.h">
+      <Filter>Area\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="defArea.h">
+      <Filter>Area</Filter>
+    </ClInclude>
+    <ClInclude Include="MultipleRectArea.h">
+      <Filter>Area</Filter>
+    </ClInclude>
+    <ClInclude Include="LineCloudLayer.h">
+      <Filter>Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameObject.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="StarSystem.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLreading.h">
+      <Filter>Canvas related</Filter>
+    </ClInclude>
+    <ClInclude Include="ILayerFactory.h">
+      <Filter>Layers\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameObjectFactory.h">
+      <Filter>GameObjects\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ICanvasLayer.h">
+      <Filter>Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerFactory.h">
+      <Filter>Layers\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectFactory.h">
+      <Filter>GameObjects\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Cache.h">
+      <Filter>Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureCacheFragmentedLayer.h">
+      <Filter>Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Canvas.h">
+      <Filter>Canvas related</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerManager.h">
+      <Filter>Canvas related</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericCache.h">
+      <Filter>Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="CursorLayer.h">
+      <Filter>Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="CacheManager.h">
+      <Filter>Canvas related</Filter>
+    </ClInclude>
+    <ClInclude Include="PointerCache.h">
+      <Filter>Cache\outdated</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureCache.h">
+      <Filter>Cache\outdated</Filter>
+    </ClInclude>
+    <ClInclude Include="settings.h">
+      <Filter>Canvas related</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Layers">
+      <UniqueIdentifier>{44535247-63c5-4ccf-932a-403162eddbc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Area">
+      <UniqueIdentifier>{d68e9c3b-ccaf-4f5b-8768-39f7d3a3a433}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Area\factory">
+      <UniqueIdentifier>{57210a5c-2632-4b0c-8644-807083259095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{e88c6438-ee0d-44c4-8e05-acbba42fc5a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Layers\factory">
+      <UniqueIdentifier>{50a21f8e-d6b1-4dcc-bfb0-1599370917a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\factory">
+      <UniqueIdentifier>{bb59d719-48d3-4c8f-8e58-78acd6ae8e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cache">
+      <UniqueIdentifier>{839e9608-4c58-4a12-b61a-22be1461c797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Canvas related">
+      <UniqueIdentifier>{0f6fda1a-ef6c-43cf-af9d-0945d73b8806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cache\outdated">
+      <UniqueIdentifier>{8909150e-5311-4f03-a63f-9e558d767b45}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

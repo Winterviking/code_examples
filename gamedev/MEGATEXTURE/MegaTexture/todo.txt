@@ -1,0 +1,17 @@
+1) Terrain MipMaps
+	Simple grid mipmaps
+	Heightmap data handling
+	Seamless Mipmapping
+2) Texture Cache
+	Real Hard Drive cache
+	Checker Virual cache
+
+Virtual Texture Coordinates
+Real TexCoord according to MipMaps
+Amount of vertices, getting updated should be minimized
+( vertices can be 9000, but amount of indices must be lil )
+65k*9 no tesselation
+
+923k tesselation :o bf3
+101k no tesselation :o
+epic

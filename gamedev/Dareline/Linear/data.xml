@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+  <!--  Claim to the universality of the program -->
+  <!--  Data of pasters -->
+  <canvas dimension="2d" >
+    <!--cursors>
+      <textures>
+        <texture path="" id="1" />
+      </textures>
+      <cursor type="0">
+        <textureregion frame="0" id="1" ltx="0" lty="0" rbx="16" rby="16" />
+      </cursor>
+      <cursor type="1">
+        <textureregion frame="0" id="1" ltx="16" lty="0" rbx="32" rby="16" />
+        <textureregion frame="1" id="1" ltx="32" lty="0" rbx="48" rby="16" />
+        <textureregion frame="2" id="1" ltx="48" lty="0" rbx="64" rby="16" />        
+      </cursor>
+    </cursors-->
+    <domain>
+      <textures>
+        <texture path="media/star_alpha.bmp" id="1" />
+      </textures>
+      <!--area properties !!!!!-->
+      <stars>
+        <star id="1">
+          <textureregion frame="0" id="1" ltx="0" lty="0" rbx="16" rby="16" />
+          <position x="90" y="110" zorder="0"/>
+          <!--texture frame="0"  /> -->
+        </star>
+        <star id="2">
+          <textureregion frame="0" id="1" ltx="16" lty="0" rbx="32" rby="16" />
+          <position x="238" y="107" zorder="0"/>
+        </star>
+        <star id="3">
+          <textureregion frame="0" id="1" ltx="16" lty="0" rbx="32" rby="16" />
+          <position x="44" y="257" zorder="0"/>
+        </star>
+        <star id="4">
+          <textureregion frame="0" id="1" ltx="0" lty="0" rbx="16" rby="16" />
+          <position x="230" y="301" zorder="0"/>
+        </star>
+      </stars>
+      <tunnels>
+        <tunnel idfrom="1" idto="2" />
+        <tunnel idfrom="2" idto="3" />
+        <tunnel idfrom="3" idto="4" />
+      </tunnels>
+    </domain>
+  </canvas>
+</data>
