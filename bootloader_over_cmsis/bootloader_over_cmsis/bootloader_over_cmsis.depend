@@ -1,0 +1,527 @@
+# depslib dependency file v1.0
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\startup_stm32l053xx.s
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_adc.c
+	"stm32l0xx_hal.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal.h
+	"stm32l0xx_hal_conf.h"
+
+1638742355 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_conf.h
+	"stm32l0xx_hal_rcc.h"
+	"stm32l0xx_hal_gpio.h"
+	"stm32l0xx_hal_dma.h"
+	"stm32l0xx_hal_cortex.h"
+	"stm32l0xx_hal_adc.h"
+	"stm32l0xx_hal_comp.h"
+	"stm32l0xx_hal_crc.h"
+	"stm32l0xx_hal_cryp.h"
+	"stm32l0xx_hal_dac.h"
+	"stm32l0xx_hal_firewall.h"
+	"stm32l0xx_hal_flash.h"
+	"stm32l0xx_hal_i2c.h"
+	"stm32l0xx_hal_i2s.h"
+	"stm32l0xx_hal_iwdg.h"
+	"stm32l0xx_hal_lcd.h"
+	"stm32l0xx_hal_lptim.h"
+	"stm32l0xx_hal_pwr.h"
+	"stm32l0xx_hal_rng.h"
+	"stm32l0xx_hal_rtc.h"
+	"stm32l0xx_hal_spi.h"
+	"stm32l0xx_hal_tim.h"
+	"stm32l0xx_hal_tsc.h"
+	"stm32l0xx_hal_uart.h"
+	"stm32l0xx_hal_usart.h"
+	"stm32l0xx_hal_irda.h"
+	"stm32l0xx_hal_smartcard.h"
+	"stm32l0xx_hal_smbus.h"
+	"stm32l0xx_hal_wwdg.h"
+	"stm32l0xx_hal_pcd.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_rcc.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_rcc_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_def.h
+	"stm32l0xx.h"
+	"stm32_hal_legacy.h"
+	<stddef.h>
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\stm32l0xx.h
+	"stm32l010xb.h"
+	"stm32l010x8.h"
+	"stm32l010x6.h"
+	"stm32l010x4.h"
+	"stm32l011xx.h"
+	"stm32l021xx.h"
+	"stm32l031xx.h"
+	"stm32l041xx.h"
+	"stm32l051xx.h"
+	"stm32l052xx.h"
+	"stm32l053xx.h"
+	"stm32l062xx.h"
+	"stm32l063xx.h"
+	"stm32l061xx.h"
+	"stm32l071xx.h"
+	"stm32l072xx.h"
+	"stm32l073xx.h"
+	"stm32l082xx.h"
+	"stm32l083xx.h"
+	"stm32l081xx.h"
+	"stm32l0xx_hal.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\stm32l053xx.h
+	"core_cm0plus.h"
+	"system_stm32l0xx.h"
+	<stdint.h>
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\cmsis\core_cm0plus.h
+	<stdint.h>
+	"cmsis_version.h"
+	"cmsis_compiler.h"
+	"mpu_armv7.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\cmsis\cmsis_version.h
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\cmsis\cmsis_compiler.h
+	<stdint.h>
+	"cmsis_armcc.h"
+	"cmsis_armclang_ltm.h"
+	"cmsis_armclang.h"
+	"cmsis_gcc.h"
+	<cmsis_iccarm.h>
+	<cmsis_ccs.h>
+	<cmsis_csm.h>
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\cmsis\cmsis_gcc.h
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\cmsis\mpu_armv7.h
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\system_stm32l0xx.h
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32_hal_legacy.h
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_rcc_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_gpio.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_gpio_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_gpio_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_dma.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_cortex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_adc.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_adc_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_adc_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_comp.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_comp_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_comp_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_crc.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_crc_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_crc_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_cryp.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_cryp_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_cryp_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_dac.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_dac_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_dac_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_firewall.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_flash.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_flash_ex.h"
+	"stm32l0xx_hal_flash_ramfunc.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_flash_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_flash_ramfunc.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_i2c.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_i2c_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_i2c_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_i2s.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_iwdg.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_lcd.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_lptim.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_pwr.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_pwr_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_pwr_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_rng.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_rtc.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_rtc_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_rtc_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_spi.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_tim.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_tim_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_tim_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_tsc.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_uart.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_uart_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_uart_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_usart.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_usart_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_usart_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_irda.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_irda_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_irda_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_smartcard.h
+	"stm32l0xx_hal_def.h"
+	"stm32l0xx_hal_smartcard_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_smartcard_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_smbus.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_wwdg.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_pcd.h
+	"stm32l0xx_ll_usb.h"
+	"stm32l0xx_hal_pcd_ex.h"
+
+1638666388 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\inc\stm32l0xx_hal_pcd_ex.h
+	"stm32l0xx_hal_def.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_adc_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_comp.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_comp_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_cortex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_crc.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_crc_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_cryp.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_cryp_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_dac.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_dac_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_dma.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_firewall.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_flash.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_flash_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_flash_ramfunc.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_gpio.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_i2c.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_i2c_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_i2s.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_irda.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_iwdg.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_lcd.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_lptim.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_pcd.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_pcd_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_pwr.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_pwr_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_rcc.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_rcc_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_rng.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_rtc.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_rtc_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_smartcard.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_smartcard_ex.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_smbus.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_spi.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_tim.c
+	"stm32l0xx_hal.h"
+
+1638666389 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_tim_ex.c
+	"stm32l0xx_hal.h"
+
+1638666389 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_tsc.c
+	"stm32l0xx_hal.h"
+
+1638666389 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_uart.c
+	"stm32l0xx_hal.h"
+
+1638666389 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_uart_ex.c
+	"stm32l0xx_hal.h"
+
+1638666389 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_usart.c
+	"stm32l0xx_hal.h"
+
+1638666389 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal_wwdg.c
+	"stm32l0xx_hal.h"
+
+1638788202 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\bootloader_utils.c
+	"bootloader_utils.h"
+	"includer_hw.h"
+	"bootloader_api_push.h"
+	"usb_utilities.h"
+	"drv_serial_port.h"
+
+1638788067 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\bootloader_utils.h
+	"includer_hw.h"
+
+1638742721 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\main.c
+	"main.h"
+	"bootloader_utils.h"
+	"drv_clock.h"
+
+1638666389 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\main.h
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\hal\src\stm32l0xx_hal.c
+	"stm32l0xx_hal.h"
+
+1638666388 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\system_stm32l0xx.c
+	"stm32l0xx.h"
+
+1638697685 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\bootloader_api_push.c
+	"bootloader_api_push.h"
+
+1638697640 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\bootloader_api_push.h
+	"includer.h"
+
+1638738146 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\includer.h
+	"types.h"
+	"config.h"
+	"convert.h"
+
+1638695672 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\types.h
+	<stdint.h>
+	<stdbool.h>
+
+1638789534 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\config.h
+
+1638778902 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\convert.h
+	"includer.h"
+
+1638693530 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\includer_hw.h
+	"includer.h"
+	"stm32l053xx.h"
+	"stm32l0xx_hal.h"
+
+1638740933 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\convert.c
+	"convert.h"
+	"itoa_core.h"
+	"itoa_core.h"
+	"itoa_core.h"
+
+1638778818 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\itoa_core.h
+
+1638790771 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\drv_clock.h
+	"includer_hw.h"
+
+1638790771 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\drv_clock.c
+	"drv_clock.h"
+
+1638743942 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\usbdesc.c
+	"usbdesc.h"
+
+1638744290 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\usbdesc.h
+	"usb_functions.h"
+
+1638748408 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\usb_functions.h
+	"includer_hw.h"
+
+1638748187 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\usb_functions.c
+	"usb_functions.h"
+	"usbdesc.h"
+
+1638789123 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\usb_cdc.c
+	"usb_cdc.h"
+	"usb_functions.h"
+	"drv_serial_port.h"
+	"drv_clock.h"
+
+1638748352 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\usb_cdc.h
+	"includer_hw.h"
+
+1638790496 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\drv_serial_port.h
+	"includer_hw.h"
+
+1638789096 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\sim.c
+	"sim.h"
+	"drv_serial_port.h"
+	"drv_clock.h"
+
+1638790949 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\sim.h
+	"includer_hw.h"
+
+1638790631 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\drv_uart.c
+	"drv_uart.h"
+	"drv_serial_port.h"
+
+1638790631 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\drv_uart.h
+	"includer_hw.h"
+	"drv_serial_port.h"
+
+1638790612 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\drv_serial_port.c
+	"drv_serial_port.h"
+	"drv_clock.h"
+	"usb_cdc.h"
+	"usb_utilities.h"
+	"drv_usb_main.h"
+	"drv_uart.h"
+	<string.h>
+
+1638781559 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\usb_utilities.h
+	"includer_hw.h"
+
+1638790865 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\usb_utilities.c
+	"usb_utilities.h"
+	"drv_serial_port.h"
+	"bootloader_utils.h"
+	"drv_clock.h"
+	"drv_flash.h"
+	"drv_usb_main.h"
+	"sim.h"
+
+1638788950 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\drv_usb_main.h
+	"includer_hw.h"
+
+1638790280 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\drv_usb_main.c
+	"drv_usb_main.h"
+	"usb_functions.h"
+	"usb_utilities.h"
+	"usb_cdc.h"
+
+1638790008 source:c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\src\drv_flash.c
+	"drv_flash.h"
+
+1638789957 c:\users\winterviking\desktop\bootloader_over_cmsis\bootloader_over_cmsis\inc\drv_flash.h
+	"includer_hw.h"
+
